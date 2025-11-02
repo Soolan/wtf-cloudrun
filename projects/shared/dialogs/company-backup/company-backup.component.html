@@ -1,0 +1,56 @@
+<button mat-icon-button matDialogClose class="close">
+  <mat-icon>close</mat-icon>
+</button>
+
+@if (!message()) {
+  <div>
+    <mat-checkbox
+      [checked]="form.controls.parent.value"
+      [indeterminate]="isIndeterminate()"
+      (change)="toggle($event.checked)"
+    >
+      <span class="mat-caption">Company</span>
+    </mat-checkbox>
+
+
+    @for (label of labels; let i = $index; track label) {
+      <mat-checkbox class="sub" [formControl]="getChildControl(i)">
+        <div class="mat-caption sub-collection">{{ label }}</div>
+      </mat-checkbox>
+    }
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" (click)="proceed()" [disabled]="noSelection">
+      <mat-icon style="scale: 1.3">backup</mat-icon>
+      <span>&nbsp;Proceed</span>
+    </button>
+  </div>
+} @else {
+  <div mat-dialog-title>{{ message() }}</div>
+  @if (working()) {
+    <mat-progress-bar mode="indeterminate" style="width: 100%"/>
+  }
+
+  @if (!working()) {
+    <div class="full mat-body-1">
+      <p class="full">{{ success() ? successOutcome : failureOutcome }}</p>
+      @if (success()) {
+        <p>
+          <span>Optionally, you may download a copy of backup here:</span>
+          <a [href]="download()" mat-button color="primary" target="_blank">
+            <b>Download</b>
+            <mat-icon>download</mat-icon>
+          </a>
+        </p>
+      }
+      <div mat-dialog-actions>
+        <button mat-stroked-button matDialogClose>
+          <mat-icon>close</mat-icon>
+          <span>Close</span>
+        </button>
+      </div>
+    </div>
+  }
+}
+

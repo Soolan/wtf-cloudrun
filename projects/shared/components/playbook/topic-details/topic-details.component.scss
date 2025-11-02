@@ -1,0 +1,61 @@
+@use "../../../assets/styles/flex";
+
+.topic {
+  @include flex.container(100%, space-between, flex-start);
+
+  .heading {
+    display: flex; // Enables flexbox layout
+    align-items: center; // Vertically center the left and right content
+    justify-content: space-between; // Ensures left and right content stays apart
+    width: 100%; // Full-width container
+    box-sizing: border-box; // Ensure padding doesn't affect width
+    margin-block-end: var(--space-sm);
+    @media screen and (max-width: 480px) {
+      display: block;
+    }
+    .left {
+      flex-shrink: 0; // Prevents the left part from resizing
+      width: 128px; // Fixed width
+      height: 128px; // Fixed height
+      margin-right: var(--space-md);
+      @media screen and (max-width: 480px) {
+        margin: auto;
+        scale: 0.7;
+      }
+
+      .avatar {
+        width: 100%; // Ensures the image fits the container
+        height: 100%; // Ensures the image fits the container
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url('/assets/images/team/gotta-go-ooooh-surfing.png');
+        border: 1px solid var(--color-grey9);
+        border-radius: var(--space-xs);
+      }
+    }
+
+    .right {
+      flex-grow: 1; // Makes the right part flexible
+
+      .caption {
+        font-family: "Ubuntu Mono", monospace;
+        font-size: 16px;
+        margin: 0;
+        color: var(--color-grey5);
+      }
+
+      .status {
+        @include flex.container(100%, space-between, center);
+        .legends {
+          display: flex;
+          align-items: center;
+          align-content: center;
+          justify-content: space-evenly;
+        }
+      }
+    }
+  }
+
+
+}

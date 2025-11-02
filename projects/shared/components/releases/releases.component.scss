@@ -1,0 +1,82 @@
+@use '../../assets/styles/flex' as flex;
+
+.releases-container {
+  .releases {
+    .panel-description {
+      @include flex.container(67%, space-between, center);
+      @include flex.breakpoint(sm, 55%);
+      @include flex.breakpoint(lt-sm, 50%);
+
+      .tag {
+        scale: 0.7;
+        opacity: 0.9;
+
+        .mat-icon {
+          vertical-align: middle;
+          @media screen and (max-width: 440px) {
+            display: none;
+          }
+        }
+      }
+
+      .product {
+        text-align: end;
+        font-family: 'Titillium Web', sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+
+        span {
+          @media screen and (max-width: 600px) {
+            display: none;
+          }
+        }
+
+        .mat-icon {
+          margin-left: var(--space-xs);
+          vertical-align: sub;
+          font-size: 24px;
+        }
+      }
+    }
+
+    .notes {
+      margin: auto;
+      @include flex.container(95%, space-around, flex-start);
+    }
+
+    .notes > * {
+      @include flex.width(100%);
+    }
+  }
+
+  .block {
+    @include flex.breakpoint(lt-lg, 90%);
+    @include flex.width(100%);
+
+    .panel-title {
+      margin: 0;
+      font-size: 0.7em !important;
+    }
+  }
+
+  .roadmap {
+    margin-bottom: var(--space-xxl);
+
+    .quarter {
+      @include flex.container(90%, space-around, center);
+
+      .date {
+        color: var(--color-grey6);
+        margin: 0;
+      }
+
+      .bullets {
+        margin-bottom: var(--space-lg);
+      }
+    }
+
+    .quarter > * {
+      @include flex.width(100%);
+    }
+  }
+}

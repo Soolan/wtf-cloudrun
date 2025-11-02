@@ -1,0 +1,89 @@
+@if (layoutService.headerVisible()) {
+  <app-header style="width: 100%"/>
+}
+@if (layout() === LayoutTemplate.Console) {
+  <mat-sidenav-container>
+    <mat-sidenav #consoleDrawer fixedInViewport
+                 [attr.role]="isHandset() ? 'dialog' : 'navigation'"
+                 [mode]="isHandset() ? 'over' : 'side'"
+                 [opened]="!isHandset()"
+                 aria-label="Sidebar Navigation">
+      <nav>
+        <ul>
+          @for (item of CONSOLE_NAV; track $index) {
+            <li>
+              <button mat-flat-button class="mat-list-item" routerLinkActive="active"
+                      [disabled]="!companyService.id()"
+                      [class.disabled]="!companyService.id()"
+                      [class.active]="isActive(item)"
+                      (click)="visit(item)"
+                      [attr.aria-label]="'Navigate to ' + item.name">
+                <mat-icon [fontSet]="getFontSet(item)">{{ item.icon }}</mat-icon>
+                <span class="label">{{ item.name }}</span>
+              </button>
+            </li>
+          }
+          <li>
+            <button mat-flat-button class="mat-list-item" (click)="logout()" aria-label="Logout">
+              <mat-icon>logout</mat-icon>
+              <span class="label">Logout</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <main class="contents" [class.workflow-page]="isWorkflowPage()" itemscope itemtype="https://schema.org/WebPage">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  @if (consoleSidenav) {
+    <button class="toggle" mat-icon-button aria-label="Toggle menu" (click)="toggleSidenav()">
+      <mat-icon>{{ consoleSidenav.opened ? 'close' : 'menu' }}</mat-icon>
+    </button>
+  }
+} @else if (layout() === LayoutTemplate.Wiki) {
+  <mat-sidenav-container>
+    <mat-sidenav #wikiDrawer fixedInViewport
+                 [attr.role]="isHandset() ? 'dialog' : 'navigation'"
+                 [mode]="isHandset() ? 'over' : 'side'"
+                 [opened]="!isHandset()"
+                 aria-label="Wiki Sidebar Navigation">
+      <nav>
+        <ul>
+          @for (item of WIKI_NAV; track $index) {
+            <li>
+              <button mat-flat-button class="mat-list-item"
+                      [class.active]="isActive(item)"
+                      [routerLink]="['wiki', item.route[0] | slugify]"
+                      routerLinkActive="active"
+                      [attr.aria-label]="'Navigate to ' + item.name">
+                <mat-icon [fontSet]="getFontSet(item)">{{ item.icon }}</mat-icon>
+                <span class="label">{{ item.name }}</span>
+              </button>
+            </li>
+          }
+        </ul>
+      </nav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <main class="contents" itemscope itemtype="https://schema.org/WebPage">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  @if (wikiSidenav) {
+    <button class="toggle" mat-icon-button aria-label="Toggle menu" (click)="toggleSidenav()">
+      <mat-icon>{{ wikiSidenav.opened ? 'close' : 'menu' }}</mat-icon>
+    </button>
+  }
+} @else {
+  <main class="outlet" itemscope itemtype="https://schema.org/WebPage">
+    <router-outlet></router-outlet>
+  </main>
+}
+
+@if (layoutService.footerVisible()) {
+  <app-footer class="footer" [product]="Product.Website" aria-label="Footer"/>
+}

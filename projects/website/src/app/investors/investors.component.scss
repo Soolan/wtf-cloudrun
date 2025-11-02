@@ -1,0 +1,37 @@
+.band {
+  margin: var(--space-xxxl) 0;
+  padding: var(--space-lg) 0 var(--space-lg) var(--space-lg);
+  background-color: var(--color-greye);
+}
+
+.icon {
+  scale: 4.5;
+  margin: var(--space-xl);
+  font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' 0, 'opsz' 24;
+  font-family: 'Material Symbols Outlined', serif;
+}
+
+.column {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+  background-color: var(--color-greye);
+}
+
+.faq {
+  width: 80vw;
+  display: block;
+  margin: auto;
+  @media (screen and max-width: 600px) {
+    width: 90vw;
+  }
+  .header {
+    padding: var(--space-sm) var(--space-lg);
+    background-color: var(--color-greye);
+    font-family: Titillium Web,sans-serif;
+    font-size: 19px;
+  }
+  .body {
+    padding-top: var(--space-md);
+    line-height: 1.3em;
+  }
+}

@@ -1,0 +1,14 @@
+@use "../../assets/styles/flex";
+
+.tickets {
+  @include flex.container(100%, space-between, flex-start);
+  .stage {
+    margin: var(--space-sm) auto;
+    padding: var(--space-xxxs);
+    background-color: var(--color-greye);
+    @include flex.container(20%, space-around, flex-start);
+    @include flex.breakpoint(lt-md, 90%);
+    @include flex.breakpoint(md, 45%);
+    @include flex.breakpoint(lg, 24%);
+  }
+}

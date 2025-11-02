@@ -1,0 +1,101 @@
+@use "../../assets/styles/flex";
+
+.playbook {
+  .topics {
+    h1 {margin: 0;}
+    h3 {opacity: 0.6;}
+
+    .placeholder {
+      background: var(--color-greyd);
+      border: dotted 5px var(--color-greya);
+      transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+      min-height: var(--space-lg);
+    }
+
+    .tree-node {
+      display: flex;
+      align-items: center;
+      transition: background-color 0.2s;
+      cursor: pointer;
+
+      .delete {
+        background-color: #fefeee;
+        padding: var(--space-md) var(--space-sm);
+        p {
+          padding: 0;
+        }
+        button {
+          margin: 0 var(--space-xxs);
+        }
+      }
+
+      span {
+        font-size: 16px;
+        line-height: 1.1em;
+        padding: var(--space-xxs) 0;
+        flex: 1;
+      }
+
+      .leaf {
+        width: 100%;
+        font-family: 'Ubuntu Mono', monospace;
+        font-size: 15px;
+      }
+
+      .leaf:hover {
+        opacity: 1 !important;
+      }
+
+      &:hover {
+        opacity: 1;
+        background-color: var(--color-greyb);
+      }
+    }
+
+    .selected {
+      opacity: 1;
+      background-color: var(--color-greye);
+    }
+  }
+
+  .actions {
+    text-align: center;
+    button {
+      margin: var(--space-md);
+    }
+  }
+}
+
+.context {
+  font-family: "Ubuntu Mono", monospace;
+  font-size: 20px;
+}
+
+.cdk-drag-preview {
+  font-family: "Titillium Web", sans-serif;
+  background: var(--color-grey8); /* Solid background color */
+  color: white;
+  font-weight: bold;
+  box-shadow: var(--space-xs) var(--space-xxs) var(--space-lg) var(--space-xxxs) var(--color-grey4);
+  padding: var(--space-xxxs);
+  border-radius: var(--space-xxs);
+  z-index: 1000;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: dashed 1px var(--color-grey6);
+  transition: transform 0.1s ease-out;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+
+}
+
+.topics.cdk-drop-list-dragging .tree-node:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.who {
+  scale: 1.5;
+  margin-right: var(--space-sm);
+}

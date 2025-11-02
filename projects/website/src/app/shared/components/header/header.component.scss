@@ -1,0 +1,142 @@
+@use "flex";
+@use "layout";
+@use '@angular/material' as mat;
+
+.header {
+  height: 3.1em;
+  position: fixed;
+  z-index: 50;
+  width: 100%;
+  background-color: whitesmoke;
+  @include flex.container(100%, space-between, center);
+
+  .companies {
+    background-color: var(--color-greye);
+    //@include flex.breakpoint(lt-sm, 60%);
+    .search {
+      width: 212px;
+      overflow: hidden;
+    }
+  }
+
+  .logo {
+    margin-inline-start: var(--space-sm);
+    cursor: pointer;
+    height: 4em;
+    width: 2em;
+    @include layout.background("/assets/images/logos/logo-green-static-flat.svg");
+    background-position-y: 30%;
+  }
+
+  .back {
+    @include flex.container(55%, flex-start, center);
+    @include flex.breakpoint(lt-md, 20%);
+
+    span {
+      font-size: 20px;
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+    }
+  }
+
+  .breadcrumbs {
+    position: relative;
+    @include flex.container(fill, flex-start, center);
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  .menu {
+    position: relative;
+    @include flex.container(fill, flex-end, center);
+    @include flex.breakpoint(lt-sm, 40%);
+
+    button {
+      margin-inline-end: var(--space-sm);
+      //scale: 1.08;
+    }
+
+    @media screen and (max-width: 600px) {
+      button {
+        margin-inline-end: var(--space-xs);
+        scale: 0.9;
+      }
+    }
+
+    .nav {
+      font-weight: 400;
+    }
+
+    .primary-tooltip {
+      background: var(--color-primary-dark);
+      color: var(--color-primary-lighter);
+    }
+
+    .context-menu {
+      text-align: end;
+
+      .avatar {
+        background-size: cover;
+        display: block;
+        height: var(--space-lg);
+        width: var(--space-lg);
+        border-radius: 50%;
+        margin: 0;
+        position: relative;
+        top: -0.17em;
+        left: -0.17em;
+        background-color: rgba(40,200,90,0.1);
+      }
+    }
+  }
+}
+
+.inverse {
+  background-color: var(--color-primary-dark);
+  transition: background-color 200ms linear;
+}
+
+.inverse-nav {
+  button {
+    color: var(--color-primary-light);
+    font-weight: 700;
+  }
+
+  mat-icon {
+    color: var(--color-primary-light) !important;
+  }
+}
+
+@keyframes hoverAnimation {
+  0% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(3px);
+  }
+}
+
+
+
+.option-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.company-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.company-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+

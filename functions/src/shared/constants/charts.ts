@@ -1,0 +1,12 @@
+export const DEFAULT_CHART_TITLE = 'Chart';
+export const DEFAULT_CHART_TOTAL = 100;
+export const DEFAULT_CHART_USED = 36;
+export const DEFAULT_CHART_UNIT = '';
+export const DEFAULT_CHART_RADIUS = 12;
+export const DEFAULT_CHART_STROKE = 2;
+export const DEFAULT_CHART_COLOR = 'var(--color-primary)';
+export const DEFAULT_CHART_BACKGROUND = 'var(--color-greyd)';
+export const DEFAULT_CHART_FONT_SIZE = '0.4em';
+export const DEFAULT_CHART_FONT_COLOR = 'var(--color-grey4)';
+export const DEFAULT_CHART_CENTER = 18;
+export const DEFAULT_CHART_SIZE = 36;

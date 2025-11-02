@@ -1,0 +1,20 @@
+@use "../../assets/styles/flex";
+
+.invite {
+  height: 90vh;
+  width: 100vw;
+  @include flex.container(100%, space-around, center);
+  @include flex.breakpoint(lt-md, 90%);
+
+}
+
+
+.logo {
+  height: 7em;
+  width: 7em;
+  margin: var(--space-lg) auto;
+  border-radius: var(--space-xs);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

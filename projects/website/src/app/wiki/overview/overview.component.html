@@ -1,0 +1,32 @@
+<div class="full-start">
+  <h1 class="mat-headline-4 full">
+    Write The Future Documentation
+  </h1>
+  <p class="mat-body-1" style="width: 100%; text-align: center">
+    If you're already familiar with the platform,
+    <a mat-stroked-button color="primary" (click)="auth.login()">Login/Register</a> and start/continue your
+    AI transformation journey! <br/>
+    Otherwise, pick a subject below and learn about various aspects of Write The Future.
+  </p>
+  <mat-divider class="full"></mat-divider>
+  @for (card of WIKI_CARDS; track $index) {
+    <mat-card class="half card" appearance="outlined" [routerLink]="['..',card.route]">
+      <mat-card-header>
+        <mat-card-title class="mat-subtitle-1">
+          <mat-icon fontSet="material-icons-outlined">{{card.icon}}</mat-icon>
+          {{card.title}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="mat-body-1">
+          <b>{{card.subtitle}}</b>
+        </p>
+        <ul class="mat-caption" style="margin-left: var(--space-lg)">
+          @for (bullet of card.content; track $index) {
+            <li>{{bullet}}</li>
+          }
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

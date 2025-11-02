@@ -1,0 +1,15 @@
+.container {
+  margin: auto;
+  width: 100%;
+  @media screen and (max-width: 600px) {
+    width: 90%;
+  }
+}
+
+.avatar {
+  background-size: cover;
+  border-radius: var(--space-xxs);
+  background-position: center;
+  width: 7em;
+  height: 7em;
+}

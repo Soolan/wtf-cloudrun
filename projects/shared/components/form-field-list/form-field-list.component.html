@@ -1,0 +1,86 @@
+<div [formGroup]="form">
+  <div formArrayName="fields" class="field-list-container">
+    @for (fieldGroup of fields.controls; let fieldIndex = $index; track fieldIndex) {
+      <div [formGroupName]="fieldIndex" class="field-card">
+        <div class="field-card-header">
+          <button mat-icon-button color="warn" (click)="removeField(fieldIndex)" matTooltip="Remove Field">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <div class="field-card-content">
+          <div class="field-row">
+            <mat-form-field class="field-item">
+              <mat-label>Label</mat-label>
+              <input matInput formControlName="label" placeholder="e.g. Customer Name">
+            </mat-form-field>
+
+            <mat-form-field class="field-item">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" placeholder="e.g. customer_name">
+            </mat-form-field>
+          </div>
+
+          <div class="field-row">
+            <mat-form-field class="field-item">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                @for (type of fieldTypes; track type) {
+                  <mat-option [value]="type">{{ type | titlecase }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="field-item">
+              <mat-label>Placeholder</mat-label>
+              <input matInput formControlName="placeholder" placeholder="e.g. John Doe">
+            </mat-form-field>
+          </div>
+
+          <div class="field-row-toggle">
+            <mat-slide-toggle formControlName="required">Required</mat-slide-toggle>
+          </div>
+
+          @if (fieldGroup.get('type')?.value === 'dropdown' || fieldGroup.get('type')?.value === 'radio-group') {
+            <div class="options-container">
+              <h4 class="options-header">Options</h4>
+              <div formArrayName="options">
+                @for (optionGroup of getOptions(fieldGroup).controls; let optionIndex = $index; track optionIndex) {
+                  <div [formGroupName]="optionIndex" class="option-row">
+                    <mat-form-field appearance="outline" class="option-item">
+                      <mat-label>Label</mat-label>
+                      <input matInput formControlName="label" placeholder="Option Label">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="option-item">
+                      <mat-label>Value</mat-label>
+                      <input matInput formControlName="value" placeholder="Option Value">
+                    </mat-form-field>
+                    <button mat-icon-button (click)="removeOption(fieldIndex, optionIndex)" matTooltip="Remove Option">
+                      <mat-icon>remove_circle</mat-icon>
+                    </button>
+                  </div>
+                }
+              </div>
+              <button mat-stroked-button (click)="addOption(fieldIndex)" class="add-option-button">
+                <mat-icon>add</mat-icon>
+                <span>Add Option</span>
+              </button>
+            </div>
+          }
+
+          @if (fieldGroup.get('type')?.value === 'custom-html') {
+            <mat-form-field appearance="outline">
+              <mat-label>HTML Content</mat-label>
+              <textarea matInput formControlName="htmlContent" cdkTextareaAutosize cdkAutosizeMinRows="4" placeholder="Enter your HTML here..."></textarea>
+            </mat-form-field>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<button mat-stroked-button (click)="addField()" class="add-button">
+  <mat-icon>add</mat-icon>
+  <span>Add Field</span>
+</button>

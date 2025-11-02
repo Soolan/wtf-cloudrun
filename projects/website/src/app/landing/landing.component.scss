@@ -1,0 +1,89 @@
+@use "flex";
+@use "layout";
+
+.banners {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.content {
+  min-height: 90vh;
+  @include flex.container(100%, space-around, center);
+}
+
+
+.artwork {
+  height: 21rem;
+  @include layout.background();
+  @media (width >= 600px) and (width < 960px) {
+    height: 18rem;
+  }
+  @media (width < 600px) {
+    height: 15rem;
+  }
+}
+
+.md-and-gt-md {
+  @media (width >= 961px) {
+    display: none;
+  }
+}
+
+.lt-md {
+  @media (width < 961px) {
+    display: none;
+  }
+}
+
+.heading {
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+
+.subheading {
+  margin: 0 auto;
+  opacity: 0.6;
+}
+
+.play {
+  margin: var(--space-sm) auto;
+  transform: scale(1.2);
+}
+
+.cards {
+  @include flex.container(100%, space-between, start);
+
+
+  .card {
+    background: white;
+    border-radius: var(--space-sm);
+    box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.1);
+    padding: var(--space-sm) var(--space-md) var(--space-xxxs) var(--space-md);
+    margin: var(--space-md) auto;
+    @include flex.container(22%, space-between, start);
+    @include flex.breakpoint(lt-lg, 41%);
+    @include flex.breakpoint(lt-sm, 90%);
+
+    .mat-icon {
+      font-family: "Material Symbols Outlined", serif !important;
+      vertical-align: sub;
+      transform: scale(1.4);
+      margin-right: var(--space-xs);
+    }
+
+    .caption {
+      font-size: 1rem;
+      line-height: 1.2em;
+      opacity: 0.8;
+    }
+  }
+}
+
+.white {
+  background-color: white;
+  margin: 0;
+  padding-block: var(--space-xl);
+}

@@ -1,0 +1,74 @@
+<div class="chat-container" [ngStyle]="{maxHeight: maximized ? '80vh' : '50vh'}">
+  <div class="chat-box" #chatContainer>
+    @for (group of discussionsGroupedByDate; track $index) {
+      <ng-container>
+        <!-- Date header (centered) -->
+        <div class="date-header">{{ group.date }}</div>
+
+        <!-- Loop through each discussion in the group -->
+        @for (discussion of group.discussions; track $index) {
+          <div class="chat-message"
+               [ngClass]="{'right-align': discussion.author.role === currentUserEntity?.role, 'left-align': discussion.author.role !== currentUserEntity?.role}">
+
+            <!-- Avatar, Name, Time -->
+            <div class="avatar-container">
+              <img [src]="discussion.author.avatar" alt="{{discussion.author.name}}" class="avatar"
+                   [matTooltip]="discussion.author.name + ' ('+ discussion.author.role + ')'">
+            </div>
+
+            <!-- Message bubble -->
+            <div class="message-content">
+              {{ discussion.contents }}
+              <div class="timestamp mat-caption">{{ discussion.timestamp | date:'shortTime' }}</div>
+              <div
+                [ngClass]="{'arrow-right': discussion.author.role === currentUserEntity?.role, 'arrow-left': discussion.author.role !== currentUserEntity?.role}"></div>
+            </div>
+          </div>
+        }
+      </ng-container>
+    }
+  </div>
+
+  <!-- Input field for new message -->
+  <div class="chat-input-container">
+    <mat-form-field class="input-field" appearance="outline">
+      <mat-label>Join the chat:</mat-label>
+      <textarea matInput [formControl]="messageInput" placeholder="Say something..." #textArea
+                [rows]="Math.min(5, Math.floor(textArea.value.length / 100) + 1)"
+                (keydown.enter)="sendMessage($event)"></textarea>
+      <button mat-icon-button matSuffix (click)="addEmoji()">
+        <mat-icon>emoji_emotions</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <button mat-mini-fab color="primary" (click)="sendMessage()" class="send-btn">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>
+@if (showTimeline) {
+  @if (customTimelineTemplate) {
+    <ng-container [ngTemplateOutlet]="customTimelineTemplate"></ng-container>
+  } @else if (showDefaultTimeline) {
+    @if (breakpoint.isMatched('(min-width: 960px)')) {
+      <div class="summary" [ngStyle]="{height: maximized ? '80vh' : '50vh'}">
+        <lib-ticket-timeline [events]="events"/>
+      </div>
+    } @else {
+      <div class="summary-small">
+        <button mat-mini-fab (click)="toggleTimeline = !toggleTimeline;">
+          <mat-icon>history</mat-icon>
+        </button>
+        <div [style.display]="toggleTimeline? 'flex':'none'">
+          <b>Timeline</b>
+          @if (events.length>0) {
+            <mat-divider></mat-divider>
+          }
+          @for (event of events; track $index) {
+            <p  style="margin-bottom: 0">{{ event }}</p>
+          }
+        </div>
+      </div>
+    }
+  }
+}

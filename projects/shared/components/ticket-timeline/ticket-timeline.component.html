@@ -1,0 +1,14 @@
+<div class="timeline-container">
+  <div class="mat-body-1 full">Timeline</div>
+  <div class="timeline-stack mat-caption">
+    <div *ngFor="let item of events; let i = index" class="timeline-item"
+         [class.left]="i % 2 === 0" [class.right]="i % 2 !== 0">
+      <div class="date">
+        {{ showDate(item.event)? (item.timestamp | date:'MMM d'):'' }}
+      </div>
+      <div [class]="showDate(item.event)? 'dot': 'tag'">
+        {{ showDate(item.event) ? item.event : item.event === 'start'? 'Start':'End' }}
+      </div>
+    </div>
+  </div>
+</div>

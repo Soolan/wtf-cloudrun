@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Select a Node</h1>
+<div mat-dialog-content>
+  <mat-list role="list">
+    @for (node of data.availableNodes; track node.type) {
+      <mat-list-item role="listitem" (click)="onNodeSelected(node)">{{ node.name }}</mat-list-item>
+    }
+  </mat-list>
+</div>

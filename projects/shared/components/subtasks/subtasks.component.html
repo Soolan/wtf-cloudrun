@@ -1,0 +1,37 @@
+@for (task of subtasks; track $index) {
+  <a class="subtask" target="_new"
+     (click)="ticketService.ticket.set(task)"
+     [routerLink]="['..',task.id]" [queryParams]="{ parentId: ticketService.ticket()?.id }">
+<!--     [routerLink]="['..', task.id]"-->
+<!--     [queryParams]="{ refresh: true }">-->
+  <img src="{{ (task.assignedTo?.avatar || '' | storageUrl | async) ||'assets/images/team/gotta-go-ooooh-surfing.png'}}"
+       width="86px" height="86px">
+  <div class="two-thirds">
+    <p class="two-thirds">
+      <b>{{ ticketService.getTicketNumber(task) }}</b>
+    </p>
+    <p class="two-thirds">
+      {{ task.assignedTo?.name || 'tbd' }}
+    </p>
+    <span class="tag" style="opacity: 0.8; font-size: 14px !important;">
+      {{ RELEASE_ENTRIES[task.release_entry] || RELEASE_ENTRIES[ReleaseEntry.Feature] }}
+    </span>
+  </div>
+  <mat-progress-bar mode="determinate" [value]="getProgress(task.stage, task.timestamps.created_at)"
+                    style="margin: var(--space-xs) 0" [color]="getColor(task.stage)"/>
+  {{getProgress(task.stage, task.timestamps.created_at)}}%
+  <p class="full caption" style="opacity: 0.7; font-size: 0.8em; margin-top: var(--space-xs)">
+    {{ task.title.length > 30? task.title.slice(0, 27) + '...' : task.title }}
+  </p>
+</a>
+}
+<div class="full">
+  <button mat-raised-button class="add"
+          (click)="setTicketSignals()"
+          [routerLink]="['..', NEW_TICKET_ID]"
+          [queryParams]="{ parentId: ticketService.ticket()?.id }"
+  >
+    <span>Add subtask</span>
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,37 @@
+<button mat-icon-button matDialogClose class="close">
+  <mat-icon>close</mat-icon>
+</button>
+
+<h2 mat-dialog-title>Company Backups</h2>
+
+<div *ngIf="loading()">Loading backups...</div>
+
+<ul *ngIf="!loading() && backups().length > 0">
+  @for (backup of backups(); track backup.timestamp) {
+    <li class="backup-item">
+      <span class="mat-caption">{{ backup.timestamp | date: 'medium' }}</span>
+      <span class="flex-actions">
+        <button mat-icon-button color="primary" (click)="restoreBackup(backup)" matTooltip="Restore" matTooltipPosition="before">
+          <mat-icon>settings_backup_restore</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteBackup(backup)" matTooltip="Delete" matTooltipPosition="after">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </span>
+    </li>
+  }
+</ul>
+
+<p *ngIf="!loading() && backups().length === 0" class="mat-caption empty">
+  No backups found for this company.
+</p>
+
+<div class="upload-section">
+  <label class="upload-button">
+    <input #fileInput type="file" accept=".json" (change)="restoreFromFile($event)" hidden/>
+    <button mat-stroked-button color="accent" (click)="triggerFileInput()">
+      <mat-icon>folder</mat-icon>
+      Restore from File
+    </button>
+  </label>
+</div>

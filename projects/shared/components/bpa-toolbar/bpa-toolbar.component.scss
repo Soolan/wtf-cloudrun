@@ -1,0 +1,12 @@
+mat-toolbar {
+  background-color: var(--color-primary-dark); // Darker primary for toolbar
+  color: var(--color-primary-lighter); // Lighter text for toolbar
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+button {
+  color: var(--color-primary-lighter); // Ensure button text is visible
+}

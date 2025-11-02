@@ -1,0 +1,60 @@
+<div class="attachments">
+  <span class="mat-caption" style="font-size: 18px">Attachments</span>
+
+  <!-- Add button to toggle the form -->
+  <button mat-icon-button color="primary" (click)="toggle()" *ngIf="addButton">
+    <mat-icon style="scale: 1.2">add_link</mat-icon>
+  </button>
+  <!-- Inline form for adding new attachment -->
+  <div *ngIf="!addButton" class="source">
+    <mat-radio-group [(ngModel)]="source" style="margin-bottom: var(--space-sm)">
+      <mat-label class="mat-caption">Attach:</mat-label>
+      <mat-radio-button value="link"><span class="option">Link</span></mat-radio-button>
+      <mat-radio-button value="file"><span class="option">File</span></mat-radio-button>
+    </mat-radio-group>
+    <button mat-icon-button (click)="cancel()" style="margin-bottom: var(--space-sm);">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div *ngIf="source ==='link'" class="full action">
+      <mat-form-field appearance="fill" class="full">
+        <mat-label>URL</mat-label>
+        <input matInput [(ngModel)]="newAttachment.url" placeholder="Enter URL"
+               [ngModelOptions]="{standalone: true}"/>
+        <button matSuffix mat-stroked-button color="primary" (click)="add()" style="margin: 0 10px">
+          <span>Add</span>
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div *ngIf="source ==='file'" class="full action">
+      <button mat-button color="primary" style="margin-bottom: 20px">
+        <span>Browse</span>
+        <mat-icon>folder_open</mat-icon>
+      </button>
+      <!--      <lib-file-uploader></lib-file-uploader>-->
+      <!--      ToDo: implement the file upload functionality. You can't use file uploader -->
+    </div>
+  </div>
+  <div class="attachments">
+    <p *ngFor="let group of attachments; let i = index" [formGroup]="group" class="attachment">
+
+      <!-- Show delete button if not confirming deletion -->
+      <ng-container *ngIf="confirmDeleteIndex !== i; else confirmDeleteTemplate">
+        <button mat-icon-button color="accent" (click)="confirm(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <a href="{{group.get('url')?.value}}" [matTooltip]="group.get('name')?.value" target="_blank">
+          {{ getName(group.get('name')?.value) }}
+        </a>
+      </ng-container>
+
+      <!-- Confirmation message template -->
+      <ng-template #confirmDeleteTemplate>
+        <span>Are you sure? </span>
+        <button mat-button (click)="delete(i)">Yes</button>
+        <button mat-button (click)="cancel()">No</button>
+      </ng-template>
+    </p>
+  </div>
+</div>

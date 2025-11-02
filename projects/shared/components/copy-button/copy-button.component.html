@@ -1,0 +1,4 @@
+<button mat-icon-button (click)="copy(); copied = true"
+        class="copy" color="primary" [cdkCopyToClipboard]="clipboardText">
+  <mat-icon>{{ copied ? 'check' : 'content_copy' }}</mat-icon>
+</button>

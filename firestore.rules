@@ -1,0 +1,136 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwnerOrAdmin(doc, auth) {
+      let isOwner = auth.uid == doc.userId ||
+                    auth.uid == doc.profileId ||
+                    auth.uid == doc.creatorId ||
+                    auth.uid == doc.creator.id||
+                    auth.uid == doc.courseCreator.id ||
+                    auth.uid == doc.source.wtfProfileId;
+      let isAdmin = auth.token.admin == true;
+      return isOwner || isAdmin;
+    }
+
+    function isVerified(auth) {
+      return auth != null && auth.token.email_verified;
+    }
+
+    match /{ai_chats}/{ai_chat}/{documents=**} {
+      allow read, write;
+    }
+
+    match /authors/{author}/{documents=**} {
+      allow read: if isOwnerOrAdmin(request.data, request.auth);
+      allow write: if request.auth.token.admin;
+    }
+
+    match /blogs/{blog}/{documents=**} {
+      allow read, write: if true;
+    }
+
+    match /certificates/{certificate}/{documents=**} {
+      allow read, write: if isOwnerOrAdmin(request.data, request.auth);
+    }
+
+    match /companies/{company}/{documents=**} {
+      allow read, write: if isOwnerOrAdmin(request.data, request.auth);
+    }
+
+    match /courses/{courseId}/{documents=**} {
+      allow read;
+      allow create: if isVerified(request.auth) || request.auth.token.admin;
+      allow delete: if isOwnerOrAdmin(request.data, request.auth);
+      allow update: if isOwnerOrAdmin(request.data, request.auth) || isGuestUpdatingStats();
+    }
+
+    match /course_ratings_and_reviews/{crrId}/{documents=**} {
+      allow read;
+      allow create: if isVerified(request.auth) || request.auth.token.admin;
+      allow delete, update: if isOwnerOrAdmin(request.data, request.auth);
+    }
+
+    function isGuestUpdatingStats() {
+      return request.auth == null && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["stats"]);
+    }
+
+    match /emails/{email}/{documents=**} {
+      allow read, write;
+    }
+    match /enquiries/{enquiry}/{documents=**} {
+      allow read: if request.auth.token.admin;
+      allow write;
+    }
+    match /events/{event}/{documents=**} {
+      allow read, write;
+    }
+    match /faucets/{faucet}/{documents=**} {
+      allow read;
+      allow create, delete: if request.auth.token.admin;
+      allow update: if request.auth.uid in request.data.recipients;
+    }
+    match /legals/{legal}/{documents=**} {
+      allow read;
+      allow write: if request.auth.token.admin;
+    }
+    match /mailing_lists/{mailing_list}/{documents=**} {
+      allow read, write: if request.auth.token.admin;
+    }
+    match /news/{new}/{documents=**} {
+      allow read;
+      allow write: if isOwnerOrAdmin(request.data, request.auth);
+    }
+    match /news_sources/{news_source}/{documents=**} {
+      allow read: if true;
+      allow write: if request.auth.token.admin;
+    }
+    match /notifications/{notification} {
+      allow read, write: if request.auth.token.admin;
+    }
+    match /polls/{poll}/{documents=**} {
+      allow read;
+      allow create, delete: if isVerified(request.auth);
+      allow update;
+    }
+    match /profiles/{profileId}/{documents=**} {
+      allow read;
+      allow write: if isOwnerOrAdmin(request.data, request.auth);
+    }
+    match /releases/{releases}/{documents=**} {
+      allow read: if true;
+      allow write: if request.auth.token.admin;
+    }
+    match /secure_codes/{secureCode}/{documents=**} {
+      allow read: if true;
+      allow write: if request.auth.token.admin;
+    }
+    match /short_links/{short_link}/{documents=**} {
+      allow read, write;
+    }
+    match /stakes/{stake}/{documents=**} {
+      allow read: if isOwnerOrAdmin(request.data, request.auth);
+      allow create: if isOwnerOrAdmin(request.data, request.auth);
+      allow update: if request.auth.uid == request.data.profileId &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(["autoRenew"]);
+      allow delete: if request.auth.token.admin;
+    }
+    match /stats/{stats}/{documents=**} {
+      allow read, write;
+    }
+    match /subscribers/{subscriber} {
+      allow read, write;
+    }
+    match /tickets/{ticket}/{documents=**} {
+      allow read, write: if isOwnerOrAdmin(request.data, request.auth);
+    }
+    match /whales/{whale} {
+      allow read: if true;
+      allow write: if request.auth.token.admin;
+    }
+    match /zines/{zine}/{documents=**} {
+      allow read: if true;
+      allow write: if request.auth.token.admin;
+    }
+  }
+}

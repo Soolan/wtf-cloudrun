@@ -1,0 +1,88 @@
+.payments-grid {
+  width: 100%;
+  display: grid;
+  padding: var(--space-lg);
+  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.item {
+  //min-width: 17em;
+  position: relative;
+  border-radius: var(--space-sm);
+  padding: var(--space-lg);
+  //margin: var(--space-md);
+  background: linear-gradient(135deg, var(--color-greye), white);
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border: 1px solid var(--color-greyd);
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+
+    .context-menu {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &.default {
+    border: 1px solid var(--color-accent);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .brand {
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+
+    .context-menu {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+  }
+
+  .number {
+    text-align: center;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  .default-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: var(--color-accent);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 12px;
+  }
+}
+
+.add-button {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}

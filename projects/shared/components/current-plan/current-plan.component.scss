@@ -1,0 +1,25 @@
+.doughnut {
+  margin-bottom: var(--space-lg);
+}
+
+.plan p {
+  width: 100%;
+  font-family: "Ubuntu Mono", monospace;
+  font-size: 19px;
+  margin: var(--space-md) 0;
+
+  span {
+    letter-spacing: var(--space-xxxs);
+    color: var(--color-grey6);
+  }
+
+  .enabled {
+    color: var(--color-greye);
+  }
+
+  .disabled {
+    opacity: 0.7;
+    background-color: var(--color-grey9);
+    color: var(--color-greyd);
+  }
+}

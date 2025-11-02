@@ -1,0 +1,52 @@
+@use "../../assets/styles/flex";
+@use "../../assets/styles/layout";
+
+.plans {
+  margin-top: var(--space-xxl);
+  @include flex.container(100%, center, center);
+  .period {
+    text-align: center;
+    @include flex.width(80%);
+    @include flex.breakpoint(lt-sm, 100%);
+  }
+
+  .feature-names {
+    opacity: 0.8;
+    @include flex.width(20%);
+
+    .features {
+      p {
+        margin: 0;
+        text-align: right;
+        padding: var(--space-xs);
+      }
+    }
+  }
+
+  .plan {
+    margin: var(--space-md) var(--space-xxs);
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.4);
+    @media screen and (max-width: 960px) {
+      min-width: 10em;
+      margin: var(--space-lg) var(--space-xxs);
+    }
+    @include flex.width(21%);
+    @include flex.breakpoint(md, 25%);
+    @include flex.breakpoint(sm, 33%);
+    @include flex.breakpoint(lt-sm, 95%);
+
+    button {
+      scale: 1.25;
+      margin: var(--space-sm) auto;
+      width: 70%;
+    }
+  }
+
+  .features, .figures {
+    .feature {
+      margin: 0;
+      padding: var(--space-xs);
+    }
+  }
+
+}

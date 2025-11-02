@@ -1,0 +1,105 @@
+<div class="topic" [formGroup]="topicForm" *ngIf="topic">
+  <div class="fields one-third">
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" placeholder="Title"/>
+    </mat-form-field>
+    <div class="status full">
+      <mat-button-toggle-group formControlName="status">
+        <mat-button-toggle [value]="TopicStatus.Draft">{{ TopicStatus.Draft }}</mat-button-toggle>
+        <mat-button-toggle [value]="TopicStatus.Review">{{ TopicStatus.Review }}</mat-button-toggle>
+        <mat-button-toggle [value]="TopicStatus.Reject">{{ TopicStatus.Reject }}</mat-button-toggle>
+        <mat-button-toggle [value]="TopicStatus.Accept">{{ TopicStatus.Accept }}</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+<!--    <mat-divider class="full"></mat-divider>-->
+
+    <div class="creator full">
+      <img
+        width="140px" height="140px" style="border-radius: var(--space-xxs)"
+        src="{{(topicForm.get(['creator', 'avatar'])?.value|storageUrl|async) || 'assets/images/team/gotta-go-ooooh-surfing.png'}}"
+      >
+    </div>
+    <div class="info">
+      <div class="mat-caption full">
+        <mat-form-field appearance="fill" class="full" *ngIf="team" formGroupName="creator">
+          <mat-label>Creator</mat-label>
+          <mat-select formControlName="id" (valueChange)="setCreator($event)">
+            <mat-option *ngFor="let member of team" [value]="member.role">
+              {{ member.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full tags">
+          <mat-label>Tags</mat-label>
+          <mat-chip-grid #chipList formControlName="tags" cdkDropList
+                         cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+            <mat-chip-row *ngFor="let tag of tags" cdkDrag (removed)="deleteTag(tag)" [value]="tag" class="tag">
+              <span class="mat-caption tag-label">{{ tag }}</span>
+              <button matChipRemove>
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input placeholder="add tag..." cdkFocusInitial=""
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   matChipInputAddOnBlur=true
+                   (matChipInputTokenEnd)="addTag($event)">
+          </mat-chip-grid>
+        </mat-form-field>
+
+        <div class="date">
+          <b style="line-height: 1.5em">Department: </b>
+          <span>{{ playbookService.department() }}</span>
+          <br/>
+          <b>Last update: </b>
+          <span>{{ topic.timestamps.updated_at | date: 'medium' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fields two-thirds">
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Intro</mat-label>
+      <input matInput formControlName="subtitle" placeholder="Intro"/>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Contents</mat-label>
+      <textarea matInput #text maxlength="7000" [rows]=" text.value.length/2000 + 11"
+                placeholder="contents" formControlName="fullText" class="hide-scroll"></textarea>
+      <mat-hint align="end">{{ text.value.length }} / 7000</mat-hint>
+    </mat-form-field>
+
+    <div class="full actions">
+      <button mat-stroked-button routerLink="../">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+
+      <span *ngIf="hasKbId; else generate_kb">
+        <span [matTooltip]="'id: '+topic.kbId" class="green-tag">live</span>
+        <button mat-stroked-button color="accent" (click)="generateKb(true)"
+                [disabled]="!canGenerateKb">
+          <mat-icon>refresh</mat-icon>
+          <span>Update RAG topic</span>
+        </button>
+      </span>
+      <ng-template #generate_kb>
+        <button mat-stroked-button color="accent" (click)="generateKb()"
+                [disabled]="!canGenerateKb">
+          <mat-icon>auto_awesome</mat-icon>
+          <span>Add to RAG</span>
+        </button>
+      </ng-template>
+
+      <button mat-flat-button (click)="save()" color="primary" >
+        <mat-icon>done</mat-icon>
+        <span>Save topic</span>
+      </button>
+    </div>
+  </div>
+
+
+</div>

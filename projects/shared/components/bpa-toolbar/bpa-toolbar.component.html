@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="save.emit()" aria-label="Save workflow">
+    <mat-icon>save</mat-icon>
+  </button>
+  <button mat-icon-button (click)="run.emit()" aria-label="Run workflow">
+    <mat-icon>play_arrow</mat-icon>
+  </button>
+
+  <span class="toolbar-spacer"></span>
+
+  <input type="file" (change)="onFileSelected($event)" accept=".json" #fileInput hidden>
+  <button mat-button (click)="fileInput.click()">
+    <mat-icon>upload_file</mat-icon> Import
+  </button>
+  <button mat-button (click)="export.emit()">
+    <mat-icon>download</mat-icon> Export
+  </button>
+</mat-toolbar>

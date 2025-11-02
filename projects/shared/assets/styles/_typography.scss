@@ -1,0 +1,124 @@
+@use '@angular/material' as mat;
+
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/titillium-web-extra-light.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/titillium-web-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/titillium-web-semi-bold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/titillium-web-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/titillium-web-black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  src: url('../fonts/ubuntu-mono-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Delius';
+  src: url('../fonts/delius-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+// Define custom fonts
+$web: "'Titillium Web', sans-serif";
+$mono: "'Ubuntu Mono', monospace";
+$slide: "'Delius', cursive";
+
+// Define a custom typography config with responsive sizes
+$wtf-typography: mat.m2-define-typography-config(
+  $headline-1: mat.m2-define-typography-level(clamp(4rem, 6vw, 7.2rem), normal, 100, $web),
+  $headline-2: mat.m2-define-typography-level(clamp(3rem, 5vw, 6rem), normal, 100, $web),
+  $headline-3: mat.m2-define-typography-level(clamp(2rem, 4vw, 4.8rem), normal, 100, $web),
+  $headline-4: mat.m2-define-typography-level(clamp(1.8rem, 3.5vw, 3.6rem), normal, 100, $web),
+  $headline-5: mat.m2-define-typography-level(clamp(1.6rem, 3vw, 3rem), normal, 400, $web),
+  $headline-6: mat.m2-define-typography-level(clamp(1.4rem, 2.5vw, 2.4rem), normal, 400, $web),
+  $subtitle-1: mat.m2-define-typography-level(clamp(1.3rem, 2vw, 1.8rem), normal, 600, $web),
+  $subtitle-2: mat.m2-define-typography-level(clamp(1.2rem, 1.8vw, 1.6rem), normal, 600, $web),
+  $body-1:     mat.m2-define-typography-level(clamp(1rem, 1.5vw, 1.3rem), normal, 400, $web),
+  $body-2:     mat.m2-define-typography-level(clamp(1rem, 1.5vw, 1.3rem), normal, 400, $slide),
+  $caption:    mat.m2-define-typography-level(clamp(1rem, 1.2vw, 1.1rem), normal, 400, $mono),
+  $button:     mat.m2-define-typography-level(clamp(1.05rem, 1.5vw, 1.1rem), inherit, 400, $web, 0),
+);
+
+// Apply a minimal override for Material components
+$wtf-material: mat.m2-define-typography-config(
+  $body-2: mat.m2-define-typography-level(1.1rem, normal, 400, $web),
+);
+
+// Apply typography to all Material components globally
+@include mat.all-component-typographies($wtf-material);
+
+// Define dashboard-specific typography (larger sizes)
+$wtf-dashboard-typography: mat.m2-define-typography-config(
+  $headline-1: mat.m2-define-typography-level(8.25rem, normal, 100, $web),
+  $headline-2: mat.m2-define-typography-level(6rem, normal, 100, $web),
+  $headline-3: mat.m2-define-typography-level(4.5rem, normal, 100, $web),
+  $headline-4: mat.m2-define-typography-level(3.75rem, normal, 100, $web),
+  $headline-5: mat.m2-define-typography-level(3rem, normal, 400, $web),
+  $headline-6: mat.m2-define-typography-level(2.25rem, normal, 400, $web),
+  $subtitle-1: mat.m2-define-typography-level(1.5rem, normal, 600, $web),
+  $subtitle-2: mat.m2-define-typography-level(1.375rem, normal, 600, $web),
+  $body-1:     mat.m2-define-typography-level(1.25rem, normal, 400, $web),
+  $body-2:     mat.m2-define-typography-level(1.25rem, normal, 400, $web),
+  $caption:    mat.m2-define-typography-level(0.875rem, normal, 400, $mono),
+  $button:     mat.m2-define-typography-level(1rem, inherit, 400, $web, 0),
+);
+
+// Font weight utility classes
+.black {
+  font-weight: 900 !important;
+}
+
+.thick {
+  font-weight: 700 !important;
+}
+
+.semi-bold {
+  font-weight: 600 !important;
+}
+
+.thin {
+  font-weight: 100 !important;
+}
+
+// Responsive font sizing using clamp()
+@mixin font-size($min: 0.8rem, $preferred: 1rem, $max: 1.5rem) {
+  font-size: clamp($min, $preferred, $max);
+}
+
+:root {
+  --font-web: #{$web};
+  --font-mono: #{$mono};
+  --font-slide: #{$slide};
+}
+

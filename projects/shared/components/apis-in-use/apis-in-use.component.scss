@@ -1,0 +1,103 @@
+@use "../../assets/styles/flex";
+
+.apis {
+  margin: auto;
+  @include flex.container(100%, space-between, flex-start);
+  @include flex.breakpoint(lt-sm, 90%);
+  .api {
+    margin: var(--space-md) 0;
+    padding: var(--space-sm);
+    border-radius: var(--space-sm);
+    @include flex.container(45%, space-between, flex-start);
+    @include flex.breakpoint(lt-md, 100%);
+    .logo {
+      background-image: url("/assets/images/team/gotta-go-ooooh-surfing.png");
+      background-repeat: no-repeat;
+      background-position: center top;
+      background-size: contain;
+      width: auto;
+      min-height: 6em;
+      @include flex.width(25%);
+    }
+    .text {
+      @include flex.width(75%);
+      .title {
+        @include flex.container(100%, space-between, center);
+        @keyframes greenWhitePulse {
+          0%   { color: white; }
+          15%  { color: var(--color-primary); }
+          85%  { color: var(--color-primary); }
+          100% { color: white; }
+        }
+
+        .status {
+          padding: var(--space-xxs) var(--space-sm);
+          border-radius: var(--space-xxs);
+          letter-spacing: 1px;
+          margin-left: var(--space-md);
+        }
+
+        .pulse {
+          animation: greenWhitePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes purpleWhitePulse {
+          0%   { color: white; }
+          50%  { color: var(--color-accent); }
+          100% { color: white; }
+        }
+        .fast-pulse {
+          animation: purpleWhitePulse 0.6s ease-in-out infinite;
+        }
+
+        .live {
+          color: var(--color-primary);
+          background-color: var(--color-primary-lighter);
+        }
+
+        .disabled {
+          color: var(--color-grey6);
+          background-color: var(--color-greyd);
+        }
+      }
+      p {
+        font-size: smaller;
+        margin-bottom: var(--space-xxxs);
+      }
+      .actions {
+        @include flex.container(100%, space-between, flex-start);
+        div {
+          position: relative;
+          top: -6px;
+        }
+      }
+    }
+    .confirmation {
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--color-warn-lighter);
+      color: var(--color-warn-dark);
+      @include flex.container(100%, space-between, center);
+      p {margin: 0;}
+      button {margin: var(--space-xs) var(--space-sm) var(--space-xs) 0;}
+    }
+  }
+  .api:hover {
+    background-color: var(--color-greye);
+  }
+  .marketplace {
+    position: fixed;
+    right: 5em;
+    bottom: var(--space-lg);
+    @media screen and (max-width: 600px) {
+      right: var(--space-sm);
+      bottom: var(--space-sm);
+    }
+  }
+}
+.blank {
+  margin: auto;
+  align-content: center;
+  min-height: 60vh;
+  @include flex.container(100%, center, center);
+  @include flex.breakpoint(lt-sm, 90%);
+}

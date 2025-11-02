@@ -1,0 +1,40 @@
+@use "../../assets/styles/flex" as flex;
+
+.topic {
+  @include flex.container(100%, space-around, flex-start);
+  @include flex.breakpoint(lt-sm, 90%);
+  .fields {
+    margin: var(--space-md) 0;
+    .creator {
+      margin-top: var(--space-xl);
+      margin-bottom: var(--space-sm);
+    }
+    .info {
+      .date {
+        opacity: 0.7;
+        margin: var(--space-sm) 0;
+      }
+    }
+    .tags {
+      .tag-label {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+
+  .prefix {
+    margin: 0 var(--space-sm);
+  }
+  @media screen and (max-width: 600px) {
+    padding: var(--space-md) 0;
+  }
+
+  .actions {
+    margin-top: var(--space-lg);
+  }
+}
+
+mat-divider {
+  margin: var(--space-lg) 0 var(--space-xl) 0;
+}

@@ -1,0 +1,14 @@
+@use '../../assets/styles/flex';
+.crop {
+  image-cropper {
+    max-height: 60vh;
+  }
+
+  p {
+    margin-top: var(--space-md);
+  }
+  .actions {
+    button {margin: var(--space-md)}
+  }
+}
+

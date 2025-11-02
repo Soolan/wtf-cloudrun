@@ -1,0 +1,74 @@
+<div class="apis">
+  @if (loading) {
+    <lib-loading [message]="'Loading APIs...'" class="full"></lib-loading>
+  } @else if (apis) {
+    <div class="api" *ngFor="let api of apis; let i = index;">
+      <div class="logo" [style.background-image]="'url('+(api.logo|storageUrl|async)+')'"></div>
+      <div class="text">
+        <div class="title">
+          <h3 class="thin" style="margin-bottom: 4px">
+            <span>{{ api.name }}</span>
+            @if (toggling) {
+              <span class="mat-caption status fast-pulse">updating...</span>
+            } @else {
+              <span class="mat-caption status">
+              <span [class]="getClass(i)">•</span>
+              <span [class]="getStatus(i)">{{ getStatus(i) | titlecase }}</span>
+                </span>
+            }
+          </h3>
+
+          <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!toggling">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openDialog(api, i)">
+              <mat-icon color="primary">edit</mat-icon>
+              <span class="context">Edit</span>
+            </button>
+            <button mat-menu-item (click)="confirmations[i] = true">
+              <mat-icon color="warn">delete</mat-icon>
+              <span class="context">Uninstall</span>
+            </button>
+            <button mat-menu-item (click)="toggle(i)">
+              <mat-icon color="accent">{{ apisInUse[i].active ? 'code_off' : 'code' }}</mat-icon>
+              <span class="context">{{ apisInUse[i].active ? 'Deactivate' : 'Activate' }}</span>
+            </button>
+          </mat-menu>
+
+        </div>
+        <p class="mat-body-1">
+          {{ (api.howTo?.length || 0) > 100 ? api.howTo?.slice(0, 97) + '...' : api.howTo || '' }}
+        </p>
+        <div class="actions">
+          <a class="mat-caption" mat-button [href]="api.baseUrl" target="_blank" style="opacity: 0.8">
+            {{ api.baseUrl }}
+            <mat-icon iconPositionEnd>open_in_new</mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="confirmation" *ngIf="confirmations[i]">
+        <p class="mat-caption">This API will be removed. Are you sure?</p>
+        <div>
+          <button mat-button (click)="confirmations[i] = false;">No</button>
+          <button mat-flat-button color="warn" (click)="delete(i)">Yes</button>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="blank">
+      <div class="mat-headline-4 full">It looks empty here.</div>
+      <p class="mat-body-1">
+        <span>Visit the </span>
+        <button mat-raised-button routerLink="marketplace" color="primary">
+          <span>API marketplace</span>
+          <mat-icon>storefront</mat-icon>
+        </button>
+        <span> and add some APIs to your business.</span>
+      </p>
+    </div>
+  }
+  <button mat-mini-fab routerLink="marketplace" color="primary" class="marketplace" matTooltip="API marketplace">
+    <mat-icon>storefront</mat-icon>
+  </button>
+</div>

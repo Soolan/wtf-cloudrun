@@ -1,0 +1,7 @@
+<div [ngSwitch]="mode" class="action">
+  <div class="logo" routerLink="/" (click)="reset()"></div>
+  <lib-verify-email *ngSwitchCase="AuthAction.VerifyEmail" [oobCode]="oobCode"></lib-verify-email>
+  <lib-reset-password *ngSwitchCase="AuthAction.ResetPassword" [oobCode]="oobCode"></lib-reset-password>
+  <lib-recover-email *ngSwitchCase="AuthAction.RecoverEmail" [oobCode]="oobCode"></lib-recover-email>
+  <div *ngSwitchDefault></div>
+</div>

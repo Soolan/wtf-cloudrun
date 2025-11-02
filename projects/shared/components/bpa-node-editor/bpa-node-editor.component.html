@@ -1,0 +1,15 @@
+@if (node) {
+  <div class="editor-container">
+    <h3>{{ node.name }}</h3>
+    <p>ID: {{ node.id }}</p>
+    <p>Type: {{ node.type }}</p>
+    <h4>Parameters:</h4>
+    <pre>{{ node.parameters | json }}</pre>
+  </div>
+} @else {
+  <div class="no-node-selected">
+    <mat-icon>edit_off</mat-icon>
+    <p>No node selected</p>
+    <span>Click a node on the canvas to see its properties.</span>
+  </div>
+}

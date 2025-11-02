@@ -1,0 +1,92 @@
+@use "flex";
+
+.team {
+  margin: auto;
+  @include flex.container(100%, space-between, flex-start);
+  @include flex.breakpoint(lt-md, 90%);
+
+  .board {
+    margin: var(--space-md) 0;
+    @include flex.container(30%, space-between, flex-start);
+    @include flex.breakpoint(md, 45%);
+    @include flex.breakpoint(lt-md, 100%);
+  }
+
+  .c-suite {
+    margin: var(--space-md) 0;
+    padding:0 var(--space-xs) var(--space-xs) var(--space-xs);
+    background-color: rgba(0,0,0,0.02);
+    @include flex.container(30%, space-around, flex-start);
+    @include flex.breakpoint(md, 45%);
+    @include flex.breakpoint(lt-md, 100%);
+
+    article {
+      width: 100%;
+      cursor: pointer;
+      margin-bottom: var(--space-xxs);
+    }
+  }
+
+  .teams {
+    margin: var(--space-md) 0;
+    @include flex.container(30%, space-between, flex-start);
+    @include flex.breakpoint(md, 60%);
+    @include flex.breakpoint(lt-md, 100%);
+    article {
+      width: 100%;
+      cursor: pointer;
+    }
+  }
+
+  h2 {
+    @include flex.width(100%);
+  }
+
+  .board > *, .c-suite > *, .teams > * {
+    @media screen and (max-width: 960px) {
+      @include flex.width(100%);
+    }
+  }
+
+  .add-ai {
+    position: fixed;
+    bottom: 1.5em;
+    right: 1.5em;
+  }
+
+  .add-human {
+    position: fixed;
+    bottom: 6.5em;
+    right: 1.5em;
+  }
+
+  .c-suite article.hovered,
+  .teams mat-expansion-panel.hovered {
+    background-color: rgba(255, 255, 0, 0.05); /* Hover background */
+  }
+
+  .teams mat-expansion-panel.selected {
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Selected border */
+    background-color: rgba(255, 255, 0, 0.03); /* Selected background */
+  }
+
+  .c-suite article.selected {
+    border: 1px solid rgba(0, 0, 0, 0.08); /* Selected border */
+    background-color: rgba(0, 0, 0, 0.03); /* Selected background */
+
+    -webkit-filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.6));
+    filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.6));
+  }
+
+  .c-suite app-member,
+  .teams mat-expansion-panel {
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+}
+
+.panel-header {
+  align-items: center;
+  opacity: 0.7;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 1.2em;
+}

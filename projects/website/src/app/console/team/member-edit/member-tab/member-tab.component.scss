@@ -1,0 +1,50 @@
+@use "flex";
+
+.member {
+  margin: var(--space-sm) auto;
+  @include flex.container(100%, space-around, flex-start);
+  @include flex.breakpoint(lt-sm, 90%);
+
+  .expansions {
+    @include flex.container(65%, space-between, start);
+    @include flex.breakpoint(lt-md, 100%);
+
+    .details {
+      @include flex.container(100%, space-between, start);
+
+      .options {
+        margin-top: var(--space-md);
+      }
+
+      .hierarchy {
+        opacity: 0.7;
+        min-height: 33vh;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        margin: var(--space-md) auto;
+      }
+    }
+  }
+
+  .avatar {
+    @include flex.container(25%, space-around, flex-start);
+    @include flex.breakpoint(md, 35%);
+    @include flex.breakpoint(lt-md, 100%);
+
+    .field {
+      margin-top: 2em;
+    }
+
+    .actions {
+      button {
+        min-width: 6em;
+        margin-top: var(--space-xl);
+      }
+    }
+  }
+
+  .avatar > * {
+    @include flex.width(90%);
+  }
+}

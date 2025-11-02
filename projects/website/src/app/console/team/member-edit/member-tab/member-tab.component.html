@@ -1,0 +1,144 @@
+@if (member) {
+  <div class="member" [formGroup]="form">
+  <div class="expansions">
+    <mat-accordion>
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="mat-caption"> Role</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="details">
+          <h2 class="mat-headline-6 thin full" style="justify-content: flex-start">
+            Where do they fit in?
+          </h2>
+          <div class="options two-thirds">
+            <mat-form-field appearance="fill" class="full">
+              <mat-label>Member of:</mat-label>
+              <mat-select formControlName="type">
+                @for (member of Object.values(MemberLevel); track $index) {
+                  <mat-option [value]="member">
+                    {{ member | titlecase }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            @if (form.get('type')?.value !== MemberLevel.Board) {
+              <div class="full">
+              @if (form.get('type')?.value === MemberLevel.Department) {
+                <h2 class="mat-subtitle-2 thin full" style="justify-content: flex-start; margin-top: var(--space-lg)">
+                  Pick from departments:
+                </h2>
+                <mat-form-field appearance="fill" class="full">
+                  <mat-label>Departments</mat-label>
+                  <mat-select formControlName="department" [(value)]="selectedDepartment">
+                    @for (d of departments; track $index) {
+                      <mat-option [value]="d">
+                        {{ d.length > 17 ? d.slice(0, 16) + '.' : d }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              } @else {
+                @if (!hasCEO || isCEO() || form.get('role')?.value === CEO) {
+                  <div class="full" style="justify-content: space-between">
+                    <h2 class="mat-subtitle-2 thin half" style="justify-content: flex-start; margin: 0">
+                      Are they CEO?
+                    </h2>
+                    <mat-radio-group class="" [value]="isCEO()" (change)="isCEO.set($any($event.value))">
+                      <mat-radio-button [value]="true" style="margin: 0 var(--space-lg)">Yes</mat-radio-button>
+                      <mat-radio-button [value]="false">No</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                }
+                @if (!isCEO()) {
+                  <h2 class="mat-subtitle-2 thin full" style="justify-content: flex-start; margin-top: var(--space-sm)">
+                    Which department they'll lead?
+                  </h2>
+                  <mat-form-field appearance="fill" color="accent" class="full">
+                    <input matInput formControlName="department" placeholder="Department" autofocus>
+                  </mat-form-field>
+                }
+              }
+            </div>
+            } @else {
+              <h2 class="mat-subtitle-2 thin full" >
+                Use this option for board members only.
+              </h2>
+            }
+          </div>
+          <div class="hierarchy one-third" [style.background-image]="hierarchy"></div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="mat-caption"> Duties</mat-panel-title>
+        </mat-expansion-panel-header>
+        <h2 class="mat-subtitle-2 thin full" style="justify-content: flex-start; margin-top: var(--space-lg)">
+          Key responsibilities for this member (Agent card).
+        </h2>
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Job description</mat-label>
+          <textarea matInput #text maxlength="300" rows="6" placeholder="Job description" formControlName="bio"
+                    class="hide-scroll full"></textarea>
+          <mat-hint align="end">{{ text.value.length }} / 400</mat-hint>
+        </mat-form-field>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="mat-caption"> Contact</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="full field">
+          <mat-form-field appearance="fill" color="primary" class="full">
+            <mat-icon matIconPrefix>mail</mat-icon>
+            <mat-label>Email address:</mat-label>
+            <input matInput placeholder="Email" formControlName="contact" class="full">
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="avatar">
+    <lib-file-uploader
+      (uploaderEvents)="updateImage($event)"
+      [currentFile]="avatar"
+      [media]="AVATAR_MEDIA"
+      [minHeight]="12"
+      [path]="path"
+      [canGenerate]="true"
+    ></lib-file-uploader>
+    <div formGroupName="persona" class="full field">
+      <mat-form-field appearance="fill" color="primary" class="full">
+        <mat-label>Display name</mat-label>
+        <input matInput placeholder="i.e. John Doe" formControlName="name">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill" color="primary" class="full" style="margin: var(--space-sm) 0">
+      <mat-label>Job title</mat-label>
+      <input matInput placeholder="Role" formControlName="role">
+    </mat-form-field>
+
+    @if (!saving) {
+      <div class="full actions">
+        <button mat-stroked-button [routerLink]="teamRoute">
+          <span>Back</span>
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <button mat-flat-button (click)="save()" color="primary">
+          <span>Save</span>
+          <mat-icon>check</mat-icon>
+        </button>
+      </div>
+    } @else {
+      <lib-loading [type]="ProgressType.Bar"
+                   [mode]="ProgressMode.Indeterminate"
+                   [message]="message" style="width: 100%; position: relative; top: -4em">
+      </lib-loading>
+    }
+  </div>
+  </div>
+} @else {
+  <lib-loading></lib-loading>
+}

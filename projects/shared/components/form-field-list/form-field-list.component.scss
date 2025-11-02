@@ -1,0 +1,72 @@
+.field-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+  background-color: #fafafa;
+}
+
+.field-card-header {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 5;
+}
+
+.field-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.field-row-toggle {
+  padding-top: 8px;
+}
+
+.field-item {
+  flex: 1;
+}
+
+.add-button {
+  margin-top: 16px;
+}
+
+.options-container {
+  border-top: 1px solid #e0e0e0;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+.options-header {
+  font-size: 1em;
+  font-weight: 500;
+  color: #616161;
+  margin-bottom: 16px;
+}
+
+.option-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.option-item {
+  flex: 1;
+}
+
+.add-option-button {
+  margin-top: 8px;
+}

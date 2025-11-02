@@ -1,0 +1,28 @@
+<div class="bpa-editor-container">
+<!--  <lib-bpa-toolbar-->
+<!--    (save)="onSaveWorkflow()"-->
+<!--    (run)="onRunWorkflow()"-->
+<!--    (importFile)="onImportWorkflow($event)"-->
+<!--    (export)="onExportWorkflow()"/>-->
+  <div class="bpa-editor-content">
+<!--    <lib-bpa-node-palette [nodes]="nodes$ | async"></lib-bpa-node-palette>-->
+    <lib-bpa-canvas
+      [nodes]="nodes$ | async"
+      [connections]="((workflow$ | async)?.connections) || null"
+      (nodeSelected)="onNodeSelected($event)"
+      (nodeMoved)="onNodeMoved($event)"
+      (connectionDeleted)="onConnectionDeleted($event)"
+      (nodeAdded)="onNodeAdded($event)"
+      (nodeInsertedBetweenConnections)="onNodeInsertedBetweenConnections($event)"
+      (connectionCreated)="onConnectionCreated($event)"
+      (autoLayoutRequested)="onAutoLayout()"/>
+<!--    <lib-bpa-node-editor [node]="selectedNode"></lib-bpa-node-editor>-->
+  </div>
+<!--  @if (workflowId) {-->
+<!--    <div class="workflow-info">-->
+<!--      <h3>Workflow ID: {{ workflowId }}</h3>-->
+<!--      <p>Workflow Data: {{ workflow$ | async | json }}</p>-->
+<!--      <p>Nodes Data: {{ nodes$ | async | json }}</p>-->
+<!--    </div>-->
+<!--  }-->
+</div>

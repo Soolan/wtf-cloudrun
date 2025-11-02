@@ -1,0 +1,64 @@
+<div [formGroup]="form">
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Auth Type</mat-label>
+    <mat-select formControlName="authType">
+      <mat-option *ngFor="let auth of authTypes" [value]="auth">{{ auth }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container [ngSwitch]="authType" [formGroup]="credentialsForm">
+    <ng-container *ngSwitchCase="AuthType.API_KEY">
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>API key</mat-label>
+        <input matInput formControlName="apiKey" placeholder="Enter API Key">
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="AuthType.BEARER">
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Token</mat-label>
+        <input matInput formControlName="token" placeholder="Enter Bearer Token">
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="AuthType.BASIC">
+      <div class="fields">
+        <mat-form-field appearance="fill" class="half">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" placeholder="Enter Username">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="half">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Enter Password">
+        </mat-form-field>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="AuthType.OAUTH2">
+      <div class="fields">
+        <mat-form-field appearance="fill" class="half">
+          <mat-label>Client ID</mat-label>
+          <input matInput formControlName="clientId" placeholder="Enter Client ID">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="half">
+          <mat-label>Client Secret</mat-label>
+          <input matInput formControlName="clientSecret" placeholder="Enter Client Secret">
+        </mat-form-field>
+        <p class="mat-caption two-thirds" style="margin-top: var(--space-md)">Optional:</p>
+        <mat-form-field appearance="fill" class="half">
+          <mat-label>Access Token</mat-label>
+          <input matInput formControlName="accessToken" placeholder="Enter Access Token">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="half">
+          <mat-label>Refresh Token</mat-label>
+          <input matInput formControlName="refreshToken" placeholder="Enter Refresh Token">
+        </mat-form-field>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault>
+      <p>No authentication required.</p>
+    </ng-container>
+  </ng-container>
+</div>

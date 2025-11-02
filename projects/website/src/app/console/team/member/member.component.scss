@@ -1,0 +1,101 @@
+@use "flex";
+@use "layout";
+
+.member {
+  min-width: 13em;
+  margin: var(--space-xxs) 0;
+  padding: var(--space-xxxs) 0;
+  @include flex.container(100%, space-between, center);
+
+  .avatar {
+    margin-left: var(--space-xxs);
+    @include flex.width(35%);
+    @include layout.background();
+  }
+
+  .details {
+    font-family: "Titillium Web", sans-serif;
+    @include flex.container(60%, space-between, center);
+    .name {
+      font-size: 16px;
+      font-weight: 400;
+      opacity: 0.9;
+      position: relative; /* Ensure the .menu is positioned relative to .name */
+      @include flex.container(100%, space-between, center);
+
+      .menu {
+        position: absolute;
+        top: -1.2em;
+        right: -0.5em;
+        z-index: 10;
+        scale: 0.9;
+      }
+    }
+
+    .role {
+      font-size: 20px;
+      font-weight: 700;
+      opacity: 0.6;
+      @include flex.width(100%);
+    }
+
+    .contact {
+      @include flex.container(100%, start, center);
+      .mat-divider {
+        @include flex.width(90%);
+      }
+      span {
+        @include flex.width(20%);
+
+      }
+      .icon {
+        filter: brightness(0.45);
+        display: inline-block;
+        width: 35px;
+        height: 35px;
+      }
+
+      .icon:hover {
+        filter: brightness(0.66);
+        cursor: pointer;
+      }
+
+      .email {
+        background-image: url("/assets/images/icons/email.png");
+        width: 23px;
+        height: 23px;
+        @include layout.background();
+      }
+
+      .instagram {
+        background-image: url("/assets/images/icons/instagram.png");
+        @include layout.background();
+      }
+
+      .linkedin {
+        background-image: url("/assets/images/icons/linkedin.png");
+        @include layout.background();
+      }
+    }
+
+    .bio {
+      margin: var(--space-sm) 0;
+      font-family: "Ubuntu Mono", monospace;
+      font-size: 17px;
+      line-height: 1.33em;
+      @include flex.width(100%);
+    }
+  }
+
+  .delete {
+    padding: var(--space-xs) 0;
+    mat-divider {
+      margin-bottom: var(--space-xs);
+    }
+  }
+}
+
+
+
+
+

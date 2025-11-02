@@ -1,0 +1,40 @@
+<div class="full" *ngIf="currentPlan; else current_plan">
+  <div class="half">
+    <div class="thin mat-headline-5 full">Current subscription</div>
+    <mat-divider class="full"></mat-divider>
+    <div class="plan">
+      <p>Plan: <span>{{ currentPlan.plan | titlecase }}</span></p>
+      <p>
+        Billing cycle:
+        <mat-button-toggle-group [(ngModel)]="currentPlan.billingCycle" (ngModelChange)="explainCycles()">
+          <mat-button-toggle [value]="BillingCycle.Monthly">{{ BillingCycle.Monthly }}</mat-button-toggle>
+          <mat-button-toggle [value]="BillingCycle.Annually">{{ BillingCycle.Annually }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </p>
+      <p>Next payment: <span>{{ currentPlan.billingDate | date: 'fullDate' }}</span></p>
+      <p>
+        Auto renew:
+        <b *ngIf="updating" class="saving">saving...</b>
+        <mat-slide-toggle *ngIf="!updating" [(ngModel)]="currentPlan.autoRenew" color="accent"
+                          (toggleChange)="updateRenew()"/>
+      </p>
+    </div>
+    <mat-divider class="full"></mat-divider>
+  </div>
+  <div class="quarter doughnut">
+    <lib-doughnut-chart
+      class="full"
+      [total]=getQuota(Currency.GB) [used]=getUsage(Currency.GB) [unit]="'gb'" [title]="'Storage'"
+      [foregroundColor]="'var(--color-accent)'"/>
+  </div>
+  <div class="quarter doughnut">
+    <lib-doughnut-chart
+      class="full"
+      [total]=getQuota(Currency.AI) [used]=getUsage(Currency.AI) [unit]="'ai'" [title]="'AI Credits'"/>
+  </div>
+
+</div>
+
+<ng-template #current_plan>
+  <div class="thin mat-headline-5 full">No subscription is found.</div>
+</ng-template>

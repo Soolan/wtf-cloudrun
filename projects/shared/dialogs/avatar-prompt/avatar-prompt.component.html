@@ -1,0 +1,92 @@
+<div [formGroup]="form" class="full">
+  <button mat-icon-button matDialogClose class="close">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="mat-headline-6 thin full">
+    {{ generating() ? '' : 'How does the agent look like?' }}
+  </div>
+
+  @if (generating()) {
+    <div class="full">
+      <div class="mat-headline-6 thin">{{ message() }}</div>
+      <mat-progress-bar mode="buffer"></mat-progress-bar>
+    </div>
+  } @else {
+    <div [formGroup]="form" class="full">
+      <div class="avatar" [ngStyle]="{'background-image':'url(' + avatarUrl() + ')'}">
+        @if (!avatarUrl()) {
+          <mat-icon fontSet="material-symbols-outlined">
+            person_raised_hand
+          </mat-icon>
+        }
+      </div>
+      <div class="two-thirds">
+        <div class="full">
+          <mat-button-toggle-group formControlName="gender">
+            <mat-button-toggle value="man">Male</mat-button-toggle>
+            <mat-button-toggle value="woman">Female</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+        <div class="full" style="margin-top: var(--space-sm)">
+          <span style="font-family: 'Titillium Web', sans-serif;">Age: {{ form.get('age')?.value }}</span>
+          <mat-slider showTickMarks ngDefaultControl step="1" min="18" max="80" discrete style="width: 80%;">
+            <input matSliderThumb formControlName="age">
+          </mat-slider>
+        </div>
+
+        <mat-form-field class="half" style="margin-top: var(--space-sm)">
+          <mat-label>Ethnicity</mat-label>
+          <mat-select formControlName="ethnicity">
+            @for (ethnicity of ethnicities; track $index) {
+              <mat-option [value]="ethnicity">{{ ethnicity }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="half" style="margin-top: var(--space-sm)">
+          <mat-label>Outfit</mat-label>
+          <mat-select formControlName="outfit">
+            @for (outfit of outfits; track $index) {
+              <mat-option [value]="outfit">{{ outfit }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill" class="full chips">
+        <mat-label>[Prompt summary]</mat-label>
+        <mat-chip-grid #chipList aria-label="tag selection">
+          @for (tag of tags; track $index) {
+            <mat-chip-row (removed)="deleteTag(tag)" [value]="tag">
+              <span class="chip-text">{{ tag }}</span>
+              @if ($index > 4) {
+                <button matChipRemove>
+                  <mat-icon>close</mat-icon>
+                </button>
+              }
+            </mat-chip-row>
+          }
+          <input [disabled]="tags.length >= 10 || tags.toString().length >= 100"
+                 placeholder="add more details ⤶" cdkFocusInitial matInput type="text" class="prompt"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 matChipInputAddOnBlur=true
+                 (matChipInputTokenEnd)="addTag($event)">
+        </mat-chip-grid>
+        <mat-hint style="opacity: 0.5"> Prompt length: {{ tags.toString().length }}/100</mat-hint>
+      </mat-form-field>
+    </div>
+  }
+
+  <div class="actions">
+    <button mat-flat-button color="accent" (click)="generate()" [disabled]="generating()">
+      <mat-icon>auto_awesome</mat-icon>
+      {{ generated() ? 'Regenerate' : 'Generate' }}
+    </button>
+    <button mat-flat-button (click)="pick()" color="primary" [disabled]="generating() || !generated()">
+      <span>Approve</span>
+      <mat-icon>check</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<footer class="footer">
+  @if (layoutService.fieldVisible() && (authService.user$ | async)) {
+    <div class="gap"></div>
+  }
+  <div class="brand">
+    <div class="logo"></div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="newsletter">
+    <lib-email-subscriber style="width: 100%"></lib-email-subscriber>
+  </div>
+  <mat-divider></mat-divider>
+  <nav class="menu">
+    <a mat-button class="mat-caption" routerLink="about">About</a>
+    <a mat-button class="mat-caption" routerLink="contact">Contact</a>
+    <a mat-button class="mat-caption" routerLink="releases">Roadmap</a>
+  </nav>
+  <mat-divider></mat-divider>
+  <div class="socials">
+    @for (social of SOCIALS; track $index) {
+      <span class="{{social.label}}" (click)="navigate(social.label)"></span>
+    }
+  </div>
+  <mat-divider class="full"></mat-divider>
+  <div class="partners">
+    <div class="google">
+      Google for Startups Program
+    </div>
+    <div class="nvidia"></div>
+  </div>
+  <mat-divider class="full"></mat-divider>
+  <div class="copyright mat-caption">
+    <span>Copyright (c) {{year}}| All rights reserved. | </span>
+    <a mat-button [routerLink]="['terms-and-conditions']">Terms & Conditions</a>
+    <span> | </span>
+    <a mat-button [routerLink]="['privacy-policy']">Privacy Policy</a>
+  </div>
+</footer>

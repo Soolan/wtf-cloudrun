@@ -1,0 +1,155 @@
+@use '@angular/material' as mat;
+@use 'flex';
+
+
+// ===================== DIALOG ====================
+.mat-mdc-dialog-container {
+}
+
+.mat-mdc-dialog-surface {
+  padding: var(--space-xl); // Ensure padding
+  display: flex;
+  flex-direction: column; // Stack content vertically
+  align-items: center; // Center horizontally
+  justify-content: center; // Center vertically
+  width: 100%; // Ensure it stretches properly
+  min-height: 100%; // Ensure it fills the container
+  @media screen and (max-width: 960px){
+    padding: var(--space-lg);
+  }
+}
+
+.mat-mdc-dialog-container .mdc-dialog__title {
+  text-align: center;
+  margin-block-end: var(--space-sm);
+  font-weight: 100 !important;
+  width: 100%;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__content {
+  @include flex.container(100%, space-around, center);
+}
+
+.mat-mdc-dialog-container .mdc-dialog__actions {
+  gap: var(--space-md);
+  @include flex.container(100%, center, center);
+}
+
+.mat-mdc-dialog-container .mdc-dialog__actions button {
+  //min-width: 120px;
+  //font-weight: 400;
+  //padding: var(--space-sm);
+  //font-size: 1.1rem;
+}
+
+.fullscreen-dialog {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 100vw !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+
+  .mat-mdc-dialog-container {
+    overflow: hidden;
+    padding: 0 !important;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .mat-mdc-dialog-surface {
+    overflow: hidden;
+    padding: 0 !important; // Ensure padding
+    border-radius: 0 !important;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ==================== TOOLTIP ======================
+.mat-mdc-tooltip-surface {
+  max-width: 300px !important;
+}
+
+.mat-mdc-tooltip {
+  white-space: pre-line !important;
+  word-wrap: break-word !important;
+  text-align: left !important;
+}
+
+// ================= SNACKBAR ================
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  font-family: "Ubuntu Mono", monospace !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+}
+
+
+// ================= TOGGLE BUTTONS ================
+.mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+.mat-button-toggle-group-appearance-standard {
+  border: 0 !important;
+}
+
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: 30px !important;
+  letter-spacing: var(--space-xxxs);
+  font-size: smaller;
+}
+
+.mat-button-toggle-appearance-standard {
+  --mat-button-toggle-text-color: var(--color-grey4);
+  --mat-button-toggle-background-color: var(--color-greye);
+
+  --mat-button-toggle-state-layer-color: var(--color-accent);
+  --mat-button-toggle-hover-state-layer-opacity: 0.1;
+  --mat-button-toggle-focus-state-layer-opacity: 0.1;
+
+  --mat-button-toggle-selected-state-background-color: var(--color-accent-lightest);
+  --mat-button-toggle-selected-state-text-color: var(--color-accent);
+}
+
+// ====================== Tabs ========================
+.mat-mdc-tab-list {
+  border-bottom: 1px solid var(--color-greyc);
+}
+
+// ======================= chip ======================
+.mat-mdc-standard-chip {
+  --mat-chip-hover-state-layer-color: var(--color-accent-lighter);
+  --mat-chip-selected-hover-state-layer-color: var(--color-accent-lighter);
+}
+
+// ======================= buttons ======================
+.mat-mdc-unelevated-button {  // DaFuc is unelevated you fucking inconsistent A-holes???
+  --mat-button-filled-container-shape: 3px;
+}
+
+.mat-mdc-outlined-button {
+  --mat-button-outlined-container-shape: 3px;
+}
+
+.mat-mdc-mini-fab {
+  --mat-fab-small-container-shape: 10%;
+}
+
+.mat-mdc-fab {
+  --mat-fab-container-shape: 10%;
+}
+
+// ======================= form field ======================
+.mat-mdc-form-field .mat-mdc-floating-label.mdc-floating-label {
+  padding: 0 var(--space-xxs);
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mdc-text-field__input {
+  padding-left: var(--space-sm);
+}
+
+// ======================= slide toggle ======================
+.mat-mdc-slide-toggle {
+  --mdc-switch-handle-shape: 10%;
+  --mdc-switch-track-shape: 10%;
+}

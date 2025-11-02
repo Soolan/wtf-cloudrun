@@ -1,0 +1,37 @@
+@use "../../assets/styles/flex" as flex;
+
+.generate {
+  text-align: center;
+  padding: var(--space-xl);
+  @include flex.container(100%, space-around, center);
+  @media screen and (max-width: 600px) {
+    padding: var(--space-sm);
+  }
+  .resources {
+    padding: var(--space-sm);
+    @include flex.container(60%, space-around, center);
+    @include flex.breakpoint(md, 70%);
+    @include flex.breakpoint(sm, 90%);
+    @include flex.breakpoint(lt-sm, 100%);
+
+    .url, .file {
+      border: 1px solid var(--color-greyd);
+      border-radius: var(--space-xxs);
+      padding: var(--space-xxl) var(--space-xxs);
+      margin: var(--space-xs) 0;
+      @include flex.container(100%, space-around, center);
+    }
+  }
+  .actions {
+    button {
+      margin: var(--space-md);
+      @media screen and (max-width: 600px) {
+        margin: var(--space-sm) ;
+      }
+    }
+  }
+}
+
+.mat-mdc-tab-body {
+  padding: var(--space-xs);
+}

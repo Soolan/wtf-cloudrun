@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "wtf-workspace-ad6a4"
+  },
+  "targets": {
+    "wtf-workspace-ad6a4": {
+      "hosting": {
+        "website": [
+          "wtf-workspace-website"
+        ],
+        "dashboard": [
+          "wtf-workspace-dashboard"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

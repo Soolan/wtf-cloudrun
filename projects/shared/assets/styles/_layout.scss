@@ -1,0 +1,189 @@
+/* Global Layout Styles */
+@use "typography";
+@use "theme";
+@use "flex";
+
+@mixin background($name: null) {
+  @if $name {
+    background-image: url($name);
+  }
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+@mixin tag {
+  line-height: normal !important;
+  font-size: smaller !important;
+  font-weight: 700 !important;
+  padding: var(--space-xxs) var(--space-xs);
+  border-radius: var(--space-xs);
+  letter-spacing: var(--space-xxxs) !important;
+}
+
+/* CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--color-grey1);
+  background-color:  #f6f6f6;
+}
+
+section {
+  padding: var(--space-xl) var(--space-xxxxl);
+  margin: var(--space-xl) 0;
+  @media screen and (min-width: 1280px) and (max-width: 1919.98px) {
+    padding: var(--space-lg) var(--space-xxxl);
+  }
+  @media screen and (min-width: 960px) and (max-width: 1279.98px) {
+    padding: var(--space-md) var(--space-xxl);
+  }
+  @media screen and (min-width: 600px) and (max-width: 959.98px) {
+    padding: var(--space-sm) var(--space-xl);
+  }
+  @media screen and (max-width: 599.98px) {
+    padding: var(--space-xs) var(--space-md);
+  }
+  @media (min-width: 0) { // hacky solution to get rid of stupid angular-sass warnings
+    @include typography.font-size();
+  }
+
+  @include flex.container(100%, space-between, center);
+}
+
+.full {
+  @include flex.container(100%, space-around, center);
+}
+.full-start {
+  @include flex.container(100%, space-between, flex-start);
+}
+
+.half {
+  @include flex.container(48%, space-between, center);
+  @include flex.breakpoint(lt-md, 100%);
+}
+
+.one-third {
+  @include flex.container(30%, space-between, center);
+  @include flex.breakpoint(sm, 45%);
+  @include flex.breakpoint(lt-sm, 100%);
+}
+
+.two-thirds {
+  @include flex.container(62%, space-between, center);
+  @include flex.breakpoint(lt-md, 100%);
+}
+
+.three-quarters {
+  @include flex.container(70%, space-between, center);
+  @include flex.breakpoint(lt-md, 100%);
+}
+
+.quarter {
+  @include flex.container(22%, space-between, center);
+  @include flex.breakpoint(md, 30%);
+  @include flex.breakpoint(sm, 45%);
+  @include flex.breakpoint(lt-sm, 100%);
+}
+
+b {
+  font-weight: bolder;
+}
+
+.tag {
+  @include tag;
+  color: var(--color-greye);
+  background-color: var(--color-grey3);
+}
+
+.green-tag {
+  @include tag;
+  color: var(--color-primary-lighter);
+  background-color: var(--color-primary);
+}
+
+.radio:nth-child(even),
+.coursesTaken .course:nth-child(even),
+.features .feature:nth-child(even),
+.figures .feature:nth-child(even),
+.lessons .lesson:nth-child(even) {
+  background-color: var(--color-greye);
+  color: var(--color-grey4);
+}
+
+.radio:nth-child(odd),
+.coursesTaken .course:nth-child(odd),
+.features .feature:nth-child(odd),
+.figures .feature:nth-child(odd),
+.outline .lessons .lesson:nth-child(odd) {
+  background-color: var(--color-greyd);
+  color: var(--color-grey1);
+}
+
+.saving {
+  color: var(--color-primary-lighter);
+  letter-spacing: var(--space-xxxs);
+  animation: blinker 1s ease-in-out infinite;
+}
+
+@keyframes blinker {
+  50% {
+    color: var(--color-primary);
+  }
+}
+
+ul {
+  list-style-image: url('../images/icons/keyboard_arrow_right_black_24dp.svg');
+}
+
+// dialog close icon
+.close {
+  position: absolute !important;
+  top: 0.5em;
+  right: 0.5em;
+}
+
+// chips in prompt box ===============================================
+.chips {
+  margin-top: var(--space-md);
+  padding: var(--space-xs);
+  .chip-text {
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 0.8em;
+    position: relative;
+    bottom: 0.1em;
+  }
+}
+
+.prompt {
+  background-color: var(--color-greye);
+  font: 18px 'Ubuntu Mono', serif;
+  padding: 0 var(--space-xs);
+  min-height: var(--space-lg);
+}
+
+//==================================================
+.actions {
+  button {
+    min-width: 8em;
+    margin: var(--space-lg)  var(--space-sm) var(--space-sm) var(--space-sm);
+  }
+}
+
+// Fullscreen dialog styles
+.fullscreen-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 0;
+}
+
+.fullscreen-dialog .mat-mdc-dialog-container .mdc-dialog__content {
+  padding: 0;
+  height: 100%;
+}

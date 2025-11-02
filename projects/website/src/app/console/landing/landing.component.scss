@@ -1,0 +1,125 @@
+@use "flex";
+@use "layout";
+
+
+.company, .reports {
+  @include flex.container(100%, space-between, flex-start);
+
+  .banner {
+    height: 15em;
+    @include flex.width(100%);
+  }
+
+  .logo {
+    position: relative;
+    top: -5em;
+    left: 2em;
+    width: 8em;
+    height: 8em;
+    box-shadow: 0 0 20px rgba(0,0,0,0.75);
+    border-radius: var(--space-xs);
+    background-color: var(--color-grey6);
+  }
+
+  .heading {
+    .name-container {
+      cursor: pointer;
+      margin-bottom: var(--space-sm);
+      text-align: end;
+    }
+  }
+
+}
+
+.no-border {
+  border: none !important;
+}
+
+.shadow {
+  -webkit-filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.8));
+  filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.8));
+}
+
+
+.edit {
+  visibility: hidden; /* Hide the button by default */
+  opacity: 0; /* Make it invisible */
+  transition: opacity 0.3s ease-in-out;
+  position: relative;
+}
+
+.banner-container:hover .edit, .logo-container:hover .edit, .name-container:hover .edit {
+  visibility: visible; /* Show the button on hover */
+  opacity: 1; /* Fade it in */
+}
+
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.75rem; // rounded corners
+  background-color: #fff;
+  padding: var(--space-sm) var(--space-xxs) var(--space-sm) var(--space-lg);
+  margin-block: 0.75rem;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  // Left colored edge
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: var(--space-sm);
+    border-top-left-radius: 0.75rem;
+    border-bottom-left-radius: 0.75rem;
+    background-color: transparent;
+  }
+
+  &.low::before {
+    background-color: var(--color-primary-light);
+  }
+
+  &.medium::before {
+    background-color: var(--color-primary);
+  }
+
+  &.high::before {
+    background-color: var(--color-warn-light);
+  }
+
+  &.critical::before {
+    background-color: var(--color-warn);
+  }
+}
+
+// Avatar styles
+.avatars {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  width: 4rem;
+
+  .avatar {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+
+    &.creator {
+      left: 0;
+      z-index: 1;
+      border: 2px solid var(--color-grey4);
+    }
+
+    &.assigned {
+      left: 2em; // overlap
+      z-index: 2;
+      border: 2px solid var(--color-greya);
+    }
+  }
+}

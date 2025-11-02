@@ -1,0 +1,35 @@
+<section class="carousel" *ngIf="banners.length > 0; else loading">
+  <figure *ngFor="let banner of banners; let i = index" class="banner" [ngClass]="{ 'active': currentIndex() === i }">
+    <figcaption class="text">
+      <h2 class="heading mat-headline-4 thin" libBlackRenderer [content]="banner.heading" [keyword]="banner.keyword"></h2>
+      <p class="mat-body-1">{{ banner.description }}</p>
+      <button mat-flat-button (click)="open(banner.cta.link)" color="primary" aria-label="Call to action">
+        <mat-icon>{{ banner.cta.icon }}</mat-icon>
+        {{ banner.cta.label }}
+      </button>
+    </figcaption>
+    <div class="image" [ngStyle]="{ 'background-image': 'url(' + banner.image + ')' }"></div>
+  </figure>
+
+  <button mat-mini-fab class="arrow left" (click)="prevBanner()" aria-label="Previous banner">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button mat-mini-fab class="arrow right" (click)="nextBanner()" aria-label="Next banner">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+
+  <nav class="navigation" aria-label="Carousel navigation">
+    <button *ngFor="let banner of banners; let i = index" class="circle" [ngClass]="{ 'active': currentIndex() === i }"
+            (click)="goToBanner(i)">
+      <mat-progress-spinner *ngIf="currentIndex() === i" class="progress-spinner" diameter="20" strokeWidth="4"
+                            color="accent" mode="determinate" [value]="progressValue()">
+      </mat-progress-spinner>
+    </button>
+  </nav>
+</section>
+
+<ng-template #loading>
+  <div class="loading">
+    <mat-spinner color="primary"></mat-spinner>
+  </div>
+</ng-template>

@@ -1,0 +1,79 @@
+<div class="profile" [formGroup]="form" *ngIf="profile; else loading_profile">
+  <div class="security full mat-body-1" formGroupName="security">
+    <div class="half">
+      <div class="mat-subtitle-1 thin two-thirds">Credentials</div>
+      <mat-divider class="two-thirds"></mat-divider>
+      <div class="control">
+        <span>Email:</span>
+        <span class="value">{{ email }}</span>
+        <button mat-icon-button (click)="updateCreds('email')" color="primary"
+                matTooltip="Change email." matTooltipPosition="after">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      <div class="control">
+        <span>Password: ●●●●●●●●●●</span>
+        <button mat-icon-button (click)="updateCreds('password')" color="primary"
+                matTooltip="Change password." matTooltipPosition="after">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="half">
+      <div class="mat-subtitle-1 thin two-thirds">2-Factor Authentication</div>
+      <mat-divider class="two-thirds"></mat-divider>
+      <div formGroupName="twoFA" class="control">
+        <span>Authenticator</span>
+        <button mat-icon-button (click)="set2FA()" color="primary"
+                matTooltip="Setup 2FA." matTooltipPosition="after"
+                *ngIf="!form.get(['security', 'twoFA', 'paired'])?.value">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <button mat-icon-button (click)="toggle2FA(false)" color="warn"
+                matTooltip="Remove 2FA." matTooltipPosition="after"
+                *ngIf="form.get(['security', 'twoFA', 'paired'])?.value">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <div *ngIf="form.get(['security', 'twoFA', 'paired'])?.value">
+          <mat-slide-toggle formControlName="active" (change)="update('twoFA')">
+            <span class="value">Active</span>
+          </mat-slide-toggle>
+        </div>
+      </div>
+
+      <div class="control">
+        <span>Safety Code</span>
+        <mat-icon matTooltip="Email sent by us will have this code to prove they are legit.">
+          help_outline
+        </mat-icon>
+        <span class="tag value"> {{ form.get(['security', 'emailSafetyCode'])?.value }}</span>
+        <button mat-icon-button color="primary" (click)="codeGenerator()" *ngIf="!saving.code"
+                matTooltip="Refresh the code." matTooltipPosition="after">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <span class="saving" matSuffix *ngIf="saving.code">Updating</span>
+      </div>
+    </div>
+  </div>
+  <div class="notification full">
+    <div class="mat-subtitle-1 thin" style="width: 100%">Send me</div>
+    <mat-divider class="full"></mat-divider>
+    <div formGroupName="sendMe" class="mat-body-1 full">
+      <mat-slide-toggle formControlName="email" (change)="update('emails')" class="control" [disabled]="saving.emails">
+        <span class="value"> Emails (Offers, events, new releases, etc)</span>
+        <span class="saving mat-caption" matSuffix *ngIf="saving.emails">Updating</span>
+      </mat-slide-toggle>
+      <mat-slide-toggle formControlName="notification" (change)="update('notifications')" class="control" [disabled]="saving.notifications">
+        <span class="value"> Notifications (via console)</span>
+        <span class="saving mat-caption" matSuffix *ngIf="saving.notifications">Updating</span>
+      </mat-slide-toggle>
+      <mat-slide-toggle formControlName="newsletter" (change)="update('newsletters')" class="control" [disabled]="saving.newsletters">
+        <span class="value"> Newsletters</span>
+        <span class="saving mat-caption" matSuffix *ngIf="saving.newsletters">Updating</span>
+      </mat-slide-toggle>
+    </div>
+  </div>
+</div>
+<ng-template #loading_profile>
+  <lib-loading></lib-loading>
+</ng-template>

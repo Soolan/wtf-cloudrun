@@ -1,0 +1,21 @@
+@if (entry==100) {
+  <ul class="roadmap">
+    @for (bullet of bullets; track $index) {
+      <li class="mat-caption">{{bullet}}</li>
+    }
+  </ul>
+} @else {
+  @if (bullets.length > 0) {
+    <div class="notes">
+      <div class="mat-subtitle-1 bold">
+        <mat-icon>{{icons[entry]}}</mat-icon>
+        {{entries[entry]}}
+      </div>
+      <ul>
+        @for (bullet of bullets; track $index) {
+          <li class="mat-caption">{{bullet}}</li>
+        }
+      </ul>
+    </div>
+  }
+}

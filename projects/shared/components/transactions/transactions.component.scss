@@ -1,0 +1,136 @@
+@use "../../assets/styles/flex" as flex;
+
+table {
+  width: 100%;
+}
+
+tr.element-header {
+  background-color: var(--color-greyb);
+  font-family: "Ubuntu Mono", monospace;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+th, .element-row td {
+  border: 0;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+.element-row td {
+  color: var(--color-grey4);
+  font-size: 20px;
+  @media screen and (max-width: 959.97px) {
+    font-size: 16px;
+  }
+  @media screen and (min-width: 960px) and (max-width: 1280px) {
+    font-size: 18px;
+  }
+}
+
+.grey {
+  opacity: 0.7;
+  //line-height: 2em;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  width: 100%;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 18px;
+  @media screen and (min-width: 960px) and (max-width: 1280px) {
+    font-size: 17px;
+  }
+  @media screen and (max-width: 959.97px) {
+    font-size: 16px;
+    max-width: 100%;
+  }
+
+  .right {
+    text-align: right;
+  }
+
+  .date {
+    font-family: "Ubuntu Mono", monospace;
+    font-size: 0.9em;
+    opacity: 0.9;
+  }
+
+  .id {
+    font-family: "Ubuntu Mono", monospace;
+    opacity: 0.8;
+    font-size: 0.7em;
+    letter-spacing: var(--space-xxxs);
+    padding-top: var(--space-sm);
+    display: block;
+  }
+
+  .memo {
+    width: 100%;
+    text-align: center;
+    padding: var(--space-xs);
+    background-color: var(--color-greyd);
+    opacity: 0.75;
+  }
+
+  strong {
+    margin: 0 var(--space-md);
+  }
+
+  .stamp {
+    //position: absolute;
+    //right: var(--space-xxxl);
+    transform: rotate(10deg);
+    font-size: 2rem;
+    font-weight: 700;
+    border-width: 0.3rem;
+    border-style: solid;
+    display: inline-block;
+    //padding: 0.25rem 1rem;
+    text-transform: uppercase;
+    border-radius: 1rem;
+    font-family: 'Titillium Web', sans-serif;
+    -webkit-mask-image: url('../../assets/images/grunge.png');
+    -webkit-mask-size: 944px 604px;
+    @media screen and (max-width: 600px) {
+      font-size: 1.2rem;
+      border-width: 0.2rem;
+    }
+  }
+
+  .xrpl {
+    padding-left: var(--space-xs);
+    padding-top: var(--space-xs);
+    opacity: 0.88;
+  }
+
+  .hash {
+    padding-top: 0 !important;
+
+    button {
+      vertical-align: middle;
+      scale: 0.75;
+    }
+  }
+}
+
+.party {
+  text-align: center;
+}
+
+.balance {
+  text-align: right;
+}
+
+.mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding: 0 18px;
+  @media screen and (max-width: 600px) {
+    padding: 0 var(--space-xxs);
+  }
+}
+

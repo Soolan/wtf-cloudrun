@@ -1,0 +1,34 @@
+<div class="bpa-container">
+  <mat-card class="bpa-card">
+    <mat-card-header>
+      <mat-card-title>Business Process Automation Workflows</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="bpa-actions">
+        <button mat-raised-button color="primary" (click)="createNewWorkflow()">
+          <mat-icon>add</mat-icon> Create New Workflow
+        </button>
+
+        <input type="file" (change)="onFileSelected($event)" accept=".json" #fileInput hidden>
+        <button mat-raised-button (click)="fileInput.click()">
+          <mat-icon>upload_file</mat-icon> Browse n8n Workflow (.json)
+        </button>
+      </div>
+
+      @if (workflows.length > 0) {
+        <h3>Your Workflows:</h3>
+        <mat-list>
+          @for (workflow of workflows; track workflow.id) {
+            <mat-list-item (click)="viewWorkflow(workflow.id)">
+              <mat-icon matListItemIcon>account_tree</mat-icon>
+              <div matListItemTitle>{{ workflow.name }}</div>
+              <div matListItemLine>{{ workflow.status }}</div>
+            </mat-list-item>
+          }
+        </mat-list>
+      } @else {
+        <p>No workflows found. Create a new one or import an n8n workflow.</p>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

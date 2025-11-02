@@ -1,0 +1,23 @@
+@use "flex";
+
+.profile {
+  margin: var(--space-sm) auto;
+  @include flex.container(100%, space-around, flex-start);
+  @include flex.breakpoint(lt-sm, 90%);
+
+  .security, .notification {
+    margin: var(--space-lg) 0;
+    .control {
+      gap: var(--space-sm);
+      margin: var(--space-xs) 0;
+      @include flex.container(100%, start, center);
+    }
+  }
+}
+
+.value {
+  font-family: "Ubuntu Mono", monospace;
+  font-size: 18px;
+  opacity: 0.9;
+  padding: var(--space-xs);
+}

@@ -1,0 +1,63 @@
+<div #bpmnModelerRef class="diagram-container"
+     [ngStyle]="{height: fullscreen? '100vh': maximized ? '78vh' : '55vh'}">
+  <div class="buttons bottom right">
+    <button mat-icon-button matTooltip="Zoom in" (click)="zoom(true)">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Zoom out" (click)="zoom(false)">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Zoom fit" (click)="zoom(null)">
+      <mat-icon>center_focus_strong</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Shortcuts" (click)="toggleShortcuts()">
+      <mat-icon>keyboard</mat-icon>
+    </button>
+  </div>
+  <div class="buttons bottom left">
+    <button mat-icon-button matTooltip="Start over" (click)="bpmnService.render(bpmn, NEW_BPMN)">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Save image" (click)="downloadSVG()">
+      <mat-icon>image</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Download diagram" (click)="downloadXML()">
+      <mat-icon>download</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Load from file" (click)="loadXML()">
+      <mat-icon>folder_open</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Save changes" (click)="saveXML()">
+      <mat-icon>cloud_done</mat-icon>
+    </button>
+  </div>
+  <div class="buttons top right">
+  </div>
+</div>
+
+<!-- Shortcut Overlay -->
+@if (shortcuts) {
+  <div class="shortcut-overlay" (click)="toggleShortcuts()">
+    <div class="shortcut-modal" (click)="$event.stopPropagation()">
+      <h3>Keyboard Shortcuts</h3>
+      <ul>
+        <li>Open diagram - <code>Ctrl + O</code></li>
+        <li>Download diagram - <code>Ctrl + S</code></li>
+        <li>Undo - <code>Ctrl + Z</code></li>
+        <li>Redo - <code>Ctrl + Shift + Z</code></li>
+        <li>Select All - <code>Ctrl + A</code></li>
+        <li>Scrolling (Vertical) - <code>Scroll</code></li>
+        <li>Scrolling (Horizontal) - <code>Shift + Scroll</code></li>
+        <li>Zoom (In/Out) - <code>Ctrl + Scroll</code></li>
+        <li>Direct Editing - <code>E</code></li>
+        <li>Hand Tool - <code>H</code></li>
+        <li>Lasso Tool - <code>L</code></li>
+        <li>Space Tool - <code>S</code></li>
+        <li>Replace Tool - <code>R</code></li>
+        <li>Append anything - <code>A</code></li>
+        <li>Create anything - <code>N</code></li>
+      </ul>
+    </div>
+  </div>
+}
+

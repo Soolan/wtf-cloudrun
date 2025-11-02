@@ -1,0 +1,259 @@
+@use "../../assets/styles/flex";
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  //width: 83%;
+  border-radius: var(--space-xs);
+  padding: 0;
+  @include flex.width(83%);
+  @include flex.breakpoint(md, 80%);
+  @include flex.breakpoint(lt-md, 100%);
+}
+
+.chat-box {
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-gutter: stable; /* Keeps space reserved for scrollbar */
+  padding: var(--space-md);
+}
+
+.date-header {
+  text-align: center;
+  margin: 15px 0;
+  font-size: 0.9rem;
+}
+
+.chat-container, .chat-input-container, .summary {
+  background-color: #f2f2f2;
+}
+
+.date-header {
+  color: var(--color-greya);
+}
+
+.author-name, .timestamp {
+  color: var(--color-grey9);
+}
+
+.message-content {
+  background-color: var(--color-greyd);
+  border: 1px solid var(--color-greyb);
+  color: var(--color-grey3);
+  .timestamp {
+    color: var(--color-grey9);
+  }
+}
+
+.arrow-right {
+  border-color: transparent transparent transparent var(--color-greyb);
+}
+
+/* Left-aligned arrow */
+.arrow-left {
+  border-color: transparent var(--color-greyb) transparent transparent;
+}
+
+.right-align .message-content {
+  background-color: var(--color-greyc);
+  color: var(--color-grey3);
+}
+
+.chat-message {
+  display: flex;
+  margin-bottom: var(--space-sm);
+  align-items: flex-end; /* Ensure avatar and bubble align vertically at the bottom */
+  font-size: 0.9em;
+}
+
+.left-align {
+  justify-content: flex-start;
+}
+
+.right-align {
+  justify-content: flex-end;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: var(--space-sm);
+}
+
+.left-align .avatar-container {
+  order: 0;
+}
+
+.right-align .avatar-container {
+  order: 2;
+  margin-left: var(--space-sm);
+  margin-right: 0;
+}
+
+.avatar {
+  width: var(--space-xxl);
+  height: var(--space-xxl);
+  border: 1px solid var(--color-grey6);
+  border-radius: 50%;
+  box-shadow: var(--color-grey1) 0 0 10px 0px;
+}
+
+.author-name, .timestamp {
+  font-size: 0.75rem;
+}
+
+.message-content {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--space-xs);
+  max-width: 66%; /* Default for large screens */
+  word-wrap: break-word;
+  position: relative; /* This is important for the arrow positioning */
+
+  .timestamp {
+    text-align: end;
+    width: 100%;
+  }
+}
+
+/* Ensure chat bubbles take full width on small screens */
+@media (max-width: 600px) {
+  .chat-container, .outcome {
+    max-width: 100%;
+  }
+
+  .message-content {
+    max-width: 75%;
+  }
+
+  .avatar {
+    width: var(--space-lg);
+    height: var(--space-lg);
+  }
+}
+
+.right-align .message-content {
+  place-self: end;
+}
+
+.left-align .message-content {
+  place-self: start;
+}
+
+.arrow-right {
+  content: '';
+  position: absolute;
+  bottom: var(--space-sm);
+  right: -12px;
+  border-width: 0 0 var(--space-sm) var(--space-sm);
+  border-style: solid;
+}
+
+/* Left-aligned arrow */
+.arrow-left {
+  content: '';
+  position: absolute;
+  top: var(--space-sm);
+  left: -12px;
+  border-width: var(--space-sm) var(--space-sm) 0 0;
+  border-style: solid;
+}
+
+.chat-input-container {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-sm);
+}
+
+.input-field {
+  flex-grow: 1;
+  margin-top: var(--space-sm);
+  margin-bottom: 0;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  resize: none;
+  padding: 0 var(--space-md)
+}
+
+.send-btn {
+  margin: var(--space-sm);
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--space-xs);
+  @include flex.width(16%);
+  @include flex.breakpoint(md, 19%);
+  .legend {
+    width: 90%;
+    margin: auto;
+    span {
+      cursor: help;
+      margin: var(--space-xs) var(--space-xxs);
+      font-size: 1.05em;
+    }
+  }
+}
+
+.summary-small {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 1000; // Ensures it's above other elements
+
+  button {
+    z-index: 1010;
+  }
+
+  div {
+    position: absolute;
+    top: 3em; // Ensures it appears below the button
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--space-xs);
+    background: var(--background-color, white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: max-content;
+    max-width: 80vw;
+    z-index: 1005;
+  }
+}
+
+
+/* Hide scrollbar by default */
+::-webkit-scrollbar {
+  width: 4px; /* Adjust width as needed */
+  height: 8px;
+  background: transparent;
+}
+
+/* Scrollbar track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Scrollbar thumb (the moving part) */
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.2);
+  border-radius: 4px;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Show scrollbar when scrolling */
+:hover::-webkit-scrollbar-thumb,
+:active::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.8);
+}

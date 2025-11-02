@@ -1,0 +1,318 @@
+<mat-stepper [linear]="true" #stepper class="onboarding-stepper">
+  <ng-template matStepperIcon="edit">
+    <mat-icon>check</mat-icon>
+  </ng-template>
+
+  <!-- Step 1: Company -->
+  <mat-step [stepControl]="firstFormGroup">
+    <div class="step-container">
+      <ng-template matStepLabel>
+        <div class="step-label">
+          Company
+          @if (firstFormGroup.valid) {
+            <div class="step-sub-label">{{ firstFormGroup.get('companyName')?.value }}</div>
+          }
+        </div>
+      </ng-template>
+      <div class="step-content-wrapper">
+        <form [formGroup]="firstFormGroup">
+          <div class="step-content">
+            <p class="mat-caption">
+              Welcome to onboarding wizard. We'll ask a few questions to create a basic structure for your business.</p>
+            <h2 class="mat-headline-6 thin">What is your company's name?</h2>
+            <mat-form-field>
+              <mat-label>Company Name</mat-label>
+              <input matInput formControlName="companyName" required>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+      <div class="stepper-buttons">
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
+      </div>
+    </div>
+  </mat-step>
+
+  <!-- Step 2: Industry -->
+  <mat-step [stepControl]="secondFormGroup">
+    <div class="step-container">
+      <ng-template matStepLabel>
+        <div class="step-label">
+          Industry
+          @if (secondFormGroup.valid) {
+            <div class="step-sub-label">{{ secondFormGroup.get('industry')?.value }}</div>
+          }
+        </div>
+      </ng-template>
+      <div class="step-content-wrapper">
+        <form [formGroup]="secondFormGroup">
+          <div class="step-content">
+            <h2 class="mat-headline-6 thin">
+              Great. Now, what industry is {{ firstFormGroup.get('companyName')?.value }} in?
+            </h2>
+            <mat-form-field>
+              <mat-label>Industry</mat-label>
+              <input matInput formControlName="industry" required>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+      <div class="stepper-buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" matStepperNext (click)="suggestTeam()">Next</button>
+      </div>
+    </div>
+  </mat-step>
+
+  <!-- Step 3: Team Structure -->
+    <mat-step [stepControl]="thirdFormGroup">
+      <div class="step-container">
+        <ng-template matStepLabel>
+          <div class="step-label">
+            Team Structure
+            @if (thirdFormGroup.get('teamApproved')?.value) {
+              <div class="step-sub-label">{{ dataSource.data[0]?.children?.length || 0 }} Members</div>
+            }
+          </div>
+        </ng-template>
+        <div class="step-content-wrapper">
+          <div class="step-content">
+            @if (isSuggestingTeam) {
+              <mat-spinner></mat-spinner>
+              <p class="mat-caption">Analyzing industry and generating team structure...</p>
+            } @else if (teamSuggestionError) {
+              <p class="mat-caption error-message">{{ teamSuggestionError }}</p>
+            } @else {
+              <h2 class="mat-headline-6 thin">Does this look like a good starting point?</h2>
+              <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="team-tree">
+                <!-- Leaf Node -->
+                <mat-tree-node *matTreeNodeDef="let node">
+                  <div class="tree-node leaf-node" [class.editing-node]="node.isEditing">
+                    @if (node.isEditing) {
+                      <div class="node-editor">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Job Title</mat-label>
+                          <input matInput [(ngModel)]="node.jobTitle" [ngModelOptions]="{standalone: true}">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label>Name</mat-label>
+                          <input matInput [(ngModel)]="node.name" [ngModelOptions]="{standalone: true}">
+                        </mat-form-field>
+                        <button mat-icon-button (click)="toggleEdit(node)" color="primary">
+                          <mat-icon>check_circle</mat-icon>
+                        </button>
+                      </div>
+                    } @else {
+                      <div class="node-display">
+                        <div class="node-labels" (click)="toggleEdit(node)">
+                          <span class="job-title">{{ node.jobTitle }}:</span>
+                          <span class="name">{{ node.name }}</span>
+                          <mat-icon class="edit-icon">edit</mat-icon>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </mat-tree-node>
+
+                <!-- Nested Node -->
+                <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                  <div class="tree-node" [class.editing-node]="node.isEditing">
+                    @if (node.isEditing) {
+                      <div class="node-editor">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Job Title</mat-label>
+                          <input matInput [(ngModel)]="node.jobTitle" [ngModelOptions]="{standalone: true}">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label>Name</mat-label>
+                          <input matInput [(ngModel)]="node.name" [ngModelOptions]="{standalone: true}">
+                        </mat-form-field>
+                        <button mat-icon-button (click)="toggleEdit(node)" color="primary">
+                          <mat-icon>check_circle</mat-icon>
+                        </button>
+                      </div>
+                    } @else {
+                      <div class="node-display">
+                        <button mat-icon-button [attr.aria-label]="'Toggle ' + node.jobTitle"
+                                (click)="treeControl.toggle(node); $event.stopPropagation();">
+                          <mat-icon class="mat-icon-rtl-mirror">
+                            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+                          </mat-icon>
+                        </button>
+                        <div class="node-labels" (click)="toggleEdit(node)">
+                          <span class="job-title">{{ node.jobTitle }}:</span>
+                          <span class="name">{{ node.name }}</span>
+                          <mat-icon class="edit-icon">edit</mat-icon>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                  @if (treeControl.isExpanded(node)) {
+                    <div class="node-children">
+                      <ng-container matTreeNodeOutlet></ng-container>
+                    </div>
+                  }
+                </mat-nested-tree-node>
+              </mat-tree>
+            }
+          </div>
+        </div>
+        <div class="stepper-buttons">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Skip</button>
+          <button mat-raised-button color="primary" matStepperNext
+                  (click)="thirdFormGroup.get('teamApproved')?.setValue(true);">Approve
+          </button>
+        </div>
+      </div>
+    </mat-step>
+
+  <!-- Step 4: Branding -->
+  <mat-step [stepControl]="fourthFormGroup">
+    <div class="step-container">
+      <ng-template matStepLabel>
+        <div class="step-label">
+          Branding
+          @if (logoUrl || bannerUrl) {
+            <div class="step-sub-label">Assets Provided</div>
+          }
+        </div>
+      </ng-template>
+      <div class="step-content-wrapper">
+        <div class="step-content" [formGroup]="fourthFormGroup">
+          <h2 class="mat-headline-6 thin">Do you have branding assets?</h2>
+          <div class="full">
+            <lib-file-uploader
+              [path]="assetsPath" [media]="logoMediaType" [canGenerate]="true" [minHeight]="10"
+              class="uploader" (uploaderEvents)="onLogoUpload($event)"/>
+            <lib-file-uploader
+              [path]="assetsPath" [media]="bannerMediaType" [canGenerate]="true" [minHeight]="10"
+              class="uploader" (uploaderEvents)="onBannerUpload($event)"/>
+          </div>
+        </div>
+      </div>
+      <div class="stepper-buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
+      </div>
+    </div>
+  </mat-step>
+
+  <!-- Step 5: Knowledge -->
+  <mat-step [stepControl]="fifthFormGroup">
+    <div class="step-container">
+      <ng-template matStepLabel>
+        <div class="step-label">
+          Knowledge
+          @if (fifthFormGroup.get('knowledgeOption')?.value) {
+            <div class="step-sub-label">{{ fifthFormGroup.get('knowledgeOption')?.value | titlecase }}</div>
+          }
+        </div>
+      </ng-template>
+      <div class="step-content-wrapper">
+        <div class="step-content" [formGroup]="fifthFormGroup">
+          <h2 class="mat-headline-6 thin">How would you like to generate your knowledge base?</h2>
+          <div class="option-group">
+            <mat-radio-group formControlName="knowledgeOption" class="option-list">
+              <!-- File Option -->
+              <div class="option-row">
+                <mat-radio-button value="file" class="option-radio">
+                  <span class="mat-body-1">From file</span>
+                </mat-radio-button>
+                <div class="option-controls">
+                  @if (isUploadingKnowledge) {
+                    <mat-spinner [diameter]="20"></mat-spinner>
+                  } @else if (knowledgeUploadError) {
+                    <p class="error-message">{{ knowledgeUploadError }}</p>
+                  } @else if (!knowledgeFileName) {
+                    <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)"/>
+                    <button mat-stroked-button (click)="fileInput.click()"
+                            [disabled]="fifthFormGroup.get('knowledgeOption')?.value !== 'file'">
+                      <mat-icon>cloud_upload</mat-icon>
+                      Upload
+                    </button>
+                  } @else {
+                    <div class="asset-chip">
+                      <span>{{ knowledgeFileName }}</span>
+                      <button mat-icon-button (click)="clearKnowledgeFile()" color="warn">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+              <!-- Link Option -->
+              <div class="option-row">
+                <mat-radio-button value="link" class="option-radio">
+                  <span class="mat-body-1">From link</span>
+                </mat-radio-button>
+                <div class="option-controls">
+                  <mat-form-field>
+                    <mat-label>URL</mat-label>
+                    <input matInput formControlName="knowledgeUrl" placeholder="https://example.com"
+                           [readonly]="fifthFormGroup.get('knowledgeOption')?.value !== 'link'">
+                    @if (fifthFormGroup.get('knowledgeUrl')?.hasError('pattern')) {
+                      <mat-error>Please enter a valid URL.</mat-error>
+                    }
+                  </mat-form-field>
+                  <button mat-stroked-button (click)="scrapeAndProcessUrl()"
+                          [disabled]="fifthFormGroup.get('knowledgeOption')?.value !== 'link' || fifthFormGroup.get('knowledgeUrl')?.invalid || isScrapingUrl">
+                    @if (isScrapingUrl) {
+                      <mat-spinner [diameter]="20"></mat-spinner>
+                    } @else if (scrapeUrlSuccess) {
+                      <mat-icon color="primary">check_circle</mat-icon>
+                      <span>Processed</span>
+                    } @else {
+                      <mat-icon>sync</mat-icon>
+                      <span>Process</span>
+                    }
+                  </button>
+                </div>
+              </div>
+              @if (scrapeUrlError) {
+                <p class="error-message">{{ scrapeUrlError }}</p>
+              }
+              <!-- Starter Pack Option -->
+              <div class="option-row">
+                <mat-radio-button value="starter-pack" class="option-radio">
+                  <span class="mat-body-1">Starter Pack:</span>
+                </mat-radio-button>
+                <div class="option-controls">
+                  <span class="mat-caption">Install a pre-built set of playbooks and processes for your industry.</span>
+                  <button mat-stroked-button (click)="installStarterPack()"
+                          [disabled]="fifthFormGroup.get('knowledgeOption')?.value !== 'starter-pack' || isInstallingPack">
+                    @if (isInstallingPack) {
+                      <mat-spinner [diameter]="20"></mat-spinner>
+                    } @else if (installPackSuccess) {
+                      <mat-icon color="primary">check_circle</mat-icon>
+                      <span>Installed</span>
+                    } @else {
+                      <mat-icon>archive</mat-icon>
+                      <span>Install</span>
+                    }
+                  </button>
+                </div>
+              </div>
+              @if (installPackError) {
+                <p class="error-message">{{ installPackError }}</p>
+              }
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+      <div class="stepper-buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" (click)="finalizeOnboarding()" [disabled]="finalizeOnboardingLoading">
+          @if (finalizeOnboardingLoading) {
+            <mat-spinner [diameter]="20"></mat-spinner>
+          } @else {
+            Finish
+          }
+        </button>
+      </div>
+      @if (finalizeOnboardingError) {
+        <p class="error-message">{{ finalizeOnboardingError }}</p>
+      }
+    </div>
+  </mat-step>
+</mat-stepper>

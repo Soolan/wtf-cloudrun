@@ -1,0 +1,24 @@
+<div class="loading-container">
+  @switch (type) {
+    @case (ProgressType.Bar) {
+      <div class="bar">
+        <div class="mat-subtitle-1 message thin">{{message}}</div>
+        <mat-progress-bar [mode]="mode" [color]="color" [value]="progress"></mat-progress-bar>
+      </div>
+    }
+    @case (ProgressType.Spinner) {
+      <div class="spinner">
+        <mat-spinner color="primary"></mat-spinner>
+        <div class="mat-subtitle-1 message thin">{{message}}</div>
+      </div>
+    }
+    @case (ProgressType.Wtf) {
+      <div class="wtf">
+        <!--  ToDo: Create your loading   -->
+      </div>
+    }
+    @default {
+      <div class="wtf"> Huh!? </div>
+    }
+  }
+</div>

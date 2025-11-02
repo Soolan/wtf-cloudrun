@@ -1,0 +1,7 @@
+<mat-form-field appearance="fill" color="primary" class="full">
+  <input matInput type="email" [formControl]="emailControl" (keydown.enter)=checkEmail() email>
+  <span matPrefix class="prefix">email:</span>
+  <mat-icon class="check" matSuffix (click)="checkEmail()" *ngIf="!clicked()">arrow_forward</mat-icon>
+  <span class="saving" matSuffix *ngIf="clicked()">CHECKING</span>
+  <mat-hint>Subscribe now and stay informed.</mat-hint>
+</mat-form-field>

@@ -1,0 +1,11 @@
+@use "../../assets/styles/layout" as layout;
+
+.mat-mdc-form-field {
+  max-width: 400px;
+  color: var(--color-grey7);
+
+  .prefix {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-xs);
+  }
+}

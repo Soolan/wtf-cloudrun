@@ -1,0 +1,58 @@
+<div class="full container" style="align-content: center; height: 80vh">
+  <div class="mat-headline-5 thin full">
+    I'd like to invite:
+  </div>
+  <mat-form-field appearance="fill" color="primary" class="half">
+    <input matInput type="email" placeholder="Please enter their email." [formControl]="emailControl"
+           (keydown.enter)=checkEmail() email>
+    <mat-icon matPrefix class="prefix">mail</mat-icon>
+    <mat-icon class="check" matSuffix (click)="checkEmail()" *ngIf="!clicked()">arrow_forward</mat-icon>
+    <span class="saving" matSuffix *ngIf="clicked()">CHECKING</span>
+  </mat-form-field>
+
+  <div class="full" *ngIf="found() && profile" style="margin: var(--space-lg) auto">
+
+    <div class="mat-caption half">
+      <div class="quarter">
+        <div class="avatar"
+             [ngStyle]="{'background-image': 'url(' + (profile.avatar | storageUrl | async) + ')'}"></div>
+      </div>
+
+      <div class="three-quarters">
+        <div class="mat-subtitle-2 thin three-quarters" style="margin-bottom: var(--space-sm);">
+          This is a registered user
+        </div>
+        <p *ngIf="profile.displayName">
+          <b>Display name: </b>
+          <span>{{ profile.displayName }}</span>
+        </p>
+        <p *ngIf="profile.firstName">
+          <b>First name: </b>
+          <span>{{ profile.firstName }}</span>
+        </p>
+        <p *ngIf="profile.lastName">
+          <b>Last name: </b>
+          <span>{{ profile.lastName }}</span>
+        </p>
+        <p *ngIf="profile.joinedAt">
+          <b>Member since: </b>
+          <span>{{ profile.joinedAt | date: 'mediumDate' }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="full" *ngIf="sent()" style="margin-top: var(--space-md)">
+    <div class="mat-headline-6 thin full">
+      Invitation sent successfully.
+    </div>
+    <p class="mat-body-1 full">
+      The user will be added to your team, when they accept the invitation.
+    </p>
+    <button routerLink="../" mat-stroked-button>
+      <mat-icon>arrow_back</mat-icon>
+      <span>Back</span>
+    </button>
+  </div>
+  <lib-loading class="full" message="Sending invite" [type]="ProgressType.Bar" *ngIf="sending()"></lib-loading>
+</div>

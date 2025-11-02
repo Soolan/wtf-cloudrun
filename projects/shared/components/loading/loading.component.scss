@@ -1,0 +1,20 @@
+@use "../../assets/styles/flex";
+
+.loading-container {
+  margin: var(--space-xxl) auto;
+  text-align: center;
+  @include flex.container(100%, space-around, center);
+  .bar, .spinner {
+    margin: auto;
+    @include flex.width(75%);
+    .message {
+      padding-top: var(--space-sm);
+      @media screen and (max-width: 600px) {
+        font-size: 1.1em;
+      }
+    }
+  }
+  .mat-mdc-progress-spinner {
+    margin: auto;
+  }
+}

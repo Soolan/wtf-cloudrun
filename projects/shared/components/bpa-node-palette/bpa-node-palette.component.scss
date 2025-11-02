@@ -1,0 +1,28 @@
+h2 {
+  color: var(--color-primary); // Highlight title
+  margin-bottom: var(--space-md);
+}
+
+ul {
+  list-style: none; // Remove default list style
+  padding: 0;
+}
+
+li {
+  background-color: var(--color-grey-dark); // Darker background for list items
+  padding: var(--space-xs) var(--space-sm);
+  margin-bottom: var(--space-xs);
+  border-radius: var(--space-xxs);
+  cursor: grab; // Indicate draggable
+  color: var(--color-grey-light); // Light text
+  font-size: 0.9em;
+
+  &:hover {
+    background-color: var(--color-grey-medium); // Lighter on hover
+  }
+}
+
+p {
+  color: var(--color-grey-light); // Light text for messages
+  font-style: italic;
+}

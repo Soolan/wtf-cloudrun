@@ -1,0 +1,32 @@
+<section class="content" *ngIf="checking; else outcome">
+  <h3 class="mat-headline-5 thin full">{{wait.heading}}</h3>
+  <p class="mat-body-1 full">{{wait.subheading}}</p>
+  <div class="mat-caption full" *ngFor="let action of wait.actions">
+    <span>{{action.label}} <mat-icon>{{action.icon}}</mat-icon></span>
+  </div>
+</section>
+<ng-template #outcome>
+  <section class="content" *ngIf="verified; else failed">
+    <h3 class="mat-headline-5 thin full">{{success.heading}}</h3>
+    <p class="mat-body-1 full">{{success.subheading}}</p>
+    <div class="one-third">
+      <button color="primary" mat-flat-button  *ngFor="let button of success.actions" (click)="action(button.label)">
+        <span>{{button.label}}</span>
+        <mat-icon>{{button.icon}}</mat-icon>
+      </button>
+    </div>
+  </section>
+  <ng-template #failed>
+    <section class="content">
+      <div class="mat-headline-6 full">{{error.heading}}</div>
+      <p class="mat-body-1 full">{{error.subheading}}</p>
+      <mat-divider></mat-divider>
+      <div class="full" *ngFor="let button of error.actions">
+        <button color="primary" mat-flat-button (click)="action(button.label)">
+          <span>{{button.label}}</span>
+          <mat-icon>{{button.icon}}</mat-icon>
+        </button>
+      </div>
+    </section>
+  </ng-template>
+</ng-template>

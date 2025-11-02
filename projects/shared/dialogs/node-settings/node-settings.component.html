@@ -1,0 +1,190 @@
+<div class="settings-container">
+  <div mat-dialog-title class="dialog-title">
+    <div class="title-content">
+      <button mat-icon-button
+              (click)="navigateTo(previousNode)"
+              [disabled]="!previousNode"
+              [matTooltip]="previousNode ? 'Go to: ' + previousNode.name : ''"
+              aria-label="Previous node">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div class="title-text-container">
+        @if (isEditingTitle) {
+          <input #titleInput
+                 class="title-input"
+                 [value]="data.node.name"
+                 (keyup.enter)="saveTitle(titleInput.value)"
+                 (blur)="saveTitle(titleInput.value)"
+                 cdkFocusInitial>
+        } @else {
+          <div class="editable-title-area" (click)="isEditingTitle = true">
+            <img [src]="data.node.icon? (data.node.icon | storageUrl) : '/assets/images/nodes/default.png'" class="title-icon">
+            <span class="title-text">{{ data.node.name }}</span>
+            <mat-icon class="edit-icon">edit</mat-icon>
+          </div>
+        }
+      </div>
+
+      <button mat-icon-button (click)="navigateTo(nextNode)" [disabled]="!nextNode"
+              [matTooltip]="nextNode ? 'Go to: ' + nextNode.name : ''" aria-label="Next node">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div mat-dialog-content class="dialog-main-content">
+    <!-- Input Column -->
+    <div class="column input-column">
+      <h3 class="column-header">Input</h3>
+      <div class="column-content">
+        <h4 class="sub-header">Live Input Data</h4>
+        <div class="live-data-section">
+          <button mat-stroked-button color="primary" (click)="executePreviousNodes()" [disabled]="isLoadingData">
+            @if (isLoadingData) {
+              <mat-icon class="spinner">progress_activity</mat-icon>
+              <span>Executing...</span>
+            } @else {
+              <mat-icon>play_arrow</mat-icon>
+              <span>Execute Previous Nodes</span>
+            }
+          </button>
+
+          <div class="data-display">
+            @if (liveInputData) {
+              <pre>{{ liveInputData | json }}</pre>
+            } @else if (!isLoadingData) {
+              <p class="placeholder-text">No input data yet. Click the button to fetch it.</p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Node Column -->
+    <div class="column node-column">
+      <mat-tab-group animationDuration="0ms">
+        <mat-tab label="Parameters">
+          <div class="tab-content">
+            <ng-container #dynamicFormComponentContainer></ng-container>
+            @if (!parametersSchema) {
+              <p class="placeholder-text">This node has no configurable parameters.</p>
+            }
+          </div>
+        </mat-tab>
+        <mat-tab label="Settings">
+          <div class="tab-content">
+            @if (settingsForm) {
+              <form [formGroup]="settingsForm" class="settings-form">
+                <mat-slide-toggle formControlName="alwaysOutputData">Always Output Data</mat-slide-toggle>
+                <mat-slide-toggle formControlName="executeOnce">Execute Once</mat-slide-toggle>
+                <mat-divider></mat-divider>
+                <mat-slide-toggle formControlName="retryOnFail">Retry On Fail</mat-slide-toggle>
+                @if (settingsForm.get('retryOnFail')?.value) {
+                  <div class="retry-options">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Max. Tries</mat-label>
+                      <input matInput type="number" formControlName="retryMaxTries">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Wait Between Tries (ms)</mat-label>
+                      <input matInput type="number" formControlName="retryWait">
+                    </mat-form-field>
+                  </div>
+                }
+                <mat-form-field appearance="outline">
+                  <mat-label>On Error</mat-label>
+                  <mat-select formControlName="onError">
+                    @for (option of onErrorOptions; track option.value) {
+                      <mat-option [value]="option.value">
+                        <div class="option-label">{{ option.label }}</div>
+                        <div class="option-description">{{ option.description }}</div>
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+                <mat-divider></mat-divider>
+                <mat-form-field appearance="outline" class="notes-field">
+                  <mat-label>Notes</mat-label>
+                  <textarea matInput formControlName="notes" cdkTextareaAutosize cdkAutosizeMinRows="4"
+                            placeholder="Add notes about the node..."></textarea>
+                </mat-form-field>
+                <mat-slide-toggle formControlName="displayNoteInFlow">Display Note In Flow?</mat-slide-toggle>
+              </form>
+            }
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <!-- Output Column -->
+    <div class="column output-column">
+      <h3 class="column-header">Output</h3>
+      <div class="column-content">
+        @if (data.node.schema && data.node.schema.outputs.length > 0) {
+          <h4 class="sub-header">Schema</h4>
+          <mat-list role="list">
+            @for (output of data.node.schema.outputs; track output.name) {
+              <mat-list-item role="listitem">
+                <mat-icon matListItemIcon>output</mat-icon>
+                <div matListItemTitle>{{ output.label }}</div>
+                <div matListItemLine class="item-details">
+                  <span class="name-pill">{{ output.name }}</span>
+                </div>
+              </mat-list-item>
+            }
+          </mat-list>
+
+          <h4 class="sub-header">Live Output Data</h4>
+          <div class="live-data-section">
+            <div class="data-display">
+              @if (liveOutputData) {
+                <pre>{{ liveOutputData | json }}</pre>
+              } @else {
+                <p class="placeholder-text">No output data yet. Click the run button to generate it.</p>
+              }
+            </div>
+          </div>
+        } @else {
+          <p class="placeholder-text">This node does not produce any defined outputs.</p>
+        }
+
+        @if (settingsForm) {
+          <div class="settings-effects">
+            @if (settingsForm.get('alwaysOutputData')?.value) {
+              <div class="effect-item">
+                <mat-icon>subdirectory_arrow_right</mat-icon>
+                <span>This node will output an empty item if nothing would normally be returned</span>
+              </div>
+            }
+            @if (settingsForm.get('executeOnce')?.value) {
+              <div class="effect-item">
+                <mat-icon>looks_one</mat-icon>
+                <span>This node will execute only once, no matter how many input items there are</span>
+              </div>
+            }
+            @if (settingsForm.get('retryOnFail')?.value) {
+              <div class="effect-item">
+                <mat-icon>replay</mat-icon>
+                <span>This node will automatically retry if it fails</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <button mat-button mat-dialog-close aria-label="Close dialog" class="back" matTooltip="Back to workflow">
+    <span>Exit</span>
+  </button>
+
+  <button mat-button (click)="runNode()" [disabled]="data.node.type === 'trigger' && (!data.node.schema || data.node.schema.outputs.length === 0)" aria-label="Run this step" class="run" matTooltip="Execute this node" color="warn">
+    @if (isLoadingData) {
+      <mat-icon class="spinner">progress_activity</mat-icon>
+    } @else {
+      <mat-icon>bolt</mat-icon>
+    }
+    <span>Run</span>
+  </button>
+</div>

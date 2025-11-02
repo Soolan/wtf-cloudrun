@@ -1,0 +1,38 @@
+<div class="invite">
+  <div class="full" *ngIf="invitation; else loading">
+    <div class="full" *ngIf="invitation.status === InvitationStatus.Pending && !expired; else invalid">
+      <div *ngIf="invitation.companyLogo" class="logo"
+           [ngStyle]="{'background-image': 'url(' + (invitation.companyLogo | storageUrl | async) + ')'}"></div>
+      <h1 class="mat-headline-6 thin full">Congratulations!</h1>
+      <div class="full">
+        <h2 class="mat-subtitle-2 thin">You are the newest member of {{ invitation.companyName }}.</h2>
+        <p *ngIf="invitation.hasProfile" class="mat-caption full">
+          The activation link for your account has emailed to {{ invitation.email }}.
+        </p>
+        <p class="mat-caption">
+          Admin, <b>{{ invitation.invitedBy }}</b>, is notified and they'll set your role in the company.
+        </p>
+      </div>
+    </div>
+    <ng-template #invalid>
+      <div class="full">
+        <div *ngIf="invitation.companyLogo" class="logo"
+             [ngStyle]="{'background-image': 'url(' + (invitation.companyLogo | storageUrl | async) + ')'}"></div>
+
+        <h1 class="mat-headline-5 thin full">Expired!</h1>
+        <h2 class="mat-subtitle-2 thin full">This invitation is no longer valid.</h2>
+        <p class="mat-caption" style="text-align: center">
+          We notify the admin, <b>{{ invitation.invitedBy }}</b>, and they'll send you <br/>
+          another invite if this position still available.
+        </p>
+      </div>
+    </ng-template>
+    <button mat-flat-button routerLink="/" color="primary">
+      <span>Home</span>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <ng-template #loading>
+    <lib-loading message="checking the invitation" class="full"></lib-loading>
+  </ng-template>
+</div>

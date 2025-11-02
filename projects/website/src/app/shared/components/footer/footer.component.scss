@@ -1,0 +1,155 @@
+@use "flex";
+@use "layout";
+
+
+.footer {
+  padding: var(--space-xxl) var(--space-lg);
+  background-color: var(--color-grey2);
+  @include flex.container(100%, space-around, center);
+  .gap {
+    width: 212px;
+  }
+  .brand {
+    @include flex.container(15%, space-around, center);
+    @include flex.breakpoint(lt-md, 100%);
+
+    .logo {
+      background-position-x: center;
+      background-position-y: var(--space-xs);
+      min-height: 7em;
+      opacity: 0.8;
+      @include layout.background("/assets/images/logos/logo-grey.svg");
+      @include flex.width(100%);
+    }
+  }
+
+  mat-divider {
+    margin: var(--space-md) auto;
+    display: none;
+    @include flex.width(90%);
+    @media (max-width: 960px) {
+      display: flex;
+    }
+  }
+
+  .newsletter {
+    text-align: center;
+    position: relative;
+    top: var(--space-xs);
+    width: 100%; // Ensure it takes full width
+
+    @include flex.container(33%, space-between, center);
+    @include flex.breakpoint(lt-md, 100%);
+  }
+
+  .menu {
+    @include flex.container(20%, space-between, center);
+    @include flex.breakpoint(lt-md, 100%);
+
+    a {
+      color: var(--color-greyc);
+      margin: var(--space-xxs) 0;
+      padding: var(--space-xxs);
+      @include flex.width(40%);
+      @include flex.breakpoint(lt-md, 25%);
+    }
+  }
+
+  .socials {
+    padding: 0.1em;
+
+    span {
+      width: 2.3em;
+      height: 2.3em;
+      margin: 0 0.1em;
+      opacity: 0.5;
+      cursor: pointer;
+    }
+
+    span:hover {
+      opacity: 0.75;
+    }
+
+    .twitter {
+      @include layout.background("/assets/images/icons/twitter.png");
+    }
+
+    .facebook {
+      @include layout.background("/assets/images/icons/facebook.png");
+    }
+
+    .youtube {
+      @include layout.background("/assets/images/icons/youtube.png");
+    }
+
+    .instagram {
+      @include layout.background("/assets/images/icons/instagram.png");
+    }
+
+    .medium {
+      @include layout.background("/assets/images/icons/medium.png");
+    }
+
+    .tiktok {
+      @include layout.background("/assets/images/icons/tiktok.png");
+    }
+
+    .whatsapp {
+      @include layout.background("/assets/images/icons/whatsapp.png");
+    }
+
+    .linkedin {
+      @include layout.background("/assets/images/icons/linkedin.png");
+    }
+    @include flex.container(15%, center, center);
+    @include flex.breakpoint(lt-md, 100%);
+  }
+
+  .copyright {
+    a {
+      color: var(--color-greyc);
+    }
+    margin: var(--space-sm) auto;
+    letter-spacing: 0.15em;
+    text-align: center;
+    color: var(--color-greya);
+  }
+
+  .partners {
+    .nvidia {
+      height: 6em;
+      opacity: 0.8;
+      margin: var(--space-lg) auto;
+      @include layout.background("/assets/images/logos/nvidia.png");
+      @include flex.width(33%);
+      @include flex.breakpoint(sm, 40%);
+      @include flex.breakpoint(lt-sm, 80%);
+    }
+    .google {
+      height: 3.5em;
+      opacity: 0.8;
+      background-position-y: 0 !important;
+      text-align: center;
+      padding-top: 2.5em;
+      font-family: "Titillium Web", sans-serif;
+      font-size: 16px;
+      color: var(--color-greya);
+      margin: var(--space-lg) auto;
+
+      @include layout.background("/assets/images/logos/google_cloud.png");
+      @include flex.width(33%);
+      @include flex.breakpoint(sm, 40%);
+      @include flex.breakpoint(lt-sm, 80%);
+    }
+    @include flex.container(50%, space-around, center);
+    @include flex.breakpoint(md, 70%);
+    @include flex.breakpoint(lt-md, 90%);
+  }
+}
+
+a:hover {
+  color: var(--color-greye);
+  font-weight: bold;
+}
+
+

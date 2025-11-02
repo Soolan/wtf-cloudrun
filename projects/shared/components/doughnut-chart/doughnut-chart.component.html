@@ -1,0 +1,33 @@
+<div class="chart-card">
+  <div class="chart-body">
+    <svg [attr.viewBox]="'0 0 ' + viewBoxSize + ' ' + viewBoxSize" class="pie-chart">
+      <!-- Background Circle -->
+      <circle class="bg" fill="none"
+              [attr.cx]="center" [attr.cy]="center" [attr.r]="radius" [attr.stroke]="backgroundColor"
+              [attr.stroke-width]="strokeWidth" [attr.transform]="'rotate(-90 ' + center + ' ' + center + ')'"/>
+
+      <!-- Foreground Arc -->
+      <circle class="fg" fill="none" stroke-linecap="round"  stroke-dashoffset="0"
+              [attr.cx]="center" [attr.cy]="center" [attr.r]="radius" [attr.stroke]="foregroundColor"
+              [attr.stroke-width]="strokeWidth" [attr.stroke-dasharray]="strokeDasharray"
+              [attr.transform]="'rotate(-90 ' + center + ' ' + center + ')'"/>
+
+      <!-- Center Text -->
+      <text [attr.x]="center" [attr.y]="center" text-anchor="middle" dominant-baseline="middle" class="center-text">
+        <tspan [attr.x]="center" [attr.dy]="-1.5" [style.font-size]="fontSize">
+          {{ percentage() | number: '1.0-0' }}
+        </tspan>
+        <tspan [attr.dx]="-3.5" [style.font-size]="percentageFontSize()">%</tspan>
+        <tspan [attr.x]="center" [attr.dy]="dyTotal()" [style.font-size]="subFontSize()" [style.opacity]="0.6">
+          Total: {{ total }} {{ unit }}
+        </tspan>
+        <tspan [attr.x]="center" [attr.dy]="dyUsed()" [style.font-size]="subFontSize()" [style.opacity]="0.7">
+          Used: {{ used }} {{ unit }}
+        </tspan>
+      </text>
+    </svg>
+  </div>
+
+  <!-- Title bar -->
+  <div class="chart-footer" *ngIf="title" [style.background-color]="foregroundColor">{{ title }}</div>
+</div>

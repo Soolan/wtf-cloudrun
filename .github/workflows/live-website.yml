@@ -1,0 +1,44 @@
+name: Deploy To Live Website
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - projects/website/**
+      - projects/shared/**
+
+jobs:
+  detect_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      website: ${{ steps.filter.outputs.website }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            website:
+              - 'projects/website/**'
+              - 'projects/shared/**'
+
+  build_and_deploy:
+    needs: detect_changes
+    if: needs.detect_changes.outputs.website == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run build:website
+      - uses: actions/upload-artifact@master
+        with:
+          name: public-${{ github.run_id }}
+          path: ./dist/website/browser
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTF_WORKSPACE_AD6A4 }}'
+          target: website
+          channelId: live
+          projectId: wtf-workspace-ad6a4

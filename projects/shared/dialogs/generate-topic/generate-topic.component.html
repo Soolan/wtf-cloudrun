@@ -1,0 +1,92 @@
+<div class="generate">
+  <div class="mat-headline-6 thin full">Please {{generating()?'wait...':'provide the contents.'}}</div>
+  @if (generating()) {
+    <div class="full column p-4">
+      <mat-progress-bar mode="determinate" color="primary" [value]="flowProgress() * 100" class="full"/>
+      <div class="two-thirds">
+        @for (message of flowMessages(); track $index) {
+          <div class="full" style="margin-top: var(--space-sm)">
+            <span class="mat-caption three-quarters">{{ message }}</span>
+            @if ($index < flowMessages().length - 1 || flowStatus() === FlowStatus.Completed) {
+              <mat-icon color="primary">check</mat-icon>
+            } @else if (flowStatus() === FlowStatus.Error) {
+              <mat-icon color="warn">flag</mat-icon>
+              <span class="mat-caption full">Error! Devs are notified about this issue. </span>
+            } @else {
+              <mat-spinner diameter="20" color="primary"></mat-spinner>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="resources">
+      <mat-tab-group style="width: 100%"
+                     [selectedIndex]="resourceFormControl.value"
+                     (selectedIndexChange)="setTab($event)">
+        <mat-tab label="File">
+          <div class="full file">
+            <input #fileInput type="file" hidden (change)="onFileChange($event)"
+                   accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"/>
+            @if (!selectedFile) {
+              <button mat-button color="primary" (click)="fileInput.click()">
+                <span>Browse</span>
+                <mat-icon>folder</mat-icon>
+              </button>
+            }
+            @if (selectedFile) {
+              <div class="file-display">
+                <span class="mat-caption">{{ selectedFileName.length < 20 ?  selectedFileName: selectedFileName.slice(0, 15)+'...'}}</span>
+                <button mat-icon-button color="warn" style="vertical-align: sub" (click)="removeFile()">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            }
+            @if (fileFormControl.hasError('fileTooLarge')) {
+              <mat-error class="full mat-caption">
+                File must not exceed 10MB.
+              </mat-error>
+            }
+            @if (fileFormControl.hasError('audioOrVideoNotAllowed')) {
+              <mat-error class="full mat-caption">
+                Audio/Video files are not allowed.
+              </mat-error>
+            }
+            @if (fileFormControl.hasError('required') && fileFormControl.value) {
+              <mat-error>
+                <p class="full mat-caption">File is required.</p>
+              </mat-error>
+            }
+          </div>
+        </mat-tab>
+        <mat-tab label="URL">
+          <div class="full column url">
+            <mat-form-field appearance="fill" color="primary" class="full">
+              <mat-label>URL</mat-label>
+              <input matInput autofocus placeholder="https://" [formControl]="urlFormControl">
+            </mat-form-field>
+
+            @if (isAudioOrVideoLink()) {
+              <div class="full warning-message">
+                <mat-icon color="warn">warning</mat-icon>
+                <span class="mat-caption full">
+                  Video or audio links/files are not allowed.
+                </span>
+              </div>
+            }
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div class="actions full">
+      <button mat-stroked-button (click)="cancel()">
+        <mat-icon>close</mat-icon>
+        <span>Cancel</span>
+      </button>
+      <button mat-flat-button (click)="generate()" color="primary" [disabled]="!canGenerateTopic || generating()">
+        <mat-icon>auto_awesome</mat-icon>
+        <span>Generate</span>
+      </button>
+    </div>
+  }
+</div>

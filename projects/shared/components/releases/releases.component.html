@@ -1,0 +1,77 @@
+<section>
+<div class="releases-container full-start">
+  @if (loading()) {
+    <div style="width: 100vw">
+      <lib-loading></lib-loading>
+    </div>
+  } @else {
+    <div class="roadmap one-third">
+      <div class="mat-headline-6 thin block">Road Map</div>
+      <p class="mat-body-1 block" style="text-align: left">
+        Timeline for the planned features.
+      </p>
+      @for (q of quarters; track $index) {
+        <div class="quarter">
+          <div class="mat-subtitle-1 date thin">
+            {{ q.quarter }}
+          </div>
+          <div class="bullets">
+            <lib-release-notes [entry]=100 [bullets]="q.items"></lib-release-notes>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="releases two-thirds">
+      <div class="mat-headline-6 thin block">Releases</div>
+      <p class="mat-body-1 block">
+        Expand each row to see the items deployed in the past sprints.
+      </p>
+      <div class="block">
+        <mat-accordion>
+          @for (r of (releases | slice: start : end); track $index) {
+            <mat-expansion-panel [expanded]="$index == 0">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="mat-body-1 panel-title">
+                  {{ r.date.toDate() | date }}
+                </mat-panel-title>
+                <mat-panel-description class="panel-description">
+                <span class="tag mat-caption">{{ r.version }}
+                  <mat-icon>sell</mat-icon>
+                </span>
+                  <span class="product">
+                  <span>{{ products[r.product] }}</span>
+                  <mat-icon>{{ productIcons[r.product] }}</mat-icon>
+
+                </span>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="notes">
+                @if (r.features.length > 0) {
+                  <lib-release-notes [entry]=0 [bullets]="r.features"></lib-release-notes>
+                }
+                @if (r.improvements.length > 0) {
+                  <lib-release-notes [entry]=1 [bullets]="r.improvements"></lib-release-notes>
+                }
+                @if (r.fixes.length > 0) {
+                  <lib-release-notes [entry]=2 [bullets]="r.fixes"></lib-release-notes>
+                }
+                @if (r.operations.length > 0) {
+                  <lib-release-notes [entry]=3 [bullets]="r.operations"></lib-release-notes>
+                }
+              </div>
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+        <mat-paginator [length]="totalItems"
+                       [pageSize]="pageSize"
+                       [pageSizeOptions]="[10, 25, 100]"
+                       (page)="getPaginatorData($event)"
+                       color="primary"
+                       showFirstLastButtons
+                       aria-label="Select release page">
+        </mat-paginator>
+      </div>
+    </div>
+  }
+</div>
+</section>

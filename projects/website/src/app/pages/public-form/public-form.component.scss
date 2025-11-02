@@ -1,0 +1,101 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+header {
+  margin-bottom: 32px;
+  text-align: center;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #666;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-field-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.radio-group-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.6);
+  margin-bottom: 12px;
+}
+
+.radio-group-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 8px;
+}
+
+.file-input-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.6);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.placeholder-text {
+  font-style: italic;
+  color: #999;
+  padding: 16px;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+button[mat-flat-button] {
+  height: 48px;
+  font-size: 16px;
+  margin-top: 16px;
+}
+
+.submission-success, .form-not-found {
+  text-align: center;
+  padding: 60px 0;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #666;
+  }
+}

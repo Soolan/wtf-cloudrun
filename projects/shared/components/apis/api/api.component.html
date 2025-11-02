@@ -1,0 +1,49 @@
+<div class="api full">
+  <div class="logo">
+    <div class="" [style.background-image]="'url('+(api.logo|storageUrl|async)+')'"></div>
+  </div>
+  <div class="name">
+    <div class="mat-subtitle-1" style="margin-bottom: var(--space-sm)">{{ api.name }}</div>
+    <div class="mat-caption publisher">
+      <b>Publisher: </b>
+      <span>&nbsp;{{ api.publisher?.name }}</span>
+      <mat-icon *ngIf="api.verified" color="accent" style="margin-left: var(--space-xxs)">verified</mat-icon>
+    </div>
+    <p class="mat-caption">
+      {{ (api.intro && api.intro.length < 100) ? api.intro : api.intro?.slice(0, 95) + "..." }}
+    </p>
+  </div>
+  <div class="install">
+    <button mat-raised-button color="primary" (click)="install()">
+      <span>Install</span>
+      <mat-icon>download</mat-icon>
+    </button>
+    <div class="tags">
+      <button mat-button *ngFor="let tag of api.tags" color="accent">
+        <mat-icon>tag</mat-icon>
+        <span>{{ tag }}</span>
+      </button>
+    </div>
+    <div class="mat-caption">
+      {{ api.installs }} installs
+    </div>
+  </div>
+  <div class="contents three-quarters">
+    <mat-tab-group fitInkBarToContent>
+      <mat-tab label="Getting started">
+        <mat-divider class="full"></mat-divider>
+        <p class="mat-body-1 tab">
+          Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content
+          1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content
+          1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content
+          1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content
+          1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content 1Content
+        </p>
+      </mat-tab>
+      <mat-tab label="Configurable parameters">Content 2</mat-tab>
+      <mat-tab label="Billing">Content 3</mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="info quarter">some identities</div>
+</div>
+<lib-loading *ngIf="loading"></lib-loading>

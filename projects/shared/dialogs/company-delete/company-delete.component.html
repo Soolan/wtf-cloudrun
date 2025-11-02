@@ -1,0 +1,51 @@
+<button mat-icon-button matDialogClose class="close">
+  <mat-icon>close</mat-icon>
+</button>
+
+<div *ngIf="!message(); else outcome">
+  <div mat-dialog-title>Are you sure?</div>
+
+  <p class="mat-subtitle-1 full">Please note:</p>
+  <p class="mat-body-1">
+    After deleting this company, its data in your account and in the marketplace will be removed.
+  </p>
+  <p class="mat-body-1">
+    The marketplace users will be informed and may use the shared data till the end of this month.
+  </p>
+
+  <div [formGroup]="form" class="full" style="margin-bottom: var(--space-lg)">
+    <mat-checkbox formControlName="confirm">
+      <span class="mat-caption">I understand.</span>
+    </mat-checkbox>
+    <mat-checkbox formControlName="backupFirst">
+      <span class="mat-caption">Backup & email company data first.</span>
+    </mat-checkbox>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" (click)="proceed()" [disabled]="!form.get('confirm')?.value">
+      <mat-icon style="scale: 1.3" iconPositionEnd>arrow_forward</mat-icon>
+      <span>&nbsp;Proceed</span>
+    </button>
+  </div>
+</div>
+
+<ng-template #outcome>
+  <div mat-dialog-title>{{ message() }}</div>
+  <mat-progress-bar *ngIf="working()" mode="indeterminate" style="width: 100%"/>
+
+  <div *ngIf="!working()" class="full mat-body-1">
+    <p class="full">{{ success() ? successOutcome : failureOutcome }}</p>
+    <div mat-dialog-actions>
+      <button mat-stroked-button *ngIf="!success()" (click)="proceed()">
+        <mat-icon>refresh</mat-icon>
+        <span>Try again</span>
+      </button>
+      <button mat-stroked-button matDialogClose>
+        <mat-icon>close</mat-icon>
+        <span>Close</span>
+      </button>
+    </div>
+  </div>
+</ng-template>
+

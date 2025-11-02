@@ -1,0 +1,136 @@
+<div class="content">
+  <section class="white">
+    <app-carousel [banners]="AI_HEROES" class="banners" (ctaClicked)="cta($event)"></app-carousel>
+  </section>
+
+  <section>
+    <header class="full">
+      <h1 class="mat-headline-4 thin heading" libBlackRenderer content="Your New AI-Powered Business" keyword="AI"></h1>
+      <p class="mat-subtitle-1 subheading thin">AI Transformation In Three Easy Steps</p>
+    </header>
+  </section>
+
+  <section class="white">
+    <div class="half artwork" [style.background-image]="getImage('create')"></div>
+    <article class="half">
+      <h2 class="mat-headline-6 thick">1. Generate The Team</h2>
+      <p class="mat-subtitle-2 thin">
+        Kick off by creating your organization chart. Assemble your ideal team of C-suite and <b>AI</b> employees. You
+        may invite current <b>human</b> employees to collaborate.
+      </p>
+      <p class="mat-body-1">
+        Nothing enhances the work experience like human-AI collaboration. AI thrives by learning from human expertise,
+        while humans can boost productivity by delegating repetitive tasks to AI.
+      </p>
+      @if (!userId) {
+        <button mat-flat-button (click)="play('AGI')" class="play" color="primary">
+          <mat-icon style="scale:1.3">play_circle</mat-icon>
+          Play
+        </button>
+      }
+    </article>
+  </section>
+
+  <section>
+    <div class="half artwork md-and-gt-md" [style.background-image]="getImage('publish')"></div>
+    <article class="half">
+      <h2 class="mat-headline-6 thick">2. Bring Your Manuals</h2>
+      <p class="mat-subtitle-2 thin">
+        Whether you run an established business with comprehensive manuals or are just starting out, you can
+        effortlessly build a robust knowledge base.
+      </p>
+      <p class="mat-body-1">
+        Found something online that inspires you? Simply share the link or upload a file (text, audio, or video), and
+        watch as a vectorized knowledge base is automatically created and instantly made accessible to your team.
+      </p>
+      @if (!userId) {
+        <button mat-flat-button (click)="play('kb')" class="play" color="primary">
+          <mat-icon style="scale:1.3">play_circle</mat-icon>
+          Play
+        </button>
+      }
+    </article>
+    <div class="half artwork lt-md" [style.background-image]="getImage('publish')"></div>
+  </section>
+
+  <section class="white">
+    <div class="half artwork" [style.background-image]="getImage('task')"></div>
+    <article class="half">
+      <h2 class="mat-headline-6 thick">3. Create & Assign Tasks</h2>
+      <p class="mat-subtitle-2 thin">
+        Easily create a task on your Kanban board and assign it to a team member. Observe how they collaborate, seek
+        clarification, deliver (or revise) the task.
+      </p>
+      <p class="mat-body-1">
+        This platform is designed to streamline communication, enhance the knowledge base, and efficiently deliver
+        tasks. Your AI team members are intelligent enough to ask questions about unclear requests and even suggest
+        updates to the knowledge base when they identify gaps.
+      </p>
+      @if (!userId) {
+        <button mat-flat-button (click)="play('Task')" class="play" color="primary">
+          <mat-icon style="scale:1.3">play_circle</mat-icon>
+          Play
+        </button>
+      }
+    </article>
+  </section>
+  <section>
+    <lib-plans-pricing></lib-plans-pricing>
+  </section>
+  <section class="white">
+    <header class="full">
+      <h2 class="mat-headline-5 thin" libBlackRenderer content="Your AI-Powered Business Solution"
+          keyword="AI-Powered"></h2>
+      <p class="mat-body-1">
+        Sign up today for a <b>free 2-week trial</b> and unlock tools for building teams, creating knowledge bases,
+        managing tasks, and integrating APIs—<i>all in one platform</i>.
+      </p>
+    </header>
+    <div class="cards">
+      <article class="card">
+        <h4>
+          <mat-icon>source_environment</mat-icon>
+          Create A Company
+        </h4>
+        <p class="mat-caption caption">
+          Set up your company add team members, and define your structure with an intuitive organizational chart.
+        </p>
+      </article>
+      <article class="card">
+        <h4>
+          <mat-icon>developer_guide</mat-icon>
+          Add Knowledge Base
+        </h4>
+        <p class="mat-caption caption">
+          Generate knowledge base for teams using files and URLs, powered by AI embeddings for instant access.
+        </p>
+      </article>
+      <article class="card">
+        <h4>
+          <mat-icon>confirmation_number</mat-icon>
+          Manage Tickets
+        </h4>
+        <p class="mat-caption caption">
+          Create & assign tasks, track dependencies, and monitor progress with a user-friendly Kanban UI.
+        </p>
+      </article>
+      <article class="card">
+        <h4>
+          <mat-icon>webhook</mat-icon>
+          Bring Your APIs
+        </h4>
+        <p class="mat-caption caption">
+          Seamlessly integrate APIs to enable automation and simplify processes tailored to your business needs.
+        </p>
+
+      </article>
+    </div>
+    <footer class="full">
+      <button mat-raised-button (click)="auth.login()" color="primary"
+              style="padding: var(--space-sm); scale: 1.2; margin: var(--space-lg)">
+        <mat-icon>emoji_people</mat-icon>
+        Start for free
+      </button>
+    </footer>
+  </section>
+</div>

@@ -1,0 +1,349 @@
+@use "../../assets/styles/flex";
+
+.canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #f4f4f4;
+  color: var(--color-grey4);
+  display: flex;
+
+  &.panning {
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+}
+
+.canvas-content-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+.connections-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through to nodes */
+  z-index: 1;
+  overflow: visible;
+}
+
+.drag-connection-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: 2; /* Above regular connections */
+  overflow: visible;
+}
+
+.drag-connection-path {
+  fill: none;
+  stroke: var(--color-primary); /* A distinct color for the drag line */
+  stroke-width: 3px;
+  stroke-dasharray: 5 5; /* Dashed line */
+
+  &.snapped {
+    stroke: var(--color-warn); /* Solid orange when snapped */
+    stroke-dasharray: none; /* Solid line */
+  }
+}
+
+.connection-path {
+  fill: none;
+  stroke: var(--color-grey4); /* Changed to grey4 as per previous request */
+  stroke-width: 3px; /* Increased for easier hover */
+  transition: all 0.2s ease-in-out;
+  pointer-events: auto;
+
+  &.hovered {
+    stroke: var(--color-warn);
+    stroke-width: 3px; /* Increased for visual feedback on hover */
+  }
+
+  &.selected {
+    stroke: var(--color-accent);
+    stroke-width: 8px;
+  }
+
+  &.newly-created {
+    stroke: var(--color-warn); /* Solid orange for newly created */
+    stroke-width: 3px; /* Make it stand out */
+  }
+}
+
+
+#arrowhead path {
+  fill: var(--color-grey6);
+  transition: fill 0.2s ease-in-out;
+}
+
+#arrowhead-hovered path {
+  fill: var(--color-warn);
+}
+
+.connection-actions {
+  position: absolute;
+  display: flex;
+  gap: 8px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  padding: 4px;
+  .action-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    color: var(--color-grey4);
+    font-size: 18px;
+    line-height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: white;
+      color: var(--color-warn);
+    }
+  }
+}
+
+.workflow-node {
+  position: absolute;
+  background-color: white;
+  background-position: center;
+  background-size: var(--space-xxl) var(--space-xxl);
+  background-repeat: no-repeat;
+
+  border: 3px solid var(--color-grey6);
+  padding: var(--space-md);
+  border-radius: var(--space-sm);
+  cursor: pointer;
+  color: var(--mat-text-color);
+  font-weight: bold;
+  text-align: center;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+
+  .running-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: var(--space-sm); // Match node's border-radius
+    animation: fadeInOut 3s ease-in-out;
+    z-index: 6;
+    pointer-events: none;
+  }
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+
+  &.selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary-light);
+  }
+
+  &.trigger-node {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+
+  .input-joint,
+  .output-joint {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--color-grey6); // A neutral color for visibility
+  }
+
+  .input-joint {
+    left: -6px; // Position slightly outside the node
+    width: 8px;
+    height: 15px;
+  }
+
+  .output-joint {
+    right: -11px; // Position slightly outside the node
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; // Make it a circle
+    background-color: var(--color-grey6); // Default color
+    transition: background-color 0.2s ease-in-out; // Smooth transition
+
+    &:hover {
+      cursor: crosshair;
+      background-color: var(--color-warn);
+    }
+  }
+}
+
+.node-name {
+  position: absolute;
+  bottom: -30px;
+  opacity: 0.9;
+  font-size: 17px;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+.node-note {
+  position: absolute;
+  bottom: -48px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-grey5);
+  font-family: sans-serif;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 var(--space-xs);
+}
+
+.node-actions {
+  position: absolute;
+  top: -32px;
+  left: 10px;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  z-index: 6;
+
+  .icon-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    color: var(--color-grey4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: var(--color-warn);
+    }
+  }
+}
+
+p {
+  color: var(--color-grey-light);
+  text-align: center;
+  padding: var(--space-md);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.small {
+  font-size: 16px;
+}
+
+.canvas-toolbar {
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  width: 100%;
+  @include flex.container(100%, space-around, center);
+}
+
+.new-node {
+  position: absolute;
+  right: var(--space-sm);
+  bottom: var(--space-sm);
+  z-index: 100;
+}
+
+.shortcut-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.shortcut-modal {
+  background: white;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 0 6px 2px var(--color-grey7);
+  text-align: center;
+  color: var(--color-grey2);
+}
+
+.shortcut-modal h3 {
+  margin-bottom: var(--space-md);
+}
+
+.shortcut-modal ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+.shortcut-modal ul li {
+  margin-bottom: var(--space-sm);
+  font-size: 1rem;
+}
+
+.shortcut-modal code {
+  background: var(--color-greyd);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+
+  &.open {
+    opacity: 1;
+  }
+}

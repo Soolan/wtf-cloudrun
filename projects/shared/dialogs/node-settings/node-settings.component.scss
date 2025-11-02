@@ -1,0 +1,274 @@
+@use "../../assets/styles/flex" as flex;
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.settings-container {
+  height: 100%;
+  max-height: 100vh;
+  @include flex.container(100%, flex-start, flex-start);
+}
+
+.dialog-title {
+  border-bottom: 1px solid var(--color-greyc);
+  flex-shrink: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  @include flex.container(100%, center, center);
+
+  span {
+    font-size: 0.7em;
+    font-weight: 400;
+  }
+}
+
+.dialog-main-content {
+  flex-grow: 1;
+  overflow: hidden; // Prevent whole page from scrolling
+  min-height: 0; // Fix for flexbox overflow issue
+  @include flex.container(100%, flex-start, stretch);
+}
+
+.column {
+  padding: var(--space-md);
+  overflow-y: auto; // Allow individual columns to scroll
+
+  &.input-column, &.output-column {
+    flex: 1 1 25%;
+    background-color: var(--color-greye);
+  }
+
+  &.node-column {
+    flex: 1 1 50%;
+    border-left: 1px solid var(--color-greyc);
+    border-right: 1px solid var(--color-greyc);
+  }
+  @include flex.container(100%, flex-start, flex-start, column);
+}
+
+.column-header {
+  font-size: 0.9em;
+  font-weight: 500;
+  color: var(--color-grey8);
+  margin-bottom: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: var(--space-xxxs);
+}
+
+.column-content {
+  width: 100%;
+}
+
+mat-tab-group {
+  width: 100%;
+  height: 100%; // Make tabs fill the node column
+}
+
+.tab-content {
+  padding: var(--space-md) 0;
+}
+
+.sub-header {
+  font-size: 1em;
+  font-weight: 500;
+  color: var(--color-grey3);
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-greyc);
+  padding-bottom: var(--space-xs);
+}
+
+.placeholder-text {
+  color: var(--color-grey5);
+  text-align: center;
+  padding: var(--space-xl) 0;
+  font-style: italic;
+}
+
+.item-details {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: 0.9em;
+}
+
+.name-pill {
+  background-color: var(--color-greyc);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-family: "Ubuntu Mono", monospace;
+  font-size: 0.9em;
+}
+
+.live-data-section {
+  margin-top: var(--space-md);
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .spinner {
+    animation: spin 1.5s linear infinite;
+  }
+
+  .data-display {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-greyc);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-md);
+    min-height: 100px;
+
+    pre {
+      padding: var(--space-sm);
+      margin: 0;
+      font-family: "Ubuntu Mono", monospace;
+      font-size: 0.9em;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.title-content {
+  gap: var(--space-sm);
+  flex-grow: 1;
+  @include flex.container(55%, space-between, center);
+}
+
+.title-text-container {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.editable-title-area {
+  gap: var(--space-xs);
+  cursor: pointer;
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease-in-out;
+  @include flex.container(100%, center, center);
+
+  .title-icon {
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: middle;
+  }
+
+  .edit-icon {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    //font-size: 1em;
+    color: var(--color-grey5);
+  }
+
+  &:hover {
+    background-color: var(--color-greye);
+    .edit-icon {
+      opacity: 1;
+    }
+  }
+}
+
+.title-text {
+  font-size: 1.25em;
+  font-weight: 400;
+  display: inline-block;
+}
+
+.title-input {
+  font-size: 0.75em;
+  font-weight: 400;
+  border: none;
+  outline: none;
+  padding: var(--space-sm);
+  background-color: transparent;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.back {
+  position: fixed;
+  top: 0.75em;
+  left: 0.75em;
+}
+
+.run {
+  position: fixed;
+  top: 0.75em;
+  right: 0.75em;
+}
+
+.settings-form {
+  gap: var(--space-md);
+  @include flex.container(100%, flex-start, flex-start, column);
+
+  .mat-mdc-form-field,
+  .mat-mdc-slide-toggle {
+    width: 100%;
+  }
+
+  .retry-options {
+    gap: var(--space-md);
+    padding-left: var(--space-lg);
+    margin-left: var(--space-sm);
+    border-left: 2px solid var(--color-greyc);
+    @include flex.container(100%, flex-start, flex-start, column);
+  }
+
+  .notes-field {
+    margin-top: var(--space-sm);
+  }
+}
+
+.settings-effects {
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-greyc);
+  @include flex.container(100%, flex-start, flex-start, column);
+
+  .effect-item {
+    gap: var(--space-sm);
+    font-size: 0.85em;
+    color: var(--color-grey3);
+    @include flex.container(100%, flex-start, center);
+
+    mat-icon {
+      color: var(--color-grey8);
+    }
+  }
+}
+
+::ng-deep .mat-mdc-select-panel .mat-mdc-option {
+  height: auto !important;
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  .mdc-list-item__primary-text {
+    white-space: normal;
+  }
+}
+
+.option-label {
+  font-weight: 500;
+}
+.option-description {
+  font-size: 0.8em;
+  color: var(--color-grey5);
+  white-space: normal;
+  line-height: 1.2;
+}

@@ -1,0 +1,77 @@
+<div class="landing" *ngIf="company(); else loading_company">
+  <div class="company" [formGroup]="form">
+    <lib-file-uploader (uploaderEvents)="updateImage($event, 'banner')" class="banner" [currentFile]="banner()"
+                       [path]="path()" [media]="BANNER_MEDIA" [minHeight]="15" [canGenerate]="true"/>
+
+    <lib-file-uploader (uploaderEvents)="updateImage($event, 'logo')" class="logo" [currentFile]="logo()"
+                       [path]="path()" [media]="LOGO_MEDIA" [minHeight]="8" [canGenerate]="true"/>
+
+    <div class="heading">
+      <mat-form-field appearance="fill" *ngIf="editing.name; else current_name" style="width: 25em">
+        <mat-label>Company name</mat-label>
+        <input matInput placeholder="Company name" formControlName="name" (keydown.enter)="update('name')">
+        <mat-icon class="check" matSuffix (click)="update('name')" *ngIf="!saving.name">check</mat-icon>
+        <span class="saving" matSuffix *ngIf="saving.name">SAVING</span>
+      </mat-form-field>
+      <ng-template #current_name>
+        <div class="mat-headline-4 thin name-container" (click)="editing.name = true">
+          <button mat-icon-button class="edit" color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <span class="label" *ngIf="company()?.name">{{ company()?.name }}</span>
+        </div>
+      </ng-template>
+
+      <mat-form-field appearance="fill" *ngIf="editing.description; else current_description" style="width: 40em">
+        <mat-label>Company description</mat-label>
+        <input matInput placeholder="Company description" formControlName="description"
+               (keydown.enter)="update('description')">
+        <mat-icon class="check" matSuffix (click)="update('description')" *ngIf="!saving.description">check</mat-icon>
+        <span class="saving" matSuffix *ngIf="saving.description">SAVING</span>
+      </mat-form-field>
+      <ng-template #current_description>
+        <div class="mat-subtitle-1 thin name-container" (click)="editing.description = true">
+          <button mat-icon-button class="edit" color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <span class="label" *ngIf="company()?.description">{{ company()?.description }}</span>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <mat-divider class="full" style="margin-bottom: var(--space-xxl)"></mat-divider>
+  <div class="reports">
+    <div class="tasks two-thirds">
+      <div class="mat-headline-6 thin full">Activity</div>
+      @if (tasks.length > 0) {
+        <div class="task full" [class]="task.priority" *ngFor="let task of tasks">
+          <div class="three-quarters">
+            <p class="mat-body-1 semi-bold">{{ task.title }}</p>
+            <p class="mat-caption" style="opacity: 0.66; width: 100%">
+              {{ task.description.length < 100 ? task.description : task.description.slice(0, 97) + '...' }}
+            </p>
+          </div>
+          <div class="quarter avatars">
+            <div class="avatar creator" [style.background-image]="avatarMap.get(task.creator?.avatar ?? '')"></div>
+            <div class="avatar assigned" [style.background-image]="avatarMap.get(task.assignedTo?.avatar ?? '')"></div>
+          </div>
+        </div>
+      } @else {
+        <div class="mat-subtitle-1 thin full">Create and assign tasks to see the related activities.</div>
+      }
+    </div>
+    <div class="credits one-third" *ngIf="!loading()">
+      <div class="mat-headline-6 thin full">Usage</div>
+      <lib-doughnut-chart
+        class="full" style="margin-top: var(--space-sm)"
+        [total]=getQuota(Currency.AI) [used]=getUsage(Currency.AI) [unit]="'ai'" [title]="'AI Credits'"/>
+      <lib-doughnut-chart
+        class="full" style="margin-top: var(--space-lg)"
+        [total]=getQuota(Currency.GB) [used]=getUsage(Currency.GB) [unit]="'gb'" [title]="'Storage'"
+        [foregroundColor]="'var(--color-accent)'"/>
+    </div>
+  </div>
+</div>
+<ng-template #loading_company>
+  <lib-loading [type]="ProgressType.Spinner" [mode]="ProgressMode.Indeterminate"></lib-loading>
+</ng-template>

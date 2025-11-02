@@ -1,0 +1,54 @@
+@if (companies) {
+  <div class="companies">
+  @for (company of companies; track company.id) {
+    <mat-card class="company">
+    <mat-card-header>
+      <div mat-card-avatar class="avatar"
+           [style.background-image]="
+           (company.logo ? 'url(' + (company.logo | storageUrl | async) + ')' :
+           'repeating-linear-gradient(90deg, #e0e0e0, #e0e0e0 10px, #f5f5f5 10px, #f5f5f5 20px)')"
+      ></div>
+
+      <mat-card-title class="mat-subtitle-1 thin">{{company.name}}</mat-card-title>
+      <mat-card-subtitle class="mat-caption">{{company.website}}</mat-card-subtitle>
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="confirmBackup(company.id)">
+          <mat-icon color="primary">backup</mat-icon>
+          <span class="mat-caption menu-label">Backup</span>
+        </button>
+        <button mat-menu-item (click)="confirmRestore(company.id)">
+          <mat-icon color="accent">cloud_download</mat-icon>
+          <span class="mat-caption menu-label">Restore</span>
+        </button>
+        <button mat-menu-item (click)="confirmDelete(company.id)">
+          <mat-icon color="warn">delete</mat-icon>
+          <span class="mat-caption menu-label">Delete</span>
+        </button>
+      </mat-menu>
+
+    </mat-card-header>
+    <img mat-card-image class="banner"
+         [style.background-image]="
+         (company.banner ? 'url(' + (company.banner | storageUrl | async) + ')' :
+         'repeating-linear-gradient(-45deg, #e0e0e0, #e0e0e0 10px, #f5f5f5 10px, #f5f5f5 20px)')"
+    >
+
+
+    <mat-card-content>
+      <p class="mat-caption description">{{company?.description || 'Brief business introduction.'}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" (click)="visit(company)" >
+        <span>View</span>
+        <mat-icon>remove_red_eye</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+}
+  </div>
+} @else {
+  <lib-loading [type]="ProgressType.Spinner"></lib-loading>
+}

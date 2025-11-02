@@ -1,0 +1,5 @@
+@use "../../../assets/styles/flex";
+
+.fields {
+  @include flex.container(100%, space-between, flex-start);
+}

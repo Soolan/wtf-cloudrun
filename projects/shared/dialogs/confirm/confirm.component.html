@@ -1,0 +1,15 @@
+<button mat-icon-button matDialogClose class="close">
+  <mat-icon>close</mat-icon>
+</button>
+
+<div mat-dialog-title>{{ data.heading }}</div>
+<div class="mat-subtitle-1 thin">{{ data.subheading }}</div>
+<p class="mat-caption">{{ data.content }}</p>
+<div mat-dialog-actions class="actions">
+  @for (button of data.actions; track button) {
+    <button mat-flat-button color="primary" [mat-dialog-close]="confirm">
+      <mat-icon style="scale: 1.3" iconPositionEnd>{{button.icon}}</mat-icon>
+      <span>{{button.label}}</span>
+    </button>
+  }
+</div>

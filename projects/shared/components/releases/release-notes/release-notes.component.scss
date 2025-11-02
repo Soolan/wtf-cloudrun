@@ -1,0 +1,23 @@
+.roadmap {
+  margin: 0;
+  li {font-size: initial;}
+}
+.notes {
+  margin-top: var(--space-md);
+  ul {
+    list-style-image: initial;
+  }
+  li {
+    font-size: 1rem;
+    line-height: var(--space-md);
+    padding-bottom: var(--space-xxs);
+  }
+  .bold {
+    font-weight: bolder;
+    color: var(--color-grey5);
+    .mat-icon {
+      vertical-align: sub;
+      font-size: 24px;
+    }
+  }
+}

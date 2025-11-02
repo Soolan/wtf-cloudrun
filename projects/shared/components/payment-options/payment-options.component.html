@@ -1,0 +1,75 @@
+<div class="payments-grid mat-caption">
+  <div class="item" *ngFor="let p of paymentOptions;"
+    (click)="setDefault(p)"
+    [class.default]="p.isDefault">
+    <div class="content" *ngIf="p.type === PaymentMethodType.Card && p.card">
+      <div class="header">
+        <span class="brand">{{ p.card.brand }}</span>
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          class="context-menu"
+          (click)="$event.stopPropagation()">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(p)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="delete(p)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <div class="number">**** **** **** {{ p.card.last4 }}</div>
+      <div class="footer">
+        <span>{{ p.card.cardholderName }}</span>
+        <span>{{ p.card.expiryMonth }}/{{ p.card.expiryYear }}</span>
+      </div>
+
+      <div *ngIf="p.isDefault" class="default-badge">Default</div>
+    </div>
+    <div class="content" *ngIf="p.type === PaymentMethodType.BankAccount && p.bank">
+      <div class="header">
+        <span class="brand">{{ p.bank.bankName }}</span>
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          class="context-menu"
+          (click)="$event.stopPropagation()"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(p)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="delete(p)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <div class="number">xxxxxxxx{{ p.bank.accountNumberLast4 }}</div>
+      <div class="footer">
+        <span>{{ p.bank.accountHolderName }}</span>
+        <span>Bank code: {{ p.bank.bankCode }}</span>
+      </div>
+
+      <div *ngIf="p.isDefault" class="default-badge">Default</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="add-button">
+  <button mat-flat-button color="primary" (click)="add()" disabled>
+    <mat-icon>add</mat-icon>
+    <span>Add payment</span>
+  </button>
+</div>

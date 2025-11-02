@@ -1,0 +1,144 @@
+<div class="playbook full-start">
+  @if (layoutService.headerIsReady()) {
+    <div class="topics one-third">
+      <h1 class="thin">The Playbook</h1>
+      @if (maintainer) {
+        <div class="mat-caption " style="opacity: 0.9; margin-bottom: var(--space-sm)">
+          <button mat-icon-button (click)="setMaintainer()" color="accent">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <span style="vertical-align: super"><b>Maintained by: </b>{{ maintainer.name }}</span>
+        </div>
+      } @else {
+        <div class="full" style="margin-bottom: var(--space-lg)">
+          <button mat-button (click)="setMaintainer()">
+            <span>Who is in charge?</span>
+            <mat-icon fontSet="material-symbols-outlined" class="who">person_raised_hand</mat-icon>
+          </button>
+        </div>
+      }
+      @if (dataSource.data) {
+        <mat-tree [dataSource]="dataSource" #tree
+                  [childrenAccessor]="childrenAccessor"
+                  [cdkDropListData]="dataSource.data"
+                  [cdkDropListDisabled]="isUpdating"
+                  (cdkDropListDropped)="onDrop($event)" cdkDropList>
+          <!-- Leaf Node -->
+          <mat-nested-tree-node *matTreeNodeDef="let node;" class="tree-node"
+                                cdkDrag [cdkDragData]="node"
+                                [matTreeNodePadding]="node.level"
+                                [class.selected]="selectedNode === node.topic"
+                                [style.opacity]="node.topic.published ? 0.9 : 0.7">
+
+
+            @if ((selectedNode === node.topic) && confirm) {
+              <div class="delete full mat-caption">
+                <p class="full">
+                  <span>Deleting <b>"{{ node.topic.title }}"</b>.</span>
+                </p>
+                <p class="full">
+                  <span>Are you sure?</span>
+                  <button mat-button (click)="confirm = false">No</button>
+                  <button mat-flat-button (click)="delete(node.topic.id, node.topic.kbId)" color="warn">Yes</button>
+                </p>
+              </div>
+            } @else {
+              <div class="placeholder" *cdkDragPlaceholder></div>
+              <span (click)="selectedNode = node.topic" class="leaf">
+                {{ node.level === 0 ? '&nbsp;' : '-' }} {{ node.topic.title }} ({{ node.topic.order }})
+              </span>
+              @if (node.topic.status !== TopicStatus.Accept) {
+                <mat-icon>edit_notifications</mat-icon>
+              }
+              <button mat-icon-button [matMenuTriggerFor]="menu" (click)="selectedNode = node.topic">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            }
+          </mat-nested-tree-node>
+
+          <!-- Expandable Node -->
+          <mat-nested-tree-node (click)="setDepartment(node.topic)"
+                                *matTreeNodeDef="let node; when: hasChild"
+                                [cdkDragData]="node"
+                                [class.selected]="selectedNode === node.topic"
+                                [matTreeNodePadding]="node.level"
+                                cdkDrag class="tree-node">
+            @if ((selectedNode === node.topic) && confirm) {
+              <div class="delete full mat-caption">
+                <p class="full">
+                  <span>Deleting <b>"{{ node.topic.title }}"</b>.</span>
+                </p>
+                <p class="full">
+                  <span>Are you sure?</span>
+                  <button mat-button (click)="confirm = false">No</button>
+                  <button mat-flat-button (click)="delete(node.topic.id, node.topic.kbId)" color="warn">Yes</button>
+                </p>
+              </div>
+            } @else {
+              <div class="placeholder" *cdkDragPlaceholder></div>
+              <button mat-icon-button (click)="toggleNode(node)">
+                <mat-icon>
+                  {{ node.isExpanded() ? 'expand_more' : 'chevron_right' }}
+                </mat-icon>
+              </button>
+
+              <span class="mat-caption">{{ node.topic.title }}</span>
+
+              @if (node.topic.status !== TopicStatus.Accept) {
+                <mat-icon>edit_notifications</mat-icon>
+              }
+              <button mat-icon-button [matMenuTriggerFor]="menu" (click)="selectedNode = node.topic">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            }
+          </mat-nested-tree-node>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item
+                    (click)="playbookService.order.set(order);"
+                    [routerLink]="NEW_TOPIC"
+                    [queryParams]="getParams()"
+            >
+              <mat-icon color="primary">add</mat-icon>
+              <span class="context">Add</span>
+            </button>
+            @if (selectedNode.id) {
+              <button mat-menu-item [routerLink]="selectedNode.id">
+                <mat-icon color="primary">edit</mat-icon>
+                <span class="context">Edit</span>
+              </button>
+            }
+            <button mat-menu-item (click)="confirm = true" [disabled]="hasChildren">
+              <mat-icon color="warn">delete</mat-icon>
+              <span class="context">Delete</span>
+            </button>
+            <button mat-menu-item (click)="generate()">
+              <mat-icon color="accent">auto_awesome</mat-icon>
+              <span class="context">Generate</span>
+            </button>
+          </mat-menu>
+        </mat-tree>
+        <div class="actions">
+          <button mat-stroked-button (click)="generate()" color="accent">
+            <mat-icon>auto_awesome</mat-icon>
+            <span>Generate</span>
+          </button>
+          <button mat-flat-button color="primary"
+                  [routerLink]="NEW_TOPIC"
+                  [queryParams]="getParams(true)">
+            <mat-icon>add</mat-icon>
+            <span>Add</span>
+          </button>
+        </div>
+      } @else {
+        <lib-loading [type]="ProgressType.Bar"/>
+      }
+    </div>
+    @if (isUpdating) {
+      <lib-loading class="two-thirds" [type]="ProgressType.Bar" [message]="'Updating...'"/>
+    } @else {
+      @if (selectedNode) {
+        <lib-topic-details class="two-thirds" [topic]="selectedNode" [path]="path"/>
+      }
+    }
+  }
+</div>

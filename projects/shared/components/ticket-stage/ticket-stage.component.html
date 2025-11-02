@@ -1,0 +1,48 @@
+<div class="mat-subtitle-1 heading thin">{{ stage | titlecase }}</div>
+<div class="list" cdkDropList [id]="stage"
+     [cdkDropListData]="tickets" [cdkDropListConnectedTo]="connectedTo"
+     (cdkDropListDropped)="drop($event, stage)">
+
+  @for (ticket of tickets; track $index) {
+    <div class="box" cdkDrag>
+      <div class="row">
+        <span class="serial">{{ ticketService.getTicketNumber(ticket) }}</span>
+        <span class="date">{{ ticket.deadline.toDate() | date: 'mediumDate' }}</span>
+        <mat-icon class="edit" [routerLink]="ticket.id" (click)="ticketService.ticket.set(ticket)">edit</mat-icon>
+      </div>
+      <div class="row">
+        <img [src]=" (ticket.assignedTo?.avatar ?? '' | storageUrl | async) || 'assets/images/team/board.png'"
+             width="50" height="50" class="avatar"
+             [matTooltip]="ticket.assignedTo?.name + ' (' + ticket.assignedTo?.role + ')'">
+        <span class="ticketTitle">{{ ticket.title }}</span>
+      </div>
+      <div class="row legend">
+        <div class="icons">
+          <mat-icon>{{ RELEASE_ENTRIES_ICONS[ticket.release_entry] }}</mat-icon>
+          <mat-icon [style.color]="ticketService.alert(ticket.deadline).color">
+            {{ ticketService.alert(ticket.deadline).icon }}
+          </mat-icon>
+        </div>
+        <div class="actions">
+          <mat-icon (click)="delete(ticket)">delete</mat-icon>
+          <mat-icon (click)="setTicketSignals(ticket, true)" [routerLink]="NEW_TICKET_ID">content_copy</mat-icon>
+        </div>
+      </div>
+    </div>
+  }
+  @if (tickets.length === 0) {
+    <div class="well-done">
+      <mat-icon>spa</mat-icon>
+      <span>All Done!</span>
+    </div>
+  }
+</div>
+
+@if (stage === TicketStage.Backlog || stage === TicketStage.ToDo) {
+  <button mat-button
+          (click)="setTicketSignals(newTicket, false, stage)"
+          [routerLink]="NEW_TICKET_ID">
+    <mat-icon>add</mat-icon>
+    <span>Add a ticket</span>
+  </button>
+}

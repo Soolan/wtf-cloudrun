@@ -1,0 +1,11 @@
+<h2>BPA Node Palette</h2>
+@if (nodes && nodes.length > 0) {
+  <h3>Nodes:</h3>
+  <ul>
+    @for (node of nodes; track node.id) {
+      <li>{{ node.name }} ({{ node.id }})</li>
+    }
+  </ul>
+} @else {
+  <p>No nodes to display.</p>
+}

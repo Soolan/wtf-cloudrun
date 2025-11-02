@@ -1,0 +1,124 @@
+<button mat-icon-button matDialogClose class="close">
+  <mat-icon>close</mat-icon>
+</button>
+
+@if (loginOptions()) {
+  <div class="login-options">
+    <h2 mat-dialog-title>Sign in to continue!</h2>
+
+    <mat-dialog-actions>
+      <button mat-button class="button" aria-label="Continue with Google" (click)="googleLogin()">
+        <img ngSrc="assets/images/icons/google.svg" width="24" height="28" class="icon" alt="Google logo">
+        <span class="mat-body-1">Continue with Google</span>
+      </button>
+
+      <button mat-button class="button green" (click)="emailOption.set(true); loginOptions.set(false);"
+              aria-label="Continue with email" cdkFocusInitial>
+        <mat-icon class="icon" style="scale: 1.25; margin-right: var(--space-sm);">email</mat-icon>
+        <span class="mat-body-1">Continue with email</span>
+      </button>
+    </mat-dialog-actions>
+    <mat-dialog-content>
+      <small class="terms mat-caption">
+        By continuing, you accept our
+        <a href="./terms-and-conditions" target="_blank" rel="noopener">Terms of Service</a> and
+        <a href="./privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>.
+      </small>
+    </mat-dialog-content>
+  </div>
+} @else if (emailOption()) {
+  <div class="email-option">
+    <h2 mat-dialog-title>{{ action }}</h2>
+
+    <mat-dialog-content>
+      @if (checkingEmail()) {
+        <div class="checking" aria-live="polite">
+          <p>Checking your email. Please wait.</p>
+          <mat-progress-bar mode="query"></mat-progress-bar>
+        </div>
+      } @else if (creatingProfile()) {
+        <div class="checking" aria-live="polite">
+          <p>Creating your profile. Please wait.</p>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+      } @else if (passResetEmailSent()) {
+        <div class="checking" aria-live="polite">
+          <p>Please check your email and click on the password reset link.</p>
+        </div>
+      } @else {
+        <mat-form-field class="full">
+          <mat-label>Email</mat-label>
+          <input type="email" id="email" matInput placeholder="your@email.com"
+                 [formControl]="emailFormControl" (keydown.enter)="checkEmail()"
+                 aria-describedby="email-helper">
+          @if (emailFormControl.hasError('email')) {
+            <mat-error>Please enter a valid email address</mat-error>
+          }
+          @if (emailFormControl.hasError('required')) {
+            <mat-error>Email is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+
+        @if (emailChecked() && isNewUser()) {
+          <mat-form-field class="full">
+            <mat-label>Display name</mat-label>
+            <input type="text" id="name" matInput [formControl]="nameFormControl"
+                   placeholder="Display name">
+            @if (nameFormControl.hasError('required')) {
+              <mat-error>Name is <strong>required</strong>.</mat-error>
+            }
+          </mat-form-field>
+        }
+
+        @if (emailChecked()) {
+          <mat-form-field class="full">
+            <mat-label>Password</mat-label>
+            <input id="password" matInput [type]="hidePassword() ? 'password' : 'text'"
+                   [formControl]="passwordFormControl">
+            <button mat-icon-button matSuffix (click)="hidePassword.set(!hidePassword())"
+                    aria-label="Toggle password visibility">
+              <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <div aria-live="polite">
+              @if (passwordFormControl.hasError('minlength')) {
+                <mat-error>Minimum length is <strong>8</strong> characters.</mat-error>
+              }
+              @if (passwordFormControl.hasError('required')) {
+                <mat-error>Password is <strong>required</strong>.</mat-error>
+              }
+            </div>
+          </mat-form-field>
+          <button mat-button (click)="resetPassword()" *ngIf="forgotPassword()" color="accent">
+            <span>Forgot password?</span>
+          </button>
+        }
+      }
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="reset()" matDialogClose>
+        {{passResetEmailSent()? 'Close':'Cancel'}}
+      </button>
+
+      @if (!emailChecked()) {
+        <button mat-raised-button (keydown.enter)="checkEmail()" (click)="checkEmail()" color="primary"
+                [disabled]="emailFormControl.invalid || checkingEmail()">
+          Next
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </button>
+      } @else if (isNewUser()) {
+        <button mat-raised-button (keydown.enter)="register()" (click)="register()" color="primary"
+                [disabled]="emailFormControl.invalid || creatingProfile()" autofocus>
+          Register
+          <mat-icon>person</mat-icon>
+        </button>
+      } @else if (passResetEmailSent()) {
+
+      } @else {
+        <button mat-raised-button (keydown.enter)="login()" (click)="login()" color="primary" autofocus>
+          Login
+          <mat-icon>login</mat-icon>
+        </button>
+      }
+    </mat-dialog-actions>
+  </div>
+}

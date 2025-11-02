@@ -1,0 +1,104 @@
+<h2 class="mat-headline-5 thin" style="margin-bottom: 0">
+  Plans & Pricing
+</h2>
+<p class="mat-body-1">
+  Each plan includes a monthly AI credit.
+  Additional credits are available on a <b>Pay-As-You-Go</b> basis.
+</p>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header style="padding: 0 var(--space-lg); background-color: var(--color-greye)">
+      <mat-panel-title>
+        <span style="font-family: Titillium Web,sans-serif; font-size: 19px;">What is AI credit?</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="mat-caption" style="margin-top: var(--space-sm)">
+      <p style="padding: 0 var(--space-xs)">
+        In Large Language Models (LLM), a token is a unit of text that AI uses to process and
+        generate contents. <br>
+        To simplify this concept, here's a breakdown of what that means in terms of "size":
+      </p>
+      <ul style="padding: var(--space-sm) var(--space-xl)">
+        @for (entry of AI_TOKEN_USAGE; track $index) {
+          <li style="margin-bottom: var(--space-sm); opacity: 0.9">
+            <b>{{ entry.key }}: </b>
+            <span>{{ entry.value }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div class="plans">
+  @if (!smallScreen()) {
+    <div class="feature-names"></div>
+  }
+  <p class="period mat-body-1" style="position: relative; bottom: -1em">
+    <mat-button-toggle-group [formControl]="periodControl">
+      <mat-button-toggle value="monthly">Monthly</mat-button-toggle>
+      <mat-button-toggle value="annual">Yearly -20%</mat-button-toggle>
+    </mat-button-toggle-group>
+  </p>
+  @if (!smallScreen()) {
+    <div class="feature-names">
+      <div class="mat-subtitle-1" style="text-align: center; margin: -19px auto 0 auto">&nbsp;</div>
+      <div class="mat-headline-5" style="margin: 0">&nbsp;</div>
+      <div class="features">
+        @for (f of BASE_FEATURES; track $index) {
+          <p class="mat-body-1"
+             [matTooltip]="f.description" matTooltipPosition="after">
+            <b>{{ f.name }}</b>
+          </p>
+        }
+      </div>
+    </div>
+  }
+  @for (p of AI_SUBSCRIPTIONS; track $index) {
+    <mat-card class="plan mat-elevation-z24">
+      <div class="mat-subtitle-1 thick" style="text-align: center; margin: 0.4em auto 0 auto">
+        {{ p.type | uppercase }}
+      </div>
+      <p class="tag mat-caption" style="margin: auto; width: fit-content">
+        {{ p.type === Plan.Free ? 'HOBBYIST' : p.type === Plan.Basic ? 'STARTUP' : 'SMEs' }}
+      </p>
+      <span class="mat-headline-5 thin" style="text-align: center; margin: 0">
+          $<b class="thick">{{ getAmount(p.fee[2].amount) }}</b>
+          <span style="font-size: 0.4em">/month</span>
+        </span>
+      <div class="figures" style="text-align: center">
+        @for (f of p.features; track $index) {
+          <p class="feature mat-body-1">
+            @if (smallScreen()) {
+              <span [matTooltip]="f.description" matTooltipPosition="after">
+                <b>{{ f.name }}</b>: {{ f.quantity }}
+              </span>
+            } @else {
+              <span>{{ f.quantity }}</span>
+            }
+          </p>
+        }
+        @if (auth.user$ | async; as user) {
+          <button mat-raised-button color="primary" (click)="pay(p.type)"
+                  [disabled]="profileService.currentPlan()?.plan === p.type"
+          >
+            @if (profileService.currentPlan()?.plan === p.type) {
+              <span>Active plan</span>
+            } @else {
+              <ng-container>
+                <mat-icon>shopping_cart</mat-icon>
+                <span>Pick</span>
+              </ng-container>
+            }
+          </button>
+        } @else {
+          <button mat-raised-button color="primary" (click)="auth.login()">
+            <mat-icon>shopping_cart</mat-icon>
+            <span>Pick</span>
+          </button>
+        }
+      </div>
+    </mat-card>
+  }
+</div>
+

@@ -1,0 +1,40 @@
+name: Deploy To Staging Website
+
+on:
+  pull_request:
+    paths: # do pr if there are changes in these paths
+      - projects/dashboard/**
+      - projects/shared/**
+
+jobs:
+  detect_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      website: ${{ steps.filter.outputs.website }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Detect file changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            website:
+              - 'projects/website/**'
+              - 'projects/shared/**'
+
+  build_and_deploy:
+    needs: detect_changes   # build and deploy if website is affected
+    if: needs.detect_changes.outputs.website == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run build:website
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WTF_WORKSPACE_AD6A4 }}'
+          target: website
+          channelId: staging
+          projectId: wtf-workspace-ad6a4
+          expires: 4d

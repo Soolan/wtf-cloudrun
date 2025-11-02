@@ -1,0 +1,48 @@
+<div class="member" [ngStyle]="warningStyles">
+  <div class="avatar"
+       [style.background-image]="(member.persona.avatar | storageUrl | async)?
+       'url(' + (member.persona.avatar | storageUrl | async) + ')':
+       'url(assets/images/team/gotta-go-ooooh-surfing.png), repeating-linear-gradient(-30deg, var(--color-greye), var(--color-greye) 10px, var(--color-greyd) 10px, var(--color-greyd) 20px)'"
+
+       [ngStyle]="{
+       'min-height': isTeam ? '4.5em' : '5.5em',
+       'max-width': isTeam ? '25%' : '35%',
+       }">
+  </div>
+
+  <div class="details" [ngStyle]="{'max-width': isTeam ? '70%' : '60%'}">
+    <div class="name" [style]="isTeam ? 'font-size: 0.8em;' : ''">
+      <span>{{ member.persona.name }}</span>
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="menu" (click)="$event.stopPropagation()">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="member.id" style="scale: 0.8; color: var(--color-primary);">
+          <mat-icon color="primary">edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button mat-menu-item (click)="showConfirm = true" style="scale: 0.8; color: var(--color-warn);">
+          <mat-icon color="warn">delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </div>
+    <span class="role" [matTooltip]="member.bio || ''"
+          [style]="isTeam ? 'font-size: 0.8em;' : ''">{{ member.role }}</span>
+    <div class="contact" *ngIf="member.contact.length > 0">
+      <mat-divider *ngIf="!isTeam" style="opacity: 0.5; margin: var(--space-xs) 0 !important"></mat-divider>
+      <span *ngFor="let c of member.contact" class="icon"
+            [class]="getClassName(c)" [matTooltip]="c"
+            (click)="visit(c)"></span>
+    </div>
+  </div>
+
+  <div class="full mat-caption delete" *ngIf="showConfirm">
+    <mat-divider class="full"></mat-divider>
+    <p>This member will be deleted. Proceed?</p>
+    <div class="actions">
+      <button mat-button (click)="showConfirm = false">No</button>
+      <button mat-flat-button (click)="delete()" color="warn">Yes</button>
+    </div>
+  </div>
+</div>

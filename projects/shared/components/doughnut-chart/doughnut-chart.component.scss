@@ -1,0 +1,32 @@
+.pie-chart {
+  width: 100%;
+  height: auto;
+  max-width: 300px; // Optional cap for responsiveness
+  display: block;
+  margin: 0 auto;
+  font-family: "Ubuntu Mono", monospace;
+}
+
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+}
+
+.chart-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-footer {
+  color: #fff;
+  text-align: center;
+  padding: var(--space-xxs);
+  white-space: nowrap;
+  font-family: "Ubuntu Mono", monospace;
+}

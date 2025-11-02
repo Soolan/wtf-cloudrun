@@ -1,0 +1,8 @@
+<div *ngIf="snapshot" class="controls">
+  <div *ngIf="percentage < 100" >
+    <progress [value]="percentage" max="100"></progress>
+    <p class="percent">{{ percentage | number:'2.0-1' }}%</p>
+    <p class="progress">{{ snapshot.bytesTransferred }} of {{ snapshot.totalBytes }}</p>
+  </div>
+</div>
+

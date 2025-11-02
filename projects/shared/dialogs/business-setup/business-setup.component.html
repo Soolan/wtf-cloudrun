@@ -1,0 +1,39 @@
+<mat-dialog-content>
+  <div class="container">
+    <div *ngIf="!allDone" class="mat-headline-4 thin full" [@welcome]="headlineState">{{headline}}</div>
+    <div *ngIf="started && !allDone" class="contents">
+      <div class="mat-caption full" style="margin-bottom: var(--space-sm)" *ngIf="!issue">{{caption}}</div>
+      <mat-progress-bar mode="determinate" [value]=" progress" style="margin-bottom: var(--space-md)"/>
+      <div class="mat-subtitle-1 thin full">{{ progress }}%</div>
+      <div class="steps one-third">
+        <div class="step" *ngFor="let step of steps; let i = index"
+             [class.active]="isActive(i)"
+             [class.completed]="step.completed"
+             [class.failed]="step.failed">
+          <mat-icon *ngIf="step.completed" color="primary">check_circle</mat-icon>
+          <mat-icon *ngIf="step.failed" color="warn">error</mat-icon>
+          <mat-spinner *ngIf="!step.completed && !step.failed && isActive(i)" class="spinner" diameter="24"/>
+          <span class="mat-caption">{{ step.label }}</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="allDone" class="full">
+      <div class="mat-headline-6 thin full">All done!</div>
+      <div class="mat-caption thin full">
+        <span>Please wait. Redirecting...</span>
+        <mat-spinner diameter="24"></mat-spinner>
+      </div>
+    </div>
+
+    <div *ngIf="issue" class="full">
+      <mat-divider class="two-thirds" style="margin: var(--space-lg)"></mat-divider>
+      <div class="two-thirds">
+        <span><b>{{ failedStep }}</b> failed. Please check your email and follow the instructions.</span>
+        <button mat-flat-button mat-dialog-close (click)="logout()" color="warn">
+          <mat-icon>close</mat-icon>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

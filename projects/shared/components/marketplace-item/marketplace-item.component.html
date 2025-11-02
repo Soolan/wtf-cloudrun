@@ -1,0 +1,57 @@
+<div class="item" *ngIf="item; else loading">
+  <div class="logo">
+    <div class="" [style.background-image]="item.logo? 'url('+(item.logo|storageUrl|async)+')' : ''"></div>
+  </div>
+  <div class="name">
+    <div class="mat-subtitle-1" style="margin-bottom: var(--space-sm)">{{ item.name }}</div>
+    <div class="mat-caption publisher">
+      <b>Publisher: </b>
+      <span>&nbsp;{{ item.publisher?.name }}</span>
+      <mat-icon *ngIf="item.verified" color="accent" style="margin-left: var(--space-xxs)">verified</mat-icon>
+    </div>
+    <p class="mat-caption" style="opacity: 0.7">
+      {{ item.intro }}
+    </p>
+  </div>
+  <div class="install quarter full">
+    @if (marketplaceService.isInstalled(item.id)) {
+      <button mat-raised-button color="accent"
+              (click)="uninstall()"
+              [disabled]="uninstalling()">
+        {{ uninstalling() ? 'Please wait...' : 'Uninstall' }}
+        <mat-icon>delete</mat-icon>
+      </button>
+    } @else {
+      <button mat-raised-button color="primary" (click)="install()"
+              [disabled]="installing()">
+        {{ installing() ? 'Please wait...' : 'Install' }}
+        <mat-icon>download</mat-icon>
+      </button>
+    }
+    <div class="mat-caption" style="margin: var(--space-sm) 0; opacity: 0.6; font-size: 0.75em">
+      Installed: {{ item.installs }} times.
+    </div>
+    <div class="tags">
+      <button mat-button *ngFor="let tag of item.tags" color="accent">
+        <mat-icon>tag</mat-icon>
+        <span>{{ tag }}</span>
+      </button>
+    </div>
+  </div>
+  <div class="contents three-quarters">
+    <mat-tab-group fitInkBarToContent style="width: 100%">
+      <mat-tab label="Getting started">
+        <mat-divider class="full"></mat-divider>
+        <p class="mat-body-1 tab">
+          {{ item.howTo }}
+        </p>
+      </mat-tab>
+      <mat-tab label="Configurable parameters">{{ item.settings }}</mat-tab>
+      <mat-tab label="Billing">{{ item.settings }}</mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="info quarter mat-caption">some identities</div>
+</div>
+<ng-template #loading>
+  <lib-loading></lib-loading>
+</ng-template>

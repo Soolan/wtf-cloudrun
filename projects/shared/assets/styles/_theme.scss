@@ -1,0 +1,38 @@
+@use '@angular/material' as mat;
+@use 'colors' as colors;
+@use 'typography' as typography;
+@use 'spacing' as spacing;
+@use 'material' as material;
+
+@include mat.elevation-classes();
+@include mat.app-background();
+
+$wtf-light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: mat.m2-define-palette(colors.$wtf-primary-palette, 800, 400, 900),
+    accent: mat.m2-define-palette(colors.$wtf-accent-palette, 700, 400, 900),
+    warn: mat.m2-define-palette(colors.$wtf-warn-palette, 800, 300, 900),
+  ),
+  typography: typography.$wtf-typography
+));
+
+$wtf-dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: mat.m2-define-palette(colors.$wtf-primary-palette, 100, 50, 400),
+    accent: mat.m2-define-palette(colors.$wtf-accent-palette, 100, 50, 200),
+    warn: mat.m2-define-palette(colors.$wtf-warn-palette, 100, 50, 300),
+  )
+));
+
+@include mat.all-component-typographies(typography.$wtf-typography);
+@include mat.all-component-densities(0);
+
+.light {
+  --theme-name: 'light';
+  @include mat.all-component-colors($wtf-light-theme);
+}
+
+.dark {
+  --theme-name: 'dark';
+  @include mat.all-component-colors($wtf-dark-theme);
+}

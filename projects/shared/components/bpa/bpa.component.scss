@@ -1,0 +1,22 @@
+.bpa-container {
+  padding: var(--space-md);
+}
+
+.bpa-card {
+  max-width: 800px;
+  margin: var(--space-lg) auto;
+}
+
+.bpa-actions {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap; // Allow buttons to wrap on smaller screens
+}
+
+mat-list-item {
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-grey-light);
+  }
+}

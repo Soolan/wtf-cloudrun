@@ -1,0 +1,164 @@
+@if (form && ticketService.ticket()) {
+  <div class="container" [formGroup]="form">
+    @if (!maximized) {
+      <div class="ticket">
+        <div class="info">
+          <img
+            src="{{ (form.get(['assignedTo', 'avatar'])?.value | storageUrl | async) || 'assets/images/team/gotta-go-ooooh-surfing.png'}}"
+            width="100%" height="100%"
+            [matTooltip]="form.get(['assignedTo', 'name'])?.value + ' (' + form.get(['assignedTo', 'id'])?.value + ')'">
+          <div class="assigner">
+            <div class="serial mat-subtitle-2">{{ serial }}</div>
+            <div class="who mat-caption">
+              <p><strong>Stage: </strong>{{ ticketService.ticket()?.stage }}</p>
+              <p>
+                <strong>Creator: </strong>
+                <span>{{ ticketService.ticket()?.creator?.name ?? 'Board' }} &nbsp;</span>
+                <mat-icon
+                  [matTooltip]="currentDepartment"
+                  matTooltipPosition="after" style="vertical-align: sub">
+                  info
+                </mat-icon>
+              </p>
+              @if (ticketService.ticket()?.dependencies) {
+                <p>
+                  <strong>Dependents: </strong>
+                  @for (dependency of ticketService.ticket()?.dependencies; track $index) {
+                    <a [routerLink]="['..',dependency]" target="_new" class="serial">
+                      {{ getSubtaskSerial(dependency) }}
+                    </a>
+                  }
+                </p>
+              }
+            </div>
+            <div class="updated_at mat-body-1">
+              <strong>last update: </strong>{{ ticketService.ticket()?.timestamps?.updated_at | date: 'medium' }} &nbsp;
+              <strong>id: </strong>{{ ticketService.ticket()?.id }}
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="button">
+            <button mat-flat-button (click)="update()" color="primary">
+              <mat-icon>done</mat-icon>
+              <span>Save</span>
+            </button>
+          </div>
+          <div class="button">
+            <button mat-stroked-button routerLink="../">
+              <mat-icon>arrow_back</mat-icon>
+              <span>Back</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+    <div class="tabs">
+      <mat-button-toggle-group [formControl]="ticketView">
+        <mat-button-toggle value="details">Details</mat-button-toggle>
+        <mat-button-toggle value="discussions" [disabled]="ticketService.ticket()?.id === NEW_TICKET_ID">
+          Discussions
+        </mat-button-toggle>
+        <mat-button-toggle value="bpmn">Processes</mat-button-toggle>
+        <mat-button-toggle value="subtasks">Subtasks</mat-button-toggle>
+      </mat-button-toggle-group>
+      <div>
+        <button mat-icon-button (click)="maximized = !maximized" color="accent"
+                [matTooltip]="maximized? 'exit fullscreen':'fullscreen'">
+          <mat-icon>{{ maximized ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+        </button>
+        @if (maximized || breakpoint.isMatched('(max-width: 1024px)')) {
+          <button mat-icon-button matTooltip="back to tickets" routerLink="../">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+          <button mat-icon-button (click)="update()" color="primary" matTooltip="save">
+            <mat-icon>check</mat-icon>
+          </button>
+        }
+      </div>
+    </div>
+    <div class="tab-contents" [ngStyle]="{
+    height: maximized ? '80vh' : 'auto',
+    minHeight: maximized ? '80vh' : 'auto',
+    overflow: maximized ? 'hidden' : 'auto',
+    padding: '10px 0 0 0',
+  }">
+      @switch (ticketView.value) {
+        @case ('details') {
+          <div class="tab scrollable"
+               [ngStyle]="{
+               maxHeight: maximized ? '80vh' : '55vh',
+               minHeight: maximized ? '70vh' : '55vh',
+               overflow: maximized ? 'hidden' : 'auto'
+           }">
+            <div class="left">
+              <mat-form-field appearance="fill" class="full field">
+                <mat-label>Title</mat-label>
+                <input matInput placeholder="Title" formControlName="title" cdkFocusInitial>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full">
+                <mat-label>Description</mat-label>
+                <textarea matInput #text maxlength="700" rows="7" placeholder="description"
+                          formControlName="description" class="hide-scroll">
+          </textarea>
+                <mat-hint align="end">{{ text.value.length }} / 700</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="right">
+              <mat-form-field appearance="fill" class="half field" *ngIf="team" formGroupName="assignedTo">
+                <mat-label>Assigned to:</mat-label>
+                <mat-select formControlName="id" (valueChange)="setAssignee($event)">
+                  <mat-option *ngFor="let member of team" [value]="member.persona.role">
+                    {{ member.persona.name }} ({{ member.role }})
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="half field">
+                <mat-label>Set a deadline</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="deadline">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="half field">
+                <mat-label>Priority</mat-label>
+                <mat-select formControlName="priority">
+                  <mat-option *ngFor="let entry of priorities" [value]="entry.value">{{ entry.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="half field">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="release_entry">
+                  <mat-option *ngFor="let entry of releaseEntries" [value]="entry.value">
+                    {{ entry.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <lib-attachments [formService]="formService"></lib-attachments>
+            </div>
+          </div>
+        }
+        @case ('discussions') {
+          @if (ticketService.ticket()?.id !== NEW_TICKET_ID) {
+            <lib-discussions [path]="discussionsPath" [assignedTo]="form.get('assignedTo')?.value"
+                             [maximized]="maximized" class="tab"
+                             [ngStyle]="{
+            maxHeight: maximized ? '80vh' : '50vh',
+            minHeight: maximized ? '80vh' : '50vh',
+            overflow: maximized ? 'hidden' : 'auto',
+            position: 'relative'
+            }"
+            />
+          }
+        }
+        @case ('bpmn') {
+          <lib-process [maximized]="maximized" [process]="ticketService.ticket()?.process || ''"
+                       class="tab" [ngStyle]="{width: '100vw'}" (path)="saveProcess($event)"/>
+        }
+        @case ('subtasks') {
+          <lib-subtasks [subtasks]="subtasks()" class="subtasks" (added)="setView($event)"/>
+        }
+      }
+    </div>
+  </div>
+}

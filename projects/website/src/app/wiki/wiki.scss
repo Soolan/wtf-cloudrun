@@ -1,0 +1,80 @@
+@use "flex";
+
+.on-this-page {
+  padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg);
+  background-color: #f1f1f1;
+  border-left: var(--space-sm) solid var(--color-primary-light);
+  h2 {
+    color: var(--color-primary-light);
+  }
+}
+
+section {
+  font-family: "Titillium Web", sans-serif;
+  h1 {font-weight: 100}
+  p {
+    font-size: 20px;
+  }
+  ul, ol {
+    padding-left: var(--space-lg);
+    font-size: 19px;
+  }
+  figure {text-align: center}
+  img {
+    width: 100%;
+    max-width: 850px;
+    margin: var(--space-lg) auto;
+    box-shadow: 0 0 24px var(--color-greyb);
+    border: 1px solid var(--color-greyd);
+    border-radius: var(--space-md);
+  }
+
+  h3 {
+    margin-top: var(--space-xxl);
+  }
+}
+section>* {
+  width: 100%;
+}
+
+a {
+  padding-left: var(--space-md);
+  font-family: "Ubuntu Mono", monospace;
+  font-size: 19px;
+  line-height: 2.05em;
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: var(--color-primary);
+}
+
+
+.note {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  margin: var(--space-xl) 0;
+  padding: var(--space-md);
+  background-color: var(--color-greye);
+  //@include flex.container(100%, space-between, center);
+  mat-icon {
+    scale: 1.5;
+    margin: var(--space-md);
+  }
+  p {
+    margin: 0;
+    display: flex;
+    a {
+      width: fit-content;
+      display: flex;
+    }
+    span {display: block}
+  }
+}
+
+mat-icon {
+  vertical-align: middle;
+  margin: 0 var(--space-xs);
+}

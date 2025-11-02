@@ -1,0 +1,105 @@
+<mat-dialog-content class="container">
+  <div class="api">
+    <div class="logo" [style.background-image]="(data.api.logo|storageUrl|async) ?
+        'url('+(data.api.logo|storageUrl|async)+')' :
+        'url(/assets/images/team/gotta-go-ooooh-surfing.png)'">
+    </div>
+    <div class="heading">
+      <h2 class="thin">{{ data.api.name }}</h2>
+      <a class="mat-caption" mat-button [href]="data.api.baseUrl" target="_blank" style="opacity: 0.8">
+        {{ data.api.baseUrl }}
+        <mat-icon iconPositionEnd>open_in_new</mat-icon>
+      </a>
+    </div>
+    <p class="mat-body-1">{{ data.api.description }}</p>
+  </div>
+
+  <div class="api-in-use" [formGroup]="form">
+    <mat-slide-toggle class="slide" color="primary" formControlName="active">
+      <span class="toggle" [style.opacity]="form.get('active')?.value ? '1' : '0.5'">Active</span>
+    </mat-slide-toggle>
+
+    <div class="left">
+      <h3 class="thin">Authentication</h3>
+    </div>
+    <div class="right">
+      <lib-auth-creds [form]="form" style="width: 100%"></lib-auth-creds>
+    </div>
+    <mat-divider class="full"></mat-divider>
+
+    <div class="left">
+      <h3 class="thin">Headers</h3>
+    </div>
+    <div class="right">
+      <div *ngFor="let header of data.api.headers" class="mat-caption">
+        <b>{{ header.key }}: </b>
+        <span>{{ header.value }}</span>
+      </div>
+      <mat-divider class="full"></mat-divider>
+      <div class="mat-caption two-thirds" style="margin: var(--space-sm) 0">
+        Custom headers:
+      </div>
+
+      <mat-accordion class="full headers">
+        <ng-container formArrayName="headers">
+          <div *ngFor="let headerFormGroup of formService.headersArray.controls; index as i" class="full">
+            <mat-expansion-panel [formGroupName]="i" [expanded]="false" class="full" #panel>
+              <mat-expansion-panel-header class="mat-caption full">
+                <mat-panel-title>
+                  {{ headerFormGroup?.get('key')?.value || 'New key' }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{ headerFormGroup?.get('value')?.value || 'value' }}
+                  <button mat-icon-button (click)="handleDeleteClick($event, panel, i); $event.stopPropagation()">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="full" *ngIf="deletingHeaders[i]; else show_fields">
+                <span class="mat-caption three-quarters">
+                  This header will be deleted. Are you sure?
+                </span>
+                <div class="quarter">
+                  <button mat-stroked-button color="warn" (click)="deleteHeader(i)">Yes</button>
+                  <button mat-button (click)="deletingHeaders[i] = false">No</button>
+                </div>
+              </div>
+
+              <ng-template #show_fields>
+                <div class="full">
+                  <mat-form-field appearance="fill" class="half">
+                    <mat-label>Key</mat-label>
+                    <input matInput placeholder="Key" formControlName="key">
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" class="half">
+                    <mat-label>Value</mat-label>
+                    <input matInput placeholder="Value" formControlName="value">
+                  </mat-form-field>
+                </div>
+              </ng-template>
+            </mat-expansion-panel>
+          </div>
+        </ng-container>
+      </mat-accordion>
+      <div class="full">
+        <button mat-stroked-button color="primary" (click)="addHeader()" style="margin: var(--space-sm)">
+          <span>Add</span>
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-divider class="full"></mat-divider>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="save()">
+    <mat-icon>check</mat-icon>
+    <span>Save</span>
+  </button>
+  <button mat-stroked-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+    <span>Close</span>
+  </button>
+</mat-dialog-actions>

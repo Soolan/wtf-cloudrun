@@ -1,0 +1,63 @@
+@use "../../assets/styles/flex";
+
+.item {
+  margin: 0 auto;
+  @include flex.container(100%, space-around, flex-start);
+  @include flex.breakpoint(lt-sm, 90%);
+
+  .logo {
+    margin-bottom: var(--space-md);
+    @include flex.container(12%, flex-start, flex-start);
+    @include flex.breakpoint(md, 20%);
+    @include flex.breakpoint(lt-md, 100%);
+    div {
+      background-image: url("/assets/images/team/gotta-go-ooooh-surfing.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      border: 1px solid var(--color-grey9);
+      border-radius: 50%;
+      margin: auto;
+      width: 6em;
+      min-height: 6em;
+    }
+  }
+
+  .name {
+    @include flex.container(55%, flex-start, flex-start);
+    @include flex.breakpoint(sm, 60%);
+    @include flex.breakpoint(lt-sm, 100%);
+    .publisher {
+      margin-bottom: var(--space-xxs);
+      @include flex.container(100%, flex-start, CENTER);
+    }
+  }
+
+  .install {
+    //margin-left: var(--space-xxl);
+    //@media screen and (max-width: 960px){
+    //  margin-left: 0;
+    //}
+    //@include flex.container(20%, flex-start, flex-start);
+    //@include flex.breakpoint(sm, 30%);
+    //@include flex.breakpoint(lt-sm, 100%);
+
+  }
+
+  .contents {
+    margin: var(--space-md) auto;
+    //@include flex.container(100%, space-around, flex-start);
+    @include flex.breakpoint(lt-sm, 90%);
+
+    .tab {
+      padding: var(--space-sm);
+    }
+  }
+
+  .info {
+    margin: var(--space-md) auto;
+    padding: var(--space-md);
+    background-color: var(--color-greye);
+    border-radius: var(--space-xs);
+  }
+}

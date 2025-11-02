@@ -1,0 +1,23 @@
+<div class="crop full">
+  <image-cropper
+    [imageChangedEvent]="data.imageChangedEvent"
+    [imageURL]="data.imageURL"
+    [maintainAspectRatio]="maintainAspectRatio"
+    [aspectRatio]="aspectRatio"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded($event)"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+  <p class="mat-caption full">Please use the handles if you wish to crop and adjust the image.</p>
+  <div class="actions">
+    <button mat-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+      <span>Cancel</span>
+    </button>
+    <button mat-flat-button color="primary" (click)="send()">
+      <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+      <span>Proceed</span>
+    </button>
+  </div>
+</div>

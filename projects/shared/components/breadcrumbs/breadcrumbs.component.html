@@ -1,0 +1,14 @@
+<nav aria-label="Breadcrumb" *ngIf="breadcrumbs.length > 0" class="breadcrumbs" id="breadcrumbs">
+  <span>
+    <button mat-icon-button routerLink="console/{{companyService.id()}}" color="primary"><mat-icon>home</mat-icon></button>
+  </span>
+  <span *ngFor="let crumb of breadcrumbs; let last = last">
+    <mat-icon style="opacity: 0.6">chevron_right</mat-icon>
+    <ng-container *ngIf="!last">
+      <button [routerLink]="crumb.url" mat-button color="primary">{{ crumb.label | titlecase}}</button>
+    </ng-container>
+    <ng-container *ngIf="last">
+      <span style="opacity: 0.7;" class="mat-caption">{{ crumb.label  | titlecase}}</span>
+    </ng-container>
+  </span>
+</nav>

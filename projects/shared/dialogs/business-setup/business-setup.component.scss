@@ -1,0 +1,48 @@
+@use "../../assets/styles/flex";
+
+.container {
+  @include flex.container(100%, space-between, center);
+  .contents {
+    margin: auto;
+    @include flex.container(70%, space-around, center);
+    @include flex.breakpoint(lt-md, 100%);
+  }
+  .steps {
+    //padding: var(--space-md);
+
+    .step {
+      opacity: 0.4;
+      transition: opacity 0.3s;
+      @include flex.container(100%, flex-start, center);
+      span {
+        line-height: var(--space-lg);
+        margin-left: var(--space-sm);
+      }
+      .spinner {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .active {
+      opacity: 0.8;
+    }
+
+    .completed {
+      opacity: 1;
+      color: var(--color-primary);
+    }
+
+    .failed {
+      opacity: 1;
+      color: var(--color-warn-dark);
+    }
+  }
+  //.description {
+  //  @include flex.container(55%, space-around, center);
+  //  @include flex.breakpoint(lt-md, 100%);
+  //  mat-icon {
+  //    scale: 4;
+  //    margin: var(--space-lg);
+  //  }
+  //}
+}

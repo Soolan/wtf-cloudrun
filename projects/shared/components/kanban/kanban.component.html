@@ -1,0 +1,13 @@
+<div *ngIf="loading" class="loading">
+  <mat-spinner color="accent"></mat-spinner>
+</div>
+
+<div *ngIf="layoutService.headerIsReady() && ticketsByStage" class="tickets">
+  <lib-ticket-stage class="stage" *ngFor="let stage of stages"
+    [stage]="stage"
+    [stats]="stats"
+    [tickets]="ticketsByStage[stage]"
+    [creator]="creator"
+    [connectedTo]="stages"
+  />
+</div>

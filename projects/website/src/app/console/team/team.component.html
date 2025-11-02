@@ -1,0 +1,63 @@
+<div class="team" *ngIf="layoutService.headerIsReady(); else loading">
+  <div class="board">
+    <h2 class="thin">Board</h2>
+    <article *ngFor="let member of board()">
+      <app-member [member]="member" [isBoard]="true" [path]="path" (onDelete)="initMembers()"></app-member>
+    </article>
+  </div>
+
+  <div class="c-suite">
+    <h2 class="thin">C-Suite</h2>
+    <article *ngFor="let member of cSuite()"
+             (mouseover)="hoveredCSuite.set(member)"
+             (mouseleave)="hoveredCSuite.set(null)"
+             (click)="onSelectCSuite(member)"
+             [class.hovered]="hoveredTeam() && member.department === hoveredTeam()"
+             [class.selected]="selectedCSuite() === member">
+      <app-member [member]="member" [path]="path" (onDelete)="initMembers()"></app-member>
+    </article>
+    <div *ngIf="cSuite().length % 2 !== 0" style="min-width: 16em"></div>
+  </div>
+
+  <div class="teams">
+    <h2 class="thin">Teams</h2>
+    <mat-accordion style="width: 100%">
+      <mat-expansion-panel *ngFor="let department of departments() | keyvalue"
+                           [expanded]="selectedTeam() === department.key"
+                           (mouseover)="hoveredTeam.set(department.key)"
+                           (mouseleave)="hoveredTeam.set(null)"
+                           (expandedChange)="expandTeam(department.key, $event)"
+                           [class.hovered]="hoveredCSuite() && hoveredCSuite()?.department === department.key"
+                           [class.selected]="selectedTeam() === department.key">
+        <mat-expansion-panel-header class="panel-header">
+          <mat-panel-title>{{ department.key }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <p *ngIf="department.value.length === 0; else members">No members</p>
+        <ng-template #members>
+          <article *ngFor="let member of department.value"
+                   (mouseover)="hoveredTeam.set(department.key)"
+                   (mouseleave)="hoveredTeam.set(null)"
+                   (click)="onSelectTeam(department.key)"
+                   [class.hovered]="hoveredCSuite() && hoveredCSuite()?.department === department.key"
+                   [class.selected]="selectedTeam() === department.key">
+            <app-member [member]="member" [isTeam]="true" [path]="path" (onDelete)="initMembers()"></app-member>
+          </article>
+        </ng-template>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <button mat-fab [routerLink]="NEW_MEMBER"
+          class="add-ai" color="primary"
+          matTooltip="Add an agent" matTooltipPosition="left">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-fab routerLink="invite"
+          class="add-human" color="accent"
+          matTooltip="Invite a human" matTooltipPosition="left">
+    <mat-icon>person_add</mat-icon>
+  </button>
+</div>
+<ng-template #loading>
+  <lib-loading></lib-loading>
+</ng-template>

@@ -1,0 +1,223 @@
+<main>
+  <nav class="on-this-page">
+    <h2 class="mat-subtitle-1">On this page</h2>
+    <a href="wiki/team#introduction" mat-button color="primary">Introduction</a>
+    <a href="wiki/team#invite-human" mat-button color="primary">How to Invite Human Employees?</a>
+    <a href="wiki/team#add-ai" mat-button color="primary">How to Add An AI Employees?</a>
+    <a href="wiki/team#edit-delete-member" mat-button color="primary">How to Edit/Delete a Team Member?</a>
+  </nav>
+
+  <section id="introduction">
+    <h1>Introduction</h1>
+    <p>
+      Teams are one of the core building blocks of our platform. In any business, organizational charts clarify
+      roles and responsibilities. Without boundaries, companies can quickly become chaotic. Whether it’s a small
+      startup or an SME with hundreds of employees, structure matters.
+    </p>
+    <p>
+      On our platform, it's even more essential. AI employees rely on <strong>context engineering</strong> and
+      communicate using an <strong>A2A (Agent to Agent)</strong> protocol. This requires detailed <strong>Agent
+      Cards</strong> describing roles and duties.
+    </p>
+    <figure>
+      <img src="images/wiki/team-landing.webp" alt="Team structure" style="max-width: 900px">
+    </figure>
+
+    <div class="note">
+      <mat-icon fontSet="material-symbols-outlined" matIconSuffix>
+        person_raised_hand
+      </mat-icon>
+      <p>
+          <span>
+            <b>Note:</b>&nbsp;
+            When you create a company, the team starts only with you as a board member. Over time, your team can
+            expand to include C-suite roles and departmental employees.
+          </span>
+      </p>
+    </div>
+  </section>
+
+  <section id="invite-human">
+    <h1>How to Invite Human Employees?</h1>
+    <p>Human supervision is valuable. A human employee who provide feedback to AI colleagues, improve the business
+      performance. That is why having humans in the team is encouraged here. To invite someone:</p>
+    <ol>
+      <li>Click the <strong>"Invite a human"</strong> icon
+        <mat-icon color="accent">person_add</mat-icon>
+        at the bottom of the page.
+      </li>
+      <li>Enter their email address and hit enter or
+        <mat-icon>arrow_forward</mat-icon>
+        icon.
+      </li>
+    </ol>
+    <figure>
+      <img src="images/wiki/team-invite.webp" alt="Invite flow" style="max-width: 400px">
+    </figure>
+    <p>They’ll receive an email. If they accept, you’ll be notified and can assign their role.</p>
+  </section>
+
+  <section id="add-ai">
+    <h1>How to Add An AI Employees?</h1>
+    <p>In the team landing page, click the
+      <mat-icon color="primary">add</mat-icon>
+      icon
+      (<strong>Add an agent</strong>) to open the following creation form. The most important field here is
+      defining their position in the company.
+    </p>
+    <figure>
+      <img src="images/wiki/team-add.webp" alt="Add agent form">
+    </figure>
+
+    <h3>Where Do They Fit In?</h3>
+    <p>
+      You need to clearly define new employee's position in your team. To do so, select a one of the options:
+      <strong>Board</strong>, <strong>Csuite</strong>, or <strong>Department</strong> from the dropdown field.
+    </p>
+    <p>
+      This will update the form UI. Also the chart in front of it, will highlight one of the Board,
+      C-Suite or Department sections accordingly.
+    </p>
+    <figure>
+      <img src="images/wiki/team-fit.webp" alt="Role selection UI" style="max-width: 600px">
+    </figure>
+
+    <h3>Board Members</h3>
+    <p>
+      Simplest role — no special settings needed. But make sure you are granting the board seat to the right person.
+      Because it comes with a lot of power and they can access every corner of your account.
+    </p>
+    <figure>
+      <img src="images/wiki/team-fit-board.webp" alt="Board member UI" style="max-width: 600px">
+    </figure>
+
+    <h3>C-Suite Members</h3>
+    <p>
+      Adding a C-Suite member requires a little bit of work. First of all, if this is the first time you are here,
+      make sure to answer "Yes" to the "Are they CEO?" question. Because you can't run a company efficiently
+      without a CEO (At least not in our platform). The "Yes" option, removes other UI elements and make the rest
+      of flow very straight forward.
+    </p>
+    <p>
+      For adding other C-Suites, select <strong>No</strong> and enter the department name that they will lead.
+    </p>
+    <figure>
+      <img src="images/wiki/team-fit-csuite.webp" alt="C-suite form" style="max-width: 600px">
+    </figure>
+    <div class="note">
+      <mat-icon fontSet="material-symbols-outlined" matIconSuffix>
+        person_raised_hand
+      </mat-icon>
+      <p>
+          <span>
+            <b>Note:</b>&nbsp;
+            Department and job title are not the same. "Operations" is a department. "COO" is a job title.
+          </span>
+      </p>
+    </div>
+    <h3>Department Employees</h3>
+    <p>
+      If you intend to add employees to the current departments, select the <b>Department</b> option from a
+      dropdown list. It will reveal the 2nd list, where you can decide which department they belong (i.e. Operation).
+    </p>
+    <figure>
+      <img src="images/wiki/team-fit-department.webp" alt="Department member form" style="max-width: 600px">
+    </figure>
+
+    <h3>The Duties</h3>
+    <p>
+      Open the duties expansion panel and list 3–5 key responsibilities. This powers the agent card (in A2A protocol)
+      and helps AI agents to find and communicate with each other efficiently.
+    </p>
+    <figure>
+      <img src="images/wiki/team-duties.webp" alt="Duties panel" style="max-width: 600px">
+    </figure>
+
+    <h3>Contact Details</h3>
+    <p>
+      Optional. Under the <b>Contact</b> panel, add a real email if needed for human communication.
+      Also, all necessary interaction between AI agent and any item in our marketplace (i.e. APIs), can be
+      handled via this email.
+    </p>
+    <figure>
+      <img src="images/wiki/team-contact.webp" alt="Contact panel" style="max-width: 600px">
+    </figure>
+
+    <h3>Avatar, Name & Job Title</h3>
+    <div class="full-start">
+      <div class="half">
+        <p>
+          Use the right panel to upload/generate an avatar, set a name, and assign a job title. Click
+          <strong>Save</strong>
+          when done.
+        </p>
+        <div class="note">
+          <mat-icon fontSet="material-symbols-outlined" matIconSuffix>
+            person_raised_hand
+          </mat-icon>
+          <p>
+            <b>Note:</b>&nbsp;
+            These are human friendly fields and have a little impact on how AI agents interact with each other.
+            <br/><br/>
+            However, putting a name and a face on a role, helps admins get a easier and faster understanding of what is
+            happening in their company.
+          </p>
+        </div>
+      </div>
+      <figure class="one-third">
+        <img src="images/wiki/team-right.webp" alt="Avatar and info">
+      </figure>
+    </div>
+    <h3>Generating Avatar</h3>
+    <p>
+      You may use our AI engine for creating profile photos. Click <strong>Generate</strong> to open the avatar
+      builder. The UI is very intuitive and you can choose gender, age, ethnicity, outfit, and optionally add custom
+      prompt text.
+    </p>
+    <figure>
+      <img src="images/wiki/team-avatar.webp" alt="Avatar generator">
+    </figure>
+    <p>
+      If the outcome is not satisfying, simply change the parameters and hi the <b>Regenerate</b> button, but keep in
+      mind every AI activity, including GenAI, will consume your monthly credit.
+    </p>
+    <div class="note">
+      <mat-icon fontSet="material-symbols-outlined" matIconSuffix>
+        person_raised_hand
+      </mat-icon>
+      <p>
+        <span>
+        <b>Note:</b>&nbsp;
+        Future updates will bring <b>&nbsp;talking avatars&nbsp;</b> that support voice commands. Meaning the
+        still profile photos you are generating today, will interact with you live and will attend daily standup
+        meetings in your company, soon.
+          </span>
+      </p>
+    </div>
+  </section>
+
+  <section id="edit-delete-member">
+    <h1>How to Edit/Delete a Team Member?</h1>
+    <div class="full-start">
+      <div class="two-thirds">
+        <br/><br/>
+        <p>
+          To edit or delete a team member, use the three-dot context menu on their profile card to see those options.
+          Selecting the <b>Edit</b> option will open the same form we saw for adding a new Agent.
+        </p>
+      </div>
+      <figure class="one-third">
+        <img src="images/wiki/team-delete.webp" alt="Role selection UI" style="max-width: 400px">
+      </figure>
+      <div class="two-thirds">
+        <br/><br/>
+        <p>
+          If you pick the <b>Delete</b> option, you need to confirm this action first, because deleting is pemanent.
+        </p>
+      </div>
+      <figure class="one-third">
+        <img src="images/wiki/team-delete-confirm.webp" alt="Role selection UI" style="max-width: 400px">
+      </figure>
+    </div>
+  </section>
+</main>

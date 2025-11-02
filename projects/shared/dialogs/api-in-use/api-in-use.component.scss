@@ -1,0 +1,65 @@
+@use "../../assets/styles/flex";
+
+.container {
+  max-height: 85vh !important;
+  @include flex.container(100%, space-between, flex-start);
+
+  .api {
+    margin: var(--space-md) 0;
+    padding: var(--space-sm);
+    gap: var(--space-md);
+    @include flex.container(33%, flex-start, flex-start);
+    @include flex.breakpoint(lt-md, 100%);
+
+    .logo {
+      //background-image: url("/assets/images/team/gotta-go-ooooh-surfing.png");
+      background-repeat: no-repeat;
+      background-position: center top;
+      background-size: contain;
+      width: auto;
+      min-width: 5.5em;
+      min-height: 5.5em;
+    }
+  }
+
+  .api-in-use {
+    margin-top: var(--space-lg);
+    @include flex.container(60%, space-between, flex-start);
+    @include flex.breakpoint(lt-md, 100%);
+
+    .slide {
+      position: fixed;
+      top: var(--space-xl);
+      left: var(--space-xxl);
+      .toggle {
+        font-family: "Ubuntu Mono", monospace;
+        font-size: 21px;
+        padding-left: var(--space-xs);
+        color: var(--color-primary);
+      }
+    }
+
+
+    .left {
+      @include flex.container(30%, space-between, flex-start);
+      @include flex.breakpoint(lt-md, 100%);
+    }
+
+    .right {
+      @include flex.container(70%, space-between, center);
+      @include flex.breakpoint(lt-md, 100%);
+
+      .current-auth {
+
+      }
+    }
+  }
+  .mat-divider {
+    margin: var(--space-md) 0;
+  }
+}
+
+.headers .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}

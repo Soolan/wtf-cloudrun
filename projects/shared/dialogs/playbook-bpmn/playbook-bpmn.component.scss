@@ -1,0 +1,27 @@
+.close {
+  right: var(--space-xs);
+  top: var(--space-xs);
+}
+
+.generate {
+  right: var(--space-xl);
+  top: var(--space-sm);
+}
+
+.dialog-buttons {
+  position: absolute;
+  z-index: 500;
+}
+
+.assessments {
+  p {margin: var(--space-sm) var(--space-md)}
+  mat-icon {vertical-align: middle}
+}
+
+.score {
+  margin: var(--space-lg) 0;
+}
+
+.recommendations {
+  padding: var(--space-lg) var(--space-md);
+}

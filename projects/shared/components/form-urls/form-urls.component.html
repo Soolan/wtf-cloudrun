@@ -1,0 +1,14 @@
+<div class="urls-container">
+<!--  <h4 class="urls-header">Form URLs</h4>-->
+<!--  <div class="url-row">-->
+<!--    <span class="url-label">Test URL:</span>-->
+<!--    <span class="url-text placeholder">Click the 'Run' button to open the test form.</span>-->
+<!--  </div>-->
+  <div class="url-row">
+    <span class="url-label">Production URL:</span>
+    <span class="url-text">{{ productionUrl }}</span>
+    <button mat-icon-button [cdkCopyToClipboard]="productionUrl" (cdkCopyToClipboardCopied)="onCopy()" matTooltip="Copy Production URL">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<button mat-icon-button matDialogClose class="close">
+  <mat-icon>close</mat-icon>
+</button>
+<div mat-dialog-title>{{ message() }}</div>
+@if (kb) {
+  <p>This the AI friendly version of your topic.</p>
+  <div class="full mat-caption">
+    <p [matTooltip]="kb.id" class="three-quarters">Knowledge base</p>
+    <button mat-icon-button (click)="delete()">delete</button>
+    @if (chunks) {
+      <ul class="full" style="margin-left: var(--space-lg)">
+        @for (chunk of chunks; track $index) {
+          <li [matTooltip]="chunk.id">Chunk {{ $index + 1 }}</li>
+        }
+      </ul>
+    }
+  </div>
+} @else {
+  <p class="mat-caption">
+    Knowledge base not found. Please hit the
+    {{ data.regenerate ? 'Regenerate' : 'Generate' }}
+    button to create one.
+  </p>
+}
+@if (working()) {
+  <mat-progress-bar mode="indeterminate" style="width: 100%"/>
+  <p>PLease wait. We are making AI knowledge base from your topic.</p>
+} @else {
+  <div mat-dialog-actions class="full">
+    <button mat-stroked-button matDialogClose class="action">
+      <mat-icon>close</mat-icon>
+      <span>Close</span>
+    </button>
+    <button mat-flat-button color="primary" (click)="generate()" class="action">
+      <mat-icon>auto_awesome</mat-icon>
+      <span>&nbsp;{{ data.regenerate ? 'Regenerate' : 'Generate' }}</span>
+    </button>
+  </div>
+}
+

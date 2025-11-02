@@ -1,0 +1,23 @@
+<mat-tab-group *ngIf="layoutService.headerIsReady()">
+  <mat-tab label="Overview">
+    <lib-current-plan class="full tab"
+                      [updating]="updatingCurrentPlan"
+                      [currentPlan]="currentPlan"
+                      (currentPlanChanged)="update($event)"/>
+  </mat-tab>
+  <mat-tab label="Plan">
+    <div class="tab">
+      <lib-plans-pricing/>
+    </div>
+  </mat-tab>
+  <mat-tab label="Payment">
+    <div class="tab">
+      <lib-payment-options [paymentOptions]="paymentOptions"/>
+    </div>
+  </mat-tab>
+  <mat-tab label="Statement">
+    <div class="tab">
+      <lib-transactions [profileId]="profileService.profileId()" [tag]="profileService.tag()"/>
+    </div>
+  </mat-tab>
+</mat-tab-group>

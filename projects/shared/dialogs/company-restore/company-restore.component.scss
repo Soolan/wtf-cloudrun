@@ -1,0 +1,28 @@
+.close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+}
+
+.backup-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: var(--space-sm);
+
+  .flex-actions {
+    display: flex;
+    margin-left: var(--space-md);
+  }
+}
+
+.upload-section {
+  margin-block-start: var(--space-lg);
+  display: flex;
+  justify-content: center;
+}
+
+.empty {
+  margin-block: var(--space-md);
+  text-align: center;
+}

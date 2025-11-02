@@ -1,0 +1,58 @@
+<button mat-icon-button matDialogClose class="close">
+  <mat-icon>close</mat-icon>
+</button>
+
+<div class="full-start" style="max-height: 95vh">
+  <div class="one-third">
+    @if (selectedMember()) {
+      <div class="full">
+      <img
+        class="avatar-large"
+        [src]="selectedMember()?.persona?.avatar || '' |storageUrl|async"
+        [alt]="selectedMember()?.persona?.name"
+      />
+      <h3 class="full mat-headline-6 thin">{{ selectedMember()?.persona?.name }}</h3>
+      <p class="mat-caption full" style="opacity: 0.8; margin: 0; font-size: 1em"> {{ selectedMember()?.role }}</p>
+      @if (selectedMember()?.department && selectedMember()?.department !== CEO) {
+        <p class="mat-caption full" style="opacity: 0.5; font-size: 0.8em">
+          {{ selectedMember()?.department }} Department
+        </p>
+      }
+      <!-- Add other fields as needed -->
+      <button mat-raised-button color="primary" (click)="select()" class="half" style="margin-top: var(--space-sm)">
+        Select
+      </button>
+      <mat-divider class="full" style="margin: var(--space-lg) 0"></mat-divider>
+    </div>
+    } @else {
+      <div class="placeholder">Select a member to preview</div>
+    }
+  </div>
+  <div class="two-thirds">
+    <h1 class="mat-headline-6 thin">Who will manage the playbook?</h1>
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" placeholder="Type a name or role"
+             [value]="search()" (input)="updateSearch($event)"/>
+      @if (search()) {
+        <button mat-icon-button matSuffix (click)="search.set('')" aria-label="Clear">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+
+    <div class="full-start">
+      @for (member of members(); track $index) {
+        <div class="quarter" (click)="pickMember(member)">
+          <div class="full member" [class.active]="selectedMember()?.id === member.id">
+            <img class="avatar"
+                 [src]="member.persona.avatar || '' |storageUrl|async"
+                 [alt]="member.persona.name"/>
+            <p class="full mat-caption" style="margin-bottom: 0; font-size: 1em">{{ member.persona.name }}</p>
+            <p class="mat-caption" style="opacity: 0.5">{{ member.role }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

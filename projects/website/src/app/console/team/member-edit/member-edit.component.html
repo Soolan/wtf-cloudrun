@@ -1,0 +1,15 @@
+@if (member()) {
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" *ngIf="isAdminProfile; else member_tab;">
+    <mat-tab label="Position">
+      <app-member-tab [path]="path" [member]="member()" [memberId]="memberId" [companyId]="companyId"/>
+    </mat-tab>
+    <mat-tab label="Adavnced settings" *ngIf="user">
+      <app-profile-tab [user]="user"/>
+    </mat-tab>
+  </mat-tab-group>
+
+  <ng-template #member_tab>
+    <app-member-tab [path]="path" [member]="member()" [memberId]="memberId" [companyId]="companyId"/>
+  </ng-template>
+}
+

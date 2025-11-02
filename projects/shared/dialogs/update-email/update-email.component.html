@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Update Email</h2>
+
+<mat-dialog-content>
+  <p>Your current email: <b class="mat-caption">{{ data.email }}</b></p>
+  <mat-form-field class="full">
+    <mat-label>New Email</mat-label>
+    <input matInput [formControl]="newEmail" type="email" />
+    <mat-error *ngIf="newEmail.hasError('required')">Email is required</mat-error>
+    <mat-error *ngIf="newEmail.hasError('email')">Enter a valid email</mat-error>
+    <mat-error *ngIf="newEmail.hasError('updateFailed')">Failed to update email</mat-error>
+  </mat-form-field>
+
+  <div class="full">
+    <button mat-stroked-button (click)="close()">
+      <mat-icon>cancel</mat-icon>
+      <span>Cancel</span>
+    </button>
+    <button mat-flat-button color="primary" (click)="update()" [disabled]="newEmail.invalid">
+      <mat-icon>check</mat-icon>
+      <span>Update</span>
+    </button>
+  </div>
+</mat-dialog-content>

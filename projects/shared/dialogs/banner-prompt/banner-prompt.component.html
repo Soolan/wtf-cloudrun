@@ -1,0 +1,69 @@
+<div [formGroup]="form" class="full">
+
+  <button mat-icon-button matDialogClose class="close">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="mat-headline-6 thin full">
+    {{ generating() ? '' : 'How does this banner look like?' }}
+  </div>
+
+  @if (generating()) {
+    <div class="full">
+      <div class="mat-headline-6 thin">{{ message() }}</div>
+      <mat-progress-bar mode="buffer"></mat-progress-bar>
+    </div>
+  } @else {
+    <div [formGroup]="form" class="full">
+      <div class="banner full" [style.background-image]="bannerUrl() ? 'url(' + bannerUrl() + ')' : null"></div>
+      <mat-form-field class="half" style="margin-top: var(--space-sm)">
+        <mat-label>Style</mat-label>
+        <mat-select formControlName="style">
+          @for (style of styles; track $index) {
+            <mat-option [value]="style">{{ style }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="half" style="margin-top: var(--space-sm)">
+        <mat-label>Business</mat-label>
+        <input matInput placeholder="i.e. Wellness" formControlName="business">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full chips">
+        <mat-label>[Prompt summary]</mat-label>
+        <mat-chip-grid #chipList aria-label="tag selection">
+          @for (tag of tags; track $index) {
+            <mat-chip-row (removed)="deleteTag(tag)" [value]="tag">
+              <span class="chip-text">{{ tag }}</span>
+              @if ($index > 1) {
+                <button matChipRemove>
+                  <mat-icon>close</mat-icon>
+                </button>
+              }
+            </mat-chip-row>
+          }
+          <mat-divider></mat-divider>
+          @if (tags.length < 10 && tags.toString().length < 100) {
+            <input
+              placeholder="add more details ⤶" cdkFocusInitial matInput type="text" class="prompt"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              matChipInputAddOnBlur=true
+              (matChipInputTokenEnd)="addTag($event)">
+          }
+        </mat-chip-grid>
+        <mat-hint style="opacity: 0.5"> Prompt length: {{ tags.toString().length }}/100</mat-hint>
+      </mat-form-field>
+    </div>
+  }
+  <div class="actions full">
+    <button mat-flat-button color="accent" (click)="generate()" [disabled]="generating()">
+      <mat-icon>auto_awesome</mat-icon>
+      {{ generated() ? 'Regenerate' : 'Generate' }}
+    </button>
+    <button mat-flat-button (click)="pick()" color="primary" [disabled]="generating() || !generated()">
+      <span>Approve</span>
+      <mat-icon>check</mat-icon>
+    </button>
+  </div>
+</div>

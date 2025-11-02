@@ -1,0 +1,58 @@
+@use "flex";
+
+.companies {
+  height: 90vh;
+  @include flex.container(100%, space-around, center);
+  .company {
+    min-height: 15.5em;
+    margin-bottom: var(--space-xl);
+    @include flex.width(38%);
+    @include flex.breakpoint(md, 45%);
+    @include flex.breakpoint(sm, 60%);
+    @include flex.breakpoint(lt-sm, 90%);
+
+    .avatar {
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--color-grey6);
+      width: var(--space-xl);
+      height: var(--space-xl);
+    }
+
+    .banner {
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      height: var(--space-xxxl);
+    }
+
+    .no-banner {
+      background: repeating-linear-gradient(
+          -45deg,
+          #e0e0e0,
+          #e0e0e0 10px,
+          #f5f5f5 10px,
+          #f5f5f5 20px
+      );
+    }
+
+
+    .description {
+      margin: var(--space-sm) 0;
+    }
+
+    button {
+      margin: auto;
+    }
+  }
+}
+
+.menu {
+  position: absolute;
+  top: var(--space-md);
+  right: 0;
+}
+
+.menu-label {
+  display: flex;
+}

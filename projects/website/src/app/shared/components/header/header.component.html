@@ -1,0 +1,87 @@
+<header class="header" id="invertible">
+  @if ((auth.user$ | async) && isConsole() && layoutService.fieldVisible()) {
+    <div class="companies">
+      <mat-form-field appearance="fill" class="fullwidth">
+        <mat-select [value]="selectedCompany()" (valueChange)="currentCompany($event)">
+          @if (selected) {
+            <mat-select-trigger>
+              <div class="option-container">
+                <img [src]="selected.logo | storageUrl | async"
+                     (error)="img.src = 'assets/images/team/gotta-go-ooooh-surfing.png'"
+                     #img alt="{{ selected.name }} logo" class="company-logo"/>
+                <span class="company-name">
+                  {{ selected.name.length > 16 ? selected.name.slice(0, 13) + '...' : selected.name }}
+                </span>
+              </div>
+            </mat-select-trigger>
+          }
+          @for (company of companies; track company.id) {
+            <mat-option [value]="company">
+              <div class="option-container">
+                <img [src]="company.logo | storageUrl | async"
+                     (error)="img.src = 'assets/images/team/gotta-go-ooooh-surfing.png'"
+                     #img alt="{{ company.name }} logo" class="company-logo"/>
+                <span class="company-name">
+                {{ company.name.length > 16 ? company.name.slice(0, 13) + '...' : company.name }}
+              </span>
+              </div>
+            </mat-option>
+          }
+          <mat-option [value]="newCompany">
+            <mat-icon>add</mat-icon>
+            <span>Add Company</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  }
+  @if (isWiki() && layoutService.fieldVisible()) {
+    <div class="companies">
+      <mat-form-field appearance="fill" class="search">
+        <mat-icon matIconPrefix>search</mat-icon>
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="keywords  ⤶">
+      </mat-form-field>
+    </div>
+  }
+  @if (isWebsite()) {
+    <div class="logo" routerLink="/" role="link" aria-label="Go to homepage"></div>
+  }
+
+  <lib-breadcrumbs [breadcrumbs]="layoutService.breadcrumbs()" class="breadcrumbs"
+                   [style.top]="layoutService.sidenavVisible()? '-0.5em': '0'"/>
+
+  <nav class="menu" [style.top]="layoutService.sidenavVisible()? '-0.5em': '0'">
+    @if (auth.user$ | async; as user) {
+      <div style="display: flex;">
+        <button mat-icon-button (click)="visit('console')" color="primary" aria-label="Go to dashboard">
+          <mat-icon>dashboard</mat-icon>
+        </button>
+        <div class="context-menu user" matTooltip="Hi {{profileService.displayName()}}">
+          <button mat-icon-button [matMenuTriggerFor]="account" aria-haspopup="true" color="primary">
+            @if (profileService.avatar() || user['photoURL']) {
+              <span [ngStyle]="{ 'background-image': profileService.avatarUrl }" class="avatar"></span>
+            } @else {
+              <mat-icon>person</mat-icon>
+            }
+          </button>
+          <mat-menu #account="matMenu" class="menu">
+            @for (option of profileOptions; track option.name) {
+              <button mat-menu-item (click)="visit(option.name, user.uid)">
+                <mat-icon>{{ option.icon }}</mat-icon>
+                <span style="font-size: smaller">{{ option.name }}</span>
+              </button>
+            }
+          </mat-menu>
+        </div>
+      </div>
+    } @else {
+      <button mat-icon-button (click)="visit('home')" color="primary" aria-label="Go to homepage">
+        <mat-icon>home</mat-icon>
+      </button>
+      <button mat-stroked-button (click)="visit('login')" color="primary">
+        <span style="padding-inline: var(--space-xs)">{{ 'Login/Register' }}</span>
+      </button>
+    }
+  </nav>
+</header>

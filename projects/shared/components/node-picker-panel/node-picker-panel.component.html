@@ -1,0 +1,64 @@
+<div class="panel-header">
+  @if (view === 'nodes') {
+    <button class="back-button" (click)="onBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+  }
+  <h3>{{ view === 'categories' ? 'Pick a node' : (selectedCategory ? selectedCategory.name : 'Search Results') }}</h3>
+  <button mat-icon-button (click)="onClose()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+</div>
+
+<div class="panel-content">
+  <div class="search-bar">
+    <span class="material-symbols-outlined">search</span>
+    <input type="text" placeholder="Search nodes..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+  </div>
+
+  @if (view === 'categories') {
+    <div class="category-list">
+      @for (category of categories; track category.name) {
+        <div class="category-item" (click)="onCategoryClick(category)">
+          <div class="category-icon-wrapper">
+            <span class="material-symbols-outlined">{{ category.icon }}</span>
+          </div>
+          <div class="category-details">
+            <h4>{{ category.name }}</h4>
+            <p>{{ category.description }}</p>
+          </div>
+          <span class="material-symbols-outlined arrow">chevron_right</span>
+        </div>
+      }
+    </div>
+    <div class="trigger-section">
+      <div class="category-item" (click)="onCategoryClick(triggerCategory)">
+        <div class="category-icon-wrapper">
+          <span class="material-symbols-outlined">{{ triggerCategory.icon }}</span>
+        </div>
+        <div class="category-details">
+          <h4>Add another trigger</h4>
+          <p>{{ triggerCategory.description }}</p>
+        </div>
+        <span class="material-symbols-outlined arrow">chevron_right</span>
+      </div>
+    </div>
+  } @else {
+    <div class="node-list">
+      @for (node of filteredNodes; track node.name) {
+        <div class="node-item" (click)="onNodeSelect(node)">
+          <div class="node-icon">
+            <img [src]="'/assets/images/nodes/' + node.icon" [alt]="node.name">
+          </div>
+          <div class="node-details">
+            <h5>{{ node.name }}</h5>
+            <p>{{ node.description }}</p>
+          </div>
+        </div>
+      }
+      @if (filteredNodes.length === 0) {
+        <p class="no-results">No nodes found.</p>
+      }
+    </div>
+  }
+</div>

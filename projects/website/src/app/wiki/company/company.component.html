@@ -1,0 +1,244 @@
+<main>
+  <nav class="on-this-page">
+    <h2 class="mat-subtitle-1">On this page</h2>
+    <a href="wiki/company#introduction" mat-button color="primary">Introduction</a>
+    <a href="wiki/company#view-and-edit-a-company" mat-button color="primary">View and Edit a Company</a>
+    <a href="wiki/company#add-a-new-company" mat-button color="primary">Add a New Company</a>
+    <a href="wiki/company#delete-backup-and-restore-company-data" mat-button color="primary">
+      Delete, Backup, and Restore Company Data
+    </a>
+  </nav>
+
+  <section id="introduction">
+    <h1>Introduction</h1>
+    <p>When you register on our platform, your onboarding flow begins by automatically creating:</p>
+    <ul>
+      <li>A <strong>new company</strong></li>
+      <li>A <strong>team</strong>, with you as a <strong>board member</strong> and <strong>admin</strong></li>
+      <li>A <strong>Kanban board</strong> for task management</li>
+      <li>A <strong>blank playbook</strong></li>
+    </ul>
+    <figure>
+      <img src="images/wiki/company-setup.webp" alt="Company setup flow screenshot">
+    </figure>
+    <p>You’ll also receive a <strong>Pro trial</strong> valid for one month, which includes:</p>
+    <ul>
+      <li><strong>50GB</strong> of storage</li>
+      <li><strong>200,000 AI tokens</strong></li>
+    </ul>
+    <div class="note">
+      <mat-icon fontSet="material-symbols-outlined" matIconSuffix>
+        person_raised_hand
+      </mat-icon>
+      <p>
+        <b>Note:</b>&nbsp;
+        You can compare our subscription plans and their features
+        <a href="wiki/company#add-a-new-company" mat-button color="accent">
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+          here
+        </a>
+      </p>
+    </div>
+
+    <p>After registration, you’ll be redirected to the <strong>console area</strong>, where the dashboard displays all
+      companies created under your account.</p>
+    <figure>
+      <img src="images/wiki/company-console.webp" alt="Company dashboard screenshot">
+    </figure>
+  </section>
+
+  <section id="view-and-edit-a-company">
+    <h1>View and Edit a Company</h1>
+    <p>Click the <strong>View</strong> button inside a company card to access its landing page, where you can see and
+      update its details.</p>
+    <figure>
+      <img src="images/wiki/company-new.webp" alt="Company edit screenshot">
+    </figure>
+    <p>New companies will have:</p>
+    <ul>
+      <li>A default name and description</li>
+      <li>Empty branding (no logo or banner)</li>
+    </ul>
+
+    <div>
+      <h3>Managing Logo and Banner</h3>
+      <p>If you already have branding assets:</p>
+      <ol>
+        <li>Click the <strong>Browse</strong> button under the logo or banner section.</li>
+        <li>Upload your file.</li>
+        <li>Use the preview window to crop the image as needed.</li>
+      </ol>
+      <div class="note">
+        <mat-icon fontSet="material-symbols-outlined" matIconSuffix>
+          person_raised_hand
+        </mat-icon>
+        <p>
+          <span>
+            <b>Note:</b>&nbsp;
+          Logos are forced to have &nbsp;<b>1:1</b>&nbsp; aspect ratio, and banners require &nbsp;<b>12:3</b>&nbsp;
+          (wide) aspect ratio. So, for best fit, follow the provided aspect ratios.
+            </span>
+        </p>
+      </div>
+      <p>To edit or delete an asset, hover over the logo or banner area — delete <mat-icon>delete</mat-icon> and edit <mat-icon>edit</mat-icon> icons will appear.</p>
+      <figure style="text-align: center">
+        <img src="images/wiki/company-modify-logo.webp" alt="Company logo modification screenshot" style="max-width: 200px">
+      </figure>
+      <div class="note">
+        <mat-icon fontSet="material-symbols-outlined" matIconSuffix>
+          person_raised_hand
+        </mat-icon>
+        <p>
+          <span><b>Note:</b>&nbsp;
+          Uploaded or generated assets are stored in your account. Deleting files will free up space.
+          You can track these actions in the <strong>Statement</strong> tab under your <strong>Subscription</strong>.
+        </span>
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h3>Generating a Logo</h3>
+      <p>If you don’t have a logo, you can generate one using the platform. Click <strong>Generate</strong> and
+        customize the following:</p>
+      <ul>
+        <li><strong>Style</strong>: Minimal, Modern, Abstract, Logotype, Monogram, Emblem, Vintage, Pictorial,
+          Combination
+        </li>
+        <li><strong>Background</strong>: Minimal, Modern, Abstract, Solid, Gradient, Sketch, Patterned, Nature, Photo
+        </li>
+        <li><strong>Business</strong>: Enter your industry or business type</li>
+      </ul>
+      <figure>
+        <img src="images/wiki/company-logo-gen.webp" alt="Company logo generation screenshot">
+      </figure>
+      <p>Changes are reflected in the prompt box below. You can also add a <strong>custom prompt</strong> (max 100
+        characters). Use the delete icon to remove any custom chunks if needed.</p>
+    </div>
+
+    <div>
+      <h3>Generating a Banner</h3>
+      <p>The banner generator works similarly to the logo generator. You can:</p>
+      <ul>
+        <li>Choose a style</li>
+        <li>Define your business/industry</li>
+        <li>Add custom sentences (up to 100 characters)</li>
+      </ul>
+      <figure>
+        <img src="images/wiki/company-banner-gen.webp" alt="Company banner generation screenshot">
+      </figure>
+
+      <p>Once ready, hit the generate button and banner will be created automatically.</p>
+    </div>
+
+    <div>
+      <h3>Editing Company Name and Description</h3>
+      <p>Below the banner, you’ll see the default company name and description.</p>
+      <p>Hover to reveal the <strong>Edit</strong> (pencil) icon. Click to edit inline, and press <kbd>Enter</kbd> (or
+        <kbd>Return</kbd> on Mac), or click the <strong>checkmark</strong> icon to save your changes.</p>
+    </div>
+
+    <div>
+      <h3>The Report Section</h3>
+      <p>This section provides insights into your company’s activity and usage.</p>
+
+      <h4>Activity (Left Panel)</h4>
+      <ul>
+        <li>Tickets created, assigned, or delivered</li>
+        <li>New employees (AI or human) added</li>
+        <li>Changes to the Playbook</li>
+        <li>Marketplace interactions (install/uninstall packages)</li>
+      </ul>
+      <figure>
+        <img src="images/wiki/company-stats.webp" alt="Company stats screenshot">
+      </figure>
+
+      <h4>Usage (Right Panel)</h4>
+      <p>Doughnut charts show:</p>
+      <ul>
+        <li><strong>Storage usage</strong> (in GB)</li>
+        <li><strong>AI token usage</strong> for AI-related activities</li>
+      </ul>
+      <p>Availability depends on your subscription tier.</p>
+    </div>
+  </section>
+
+  <section id="add-a-new-company">
+    <h1>Add a New Company</h1>
+    <p>Company limits based on subscription:</p>
+    <ul>
+      <li><strong>Free</strong>: 1 company</li>
+      <li><strong>Basic</strong>: Up to 2 companies</li>
+      <li><strong>Pro</strong>: Up to 3 companies</li>
+    </ul>
+
+    <p>To add a new company:</p>
+    <ol>
+      <li>Use the side navigation menu.</li>
+      <li>Click the top dropdown and select <strong>+ Add Company</strong>.</li>
+    </ol>
+    <figure>
+      <img src="images/wiki/company-add.webp" alt="Company add screenshot" style="max-width: 600px">
+    </figure>
+    <p>This will launch a dialog guiding you through creating a new blank company, team, Kanban board, and playbook —
+      just like the original registration flow.</p>
+    <p>After creation, you can edit the company details as described above.</p>
+  </section>
+
+  <section id="delete-backup-and-restore-company-data">
+    <h1>Delete, Backup, and Restore Company Data</h1>
+    <p>To manage your company data:</p>
+    <ol>
+      <li>Click the <strong>three-dot menu</strong> next to the company.</li>
+      <li>Select an option:
+        <ul>
+          <li><strong>Delete</strong> the company</li>
+          <li><strong>Backup</strong> its data</li>
+          <li><strong>Restore</strong> from a backup</li>
+        </ul>
+      </li>
+    </ol>
+    <figure>
+      <img src="images/wiki/company-context-menu.webp" alt="Company context menu screenshot" style="max-width: 500px">
+    </figure>
+
+    <h3>Deleting a company</h3>
+    <p>
+      It is critical to understand, upon deleting a company, its data will be removed completely to release space
+      for new creations.
+      Also, you get a chance to backup the company first, in case you changed your mind later.
+    </p>
+    <figure>
+      <img src="images/wiki/company-delete.webp" alt="Company delete screenshot" style="max-width: 400px">
+    </figure>
+
+    <h3>Backup and restore</h3>
+    <p>When backing up a company, you get to chose which databases (collections) you like to keep.</p>
+    <figure>
+      <img src="images/wiki/company-backup.webp" alt="Company backup screenshot" style="max-width: 400px">
+    </figure>
+    <p>
+      The backup file will be stored in your account automatically. You may also download them if you prefer
+    to keep it as a local file.
+    </p>
+    <div class="note">
+      <mat-icon fontSet="material-symbols-outlined" matIconSuffix>
+        person_raised_hand
+      </mat-icon>
+      <p>
+          <span>
+            <b>Note:</b>&nbsp;
+          Downloading backups is essential if you intend to create a new company, (in your account or somewhere else)
+            and clone your previous company there.
+            </span>
+      </p>
+    </div>
+    <p>
+      During the restore, (if the company backup file existed) you may click on it and follow the instructions.
+      However if this is a new company, you can upload backup files and let the platform extract and restore it for you.
+    </p>
+    <figure>
+      <img src="images/wiki/company-restore.webp" alt="Company restore screenshot" style="max-width: 400px">
+    </figure>
+  </section>
+</main>

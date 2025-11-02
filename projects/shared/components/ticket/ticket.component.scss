@@ -1,0 +1,107 @@
+@use "../../assets/styles/flex";
+
+.container {
+  @include flex.container(100%, space-between, flex-start);
+
+  .ticket {
+    margin-bottom: var(--space-lg);
+    @include flex.container(100%, space-between, center);
+
+    .info {
+      gap: var(--space-md);
+      @include flex.container(75%, start, start);
+      @include flex.breakpoint(md, 82%);
+      @include flex.breakpoint(lt-md, 100%);
+
+      img {
+        width: 15%;
+        border-radius: var(--space-xxs);
+      }
+
+      .assigner {
+        .serial {
+          font-weight: bold;
+          color: var(--color-primary-light);
+          letter-spacing: var(--space-xxxs);
+          margin-bottom: var(--space-xs);
+          text-decoration: none;
+        }
+        .serial:hover {
+          color: var(--color-primary);
+        }
+
+        .who {
+          color: var(--color-primary);
+
+          p {
+            margin: var(--space-xxs) 0;
+          }
+        }
+
+        .updated_at {
+          font-size: 15px;
+          color: var(--color-grey7);
+          letter-spacing: var(--space-xxxs);
+        }
+      }
+    }
+
+    .actions {
+      .button {
+        text-align: right;
+        @media screen and (max-width: 1024px) {
+          display: none;
+        }
+        @include flex.width(20%);
+
+        button {
+          min-width: 8rem;
+          margin: var(--space-xs) 0;
+
+          span {
+            margin: 0 var(--space-xs);
+          }
+        }
+      }
+    }
+  }
+
+  .tabs {
+    border-bottom: 1px solid var(--color-grey8);
+    @include flex.container(100%, space-between, center);
+  }
+
+  .tab-contents {
+    @include flex.container(100%, space-between, center);
+
+    .tab {
+      @include flex.container(100%, space-between, flex-start);
+      .left {
+        @include flex.container(55%, space-around, center);
+        @include flex.breakpoint(lt-md, 100%);
+      }
+
+      .right {
+        @include flex.container(42%, space-between, center);
+        @include flex.breakpoint(lt-md, 100%);
+      }
+    }
+
+    .subtasks {
+      @include flex.container(100%, space-evenly, flex-start);
+    }
+  }
+
+  .bpmn {
+    height: 100%;
+    @include flex.container(100%, space-around, center);
+  }
+
+  .scrollable {
+    height: 100%;
+  }
+
+  .field {
+    margin-bottom: var(--space-md);
+  }
+}

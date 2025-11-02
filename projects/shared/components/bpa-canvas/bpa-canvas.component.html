@@ -1,0 +1,163 @@
+<div class="canvas-container" (click)="selectedConnection = null" (wheel)="onWheel($event)"
+     [class.panning]="isPanning"
+     (mousedown)="onCanvasMouseDown($event)"
+     (mousemove)="onCanvasMouseMove($event)"
+     (mouseup)="onCanvasMouseUp($event)"
+     (mouseleave)="onCanvasMouseLeave($event)">
+  <div class="canvas-content-wrapper" [style.transform]="transform">
+    <svg class="connections-svg">
+      <defs>
+        <marker id="arrowhead" markerWidth="5" markerHeight="5"
+                refX="2" refY="2.5" orient="auto">
+          <path d="M 0 0.75 Q 0 0 0.75 0 L 4.25 2.5 Q 5 2.5 4.25 2.5 L 0.75 5 Q 0 5 0 4.25 Z"/>
+        </marker>
+        <marker id="arrowhead-hovered" markerWidth="5" markerHeight="5"
+                refX="2" refY="2.5" orient="auto">
+          <path d="M 0 0.75 Q 0 0 0.75 0 L 4.25 2.5 Q 5 2.5 4.25 2.5 L 0.75 5 Q 0 5 0 4.25 Z" class="hovered-arrow"/>
+        </marker>
+      </defs>
+      @if (connections) {
+        @for (connection of connections; track $index) {
+          <path [attr.d]="getCurvePath(connection)"
+                class="connection-path"
+                [class.hovered]="connection === hoveredConnection"
+                [class.selected]="connection === selectedConnection"
+                [class.newly-created]="getConnectionId(connection) === highlightedConnectionId"
+                (mouseenter)="hoveredConnection = connection"
+                (click)="selectedConnection = connection"
+                [attr.marker-end]="connection === hoveredConnection ? 'url(#arrowhead-hovered)' : 'url(#arrowhead)'"/>
+        }
+      }
+    </svg>
+
+      @if (isDraggingConnection && draggedConnectionSourceNode && draggedConnectionEndPoint) {
+      <svg class="drag-connection-svg">
+        <path [attr.d]="getDragCurvePath()"
+              class="drag-connection-path"
+              [class.snapped]="snappedTargetNode"/>
+      </svg>
+    }
+
+    @if (hoveredConnection || selectedConnection) {
+      <div class="connection-actions"
+           [style.left.px]="getIconPosition(hoveredConnection)?.x"
+           [style.top.px]="getIconPosition(hoveredConnection)?.y"
+           (mouseleave)="hoveredConnection = null">
+        <button class="action-btn add-btn" (click)="onAddNode(hoveredConnection || selectedConnection)">
+          <span class="material-symbols-outlined">new_label</span>
+        </button>
+        <button class="action-btn delete-btn"
+                (click)="onDeleteConnection(hoveredConnection || selectedConnection, $event)">
+          <span class="material-icons">clear</span>
+        </button>
+      </div>
+    }
+
+    @if (nodes && nodes.length > 0) {
+      @for (node of nodes; track node.id) {
+        <div class="workflow-node" cdkDrag
+             [id]="node.id"
+             [matTooltip]="node.name"
+             (cdkDragEnded)="onNodeDragEnded($event, node)"
+             [class.trigger-node]="node.type.endsWith('Trigger')"
+             [class.selected]="node.id === selectedNode?.id"
+             [style.left.px]="node.position[0]"
+             [style.top.px]="node.position[1]"
+             (click)="onNodeClick(node)"
+             (dblclick)="onNodeDoubleClick(node)"
+             (mouseenter)="hoveredNode = node"
+             (mouseleave)="hoveredNode = null"
+             [style.background-image]= "'url(/assets/images/nodes/'+ (node.icon ? node.icon : 'default.png') + ')'">
+          @if (runningNodeIds.has(node.id)) {
+            <div class="running-overlay">
+              <span>Running...</span>
+            </div>
+          }
+          @if (shouldShowNodeActions(node)) {
+            <div class="node-actions">
+              <button class="icon-btn" (click)="onExecuteNode(node, $event)">
+                <span class="material-icons small">play_arrow</span>
+              </button>
+              <button class="icon-btn" (click)="onToggleNode(node, $event)">
+                <span class="material-icons small">power_settings_new</span>
+              </button>
+              <button class="icon-btn" (click)="onDeleteNode(node, $event)">
+                <span class="material-icons small">delete</span>
+              </button>
+              <button class="icon-btn" (click)="onNodeMenu(node, $event)">
+                <span class="material-icons small">more_vert</span>
+              </button>
+            </div>
+          }
+
+          <div class="node-name">
+            {{ node.name.length > 14 ? node.name.slice(0, 13) + '...' : node.name }}
+          </div>
+          @if (node.settings?.displayNoteInFlow && node.settings?.notes) {
+            <div class="node-note" [matTooltip]="node.settings?.notes">
+              {{ getNotes(node.settings?.notes || '') }}
+            </div>
+          }
+          <div class="input-joint"></div>
+          <div class="output-joint" (mousedown)="onConnectionDragStarted(node, $event)"
+               (click)="onOutputJointClick(node, $event)"></div>
+        </div>
+      }
+    } @else {
+      <p>No nodes to display.</p>
+    }
+  </div>
+
+  <div class="canvas-toolbar">
+    <div class="right">
+      <button mat-icon-button matTooltip="Zoom in" (click)="zoomIn()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Zoom out" (click)="zoomOut()">
+        <mat-icon>remove</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Zoom fit" (click)="zoomFit()">
+        <mat-icon>center_focus_strong</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Auto-layout" (click)="autoLayout()">
+        <mat-icon>auto_fix_high</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Shortcuts" (click)="toggleShortcuts()">
+        <mat-icon>keyboard</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="new-node">
+    <button mat-mini-fab (click)="add()" matTooltip="Add new node" color="primary">
+      <mat-icon>new_label</mat-icon>
+    </button>
+  </div>
+
+  @if (shortcuts) {
+    <div class="shortcut-overlay" (click)="toggleShortcuts()">
+      <div class="shortcut-modal" (click)="$event.stopPropagation()">
+        <h3>Keyboard Shortcuts</h3>
+        <ul>
+          <li>Pan Vertically - <code>Mouse Wheel</code></li>
+          <li>Pan Horizontally - <code>Shift + Mouse Wheel</code></li>
+          <li>Zoom In/Out - <code>Ctrl + Mouse Wheel</code></li>
+          <li>Zoom In - <code>+</code></li>
+          <li>Zoom Out - <code>-</code></li>
+          <li>Add New Node - <code>Ctrl + N</code></li>
+          <li>Save Canvas - <code>Ctrl + S</code></li>
+          <li>Pan Freely - <code>Space + Click/Drag</code></li>
+        </ul>
+      </div>
+    </div>
+  }
+
+  @if (isNodePickerOpen) {
+    <div class="panel-overlay" [class.open]="isNodePickerOpen" (click)="closeNodePicker()"></div>
+    <lib-node-picker-panel
+      [@slidePanel]
+      (closePanel)="closeNodePicker()"
+      (nodeSelected)="onNodePicked($event)">
+    </lib-node-picker-panel>
+  }
+</div>

@@ -1,0 +1,38 @@
+<div mat-dialog-title>{{ data.paired ? '2 Factor Authentication' : '2FA Setup' }}</div>
+<div class="content full">
+  <div *ngIf="!data.paired">
+    <div style="text-align: center" *ngIf="dataUrl">
+      <img [src]="dataUrl">
+    </div>
+    <div class="loading full" *ngIf="!dataUrl">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div class="instructions mat-caption">
+      Scan the QRcode above and enter the pass code below:
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div *ngIf="data.paired" class="instructions mat-caption">
+    Please enter the code from Google Authenticator and hit Enter.
+  </div>
+
+  <div class="code-input-wrapper">
+    <input #box0 type="text" maxlength="1" class="code-box"
+           (input)="onInput($event, 0)" (keydown)="onKeyDown($event, 0)" />
+    <input #box1 type="text" maxlength="1" class="code-box"
+           (input)="onInput($event, 1)" (keydown)="onKeyDown($event, 1)" />
+    <input #box2 type="text" maxlength="1" class="code-box"
+           (input)="onInput($event, 2)" (keydown)="onKeyDown($event, 2)" />
+    <input #box3 type="text" maxlength="1" class="code-box"
+           (input)="onInput($event, 3)" (keydown)="onKeyDown($event, 3)" />
+    <input #box4 type="text" maxlength="1" class="code-box"
+           (input)="onInput($event, 4)" (keydown)="onKeyDown($event, 4)" />
+    <input #box5 type="text" maxlength="1" class="code-box"
+           (input)="onInput($event, 5)" (keydown)="onKeyDown($event, 5)" />
+  </div>
+  <div *ngIf="showError" class="error-text mat-caption">{{ getErrorMessage() }}</div>
+  <div *ngIf="checking" class="saving mat-caption">verifying...</div>
+</div>
+<button mat-icon-button mat-dialog-close class="close">
+  <mat-icon>close</mat-icon>
+</button>

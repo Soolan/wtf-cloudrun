@@ -1,0 +1,36 @@
+:root {
+  /* spacing */
+  --space-unit: 1rem;
+  --space-xxxxs: calc(0.04 * var(--space-unit));
+  --space-xxxs: calc(0.12 * var(--space-unit));
+  --space-xxs: calc(0.25 * var(--space-unit));
+  --space-xs: calc(0.5 * var(--space-unit));
+  --space-sm: calc(0.75 * var(--space-unit));
+  --space-md: calc(1.25 * var(--space-unit));
+  --space-lg: calc(2 * var(--space-unit));
+  --space-xl: calc(3.25 * var(--space-unit));
+  --space-xxl: calc(5.25 * var(--space-unit));
+  --space-xxxl: calc(8.5 * var(--space-unit));
+  --space-xxxxl: calc(13.75 * var(--space-unit));
+}
+
+/* Utility classes for spacing */
+.m-xxxs { margin: var(--space-xxxs) !important; }
+.m-xxs { margin: var(--space-xxs) !important; }
+.m-xs { margin: var(--space-xs) !important; }
+.m-sm { margin: var(--space-sm) !important; }
+.m-md { margin: var(--space-md) !important; }
+.m-lg { margin: var(--space-lg) !important; }
+.m-xl { margin: var(--space-xl) !important; }
+.m-xxl { margin: var(--space-xxl) !important; }
+.m-xxxl { margin: var(--space-xxxl) !important; }
+
+.p-xxxs { padding: var(--space-xxxs) !important; }
+.p-xxs { padding: var(--space-xxs) !important; }
+.p-xs { padding: var(--space-xs) !important; }
+.p-sm { padding: var(--space-sm) !important; }
+.p-md { padding: var(--space-md) !important; }
+.p-lg { padding: var(--space-lg) !important; }
+.p-xl { padding: var(--space-xl) !important; }
+.p-xxl { padding: var(--space-xxl) !important; }
+.p-xxxl { padding: var(--space-xxxl) !important; }

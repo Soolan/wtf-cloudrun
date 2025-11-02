@@ -1,0 +1,63 @@
+<div class="marketplace">
+  <mat-card class="api one-third" appearance="outlined" *ngFor="let api of apis; let i = index;">
+    <mat-card-header>
+      <div mat-card-avatar class="logo" [style.background-image]="'url('+(api.logo|storageUrl|async)+')'">
+      </div>
+      <mat-card-title class="mat-subtitle-1">{{ api.name }}</mat-card-title>
+      <mat-card-subtitle class="mat-caption full">
+        <b>Publisher: </b>
+        <span>{{ api.publisher?.name }}</span>
+        <mat-icon *ngIf="api.isVerified" color="accent">verified</mat-icon>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="mat-caption">
+      @if (installingIndex() === i) {
+        <lib-loading message="Installing..."></lib-loading>
+      } @else if (uninstallingIndex() === i) {
+        <lib-loading message="Uninstalling..."></lib-loading>
+      } @else if (installedIndex() === i) {
+        <div class="mat-subtitle-2 thin">Api added successfully!</div>
+        <mat-divider class="full"></mat-divider>
+        <p>Next steps:</p>
+        <ul>
+          <li>Set the credentials.</li>
+          <li>Activate the API.</li>
+        </ul>
+        <mat-divider class="full"></mat-divider>
+        <button class="full" mat-button color="accent" routerLink="../">Visit installed APIs</button>
+      } @else {
+        <p>{{ (api.intro && api.intro.length < 100) ? api.intro : api.intro?.slice(0, 95) + "..." }}</p>
+        <div class="tags">
+          <button mat-button *ngFor="let tag of api.tags" color="accent">
+            <mat-icon>tag</mat-icon>
+            <span>{{ tag }}</span>
+          </button>
+        </div>
+      }
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="installedIndex() !==i">
+      <button mat-button [routerLink]="api.id">View details</button>
+      @if (hasInstalled(api.id)) {
+        <button mat-stroked-button color="accent"
+                (click)="uninstall(api.id, i)"
+                [disabled]="uninstallingIndex() === i">
+          {{ uninstallingIndex() === i ? 'Please wait...' : 'Uninstall' }}
+        </button>
+      } @else {
+        <button mat-raised-button color="primary"
+                (click)="install(api.id, i)"
+                [disabled]="installingIndex() === i">
+          {{ installingIndex() === i ? 'Please wait...' : 'Install' }}
+        </button>
+      }
+    </mat-card-actions>
+    <div class="installs mat-caption">
+      {{ api.installs }} installs
+    </div>
+  </mat-card>
+  <mat-divider class="full" style="margin: var(--space-lg) 0"></mat-divider>
+  <p class="mat-caption full" style="opacity: 0.6">
+    Looking for something else? Contact support (drink&#64;wtf.pub) to suggest or add custom APIs.
+  </p>
+</div>

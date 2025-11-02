@@ -1,0 +1,103 @@
+<div class="marketplace">
+  <!-- Search Bar -->
+  <div class="full">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Search Marketplace</mat-label>
+      <input matInput type="text" [value]="search()" (input)="search.set($any($event.target).value)"/>
+    </mat-form-field>
+  </div>
+
+  <!-- Filters -->
+  <div class="full">
+    <div class="" *ngIf="!installedOnly()">
+      <mat-checkbox *ngFor="let type of itemTypes" style="margin-right: var(--space-xl)"
+                    [checked]="selectedTypes().includes(type)" (change)="toggleType(type)">
+        <span class="mat-caption">{{ type | titlecase }}</span>
+      </mat-checkbox>
+    </div>
+    <div class="installed">
+      <mat-checkbox [checked]="installedOnly()" (change)="toggleInstalledOnly($any($event).checked)" color="primary">
+        <span class="mat-caption">Installed</span>
+      </mat-checkbox>
+    </div>
+  </div>
+  <mat-divider class="full" style="margin: var(--space-md) 0"></mat-divider>
+
+  <!-- Marketplace Items -->
+  <mat-card class="one-third" appearance="outlined" *ngFor="let item of filteredItems(); let i = index;">
+    <mat-card-header>
+      <div mat-card-avatar class="logo" [matTooltip]="item.type"
+           [style.background-image]="item.logo ? 'url('+(item.logo|storageUrl|async)+')' : ''">
+        <mat-icon class="type-icon">{{ getIcon(item.type) }}</mat-icon>
+      </div>
+
+      <mat-card-title>{{ item.name }}</mat-card-title>
+      <mat-card-subtitle class="mat-caption full">
+        <b>Publisher: </b>
+        <span>{{ item.publisher?.name }}</span>
+        <mat-icon *ngIf="item.verified" color="accent">verified</mat-icon>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="mat-caption">
+      @if (installingIndex() === i) {
+        <lib-loading message="Installing..."></lib-loading>
+      } @else if (uninstallingIndex() === i) {
+        <lib-loading message="Uninstalling..."></lib-loading>
+      } @else if (installedIndex() === i) {
+        <div class="mat-subtitle-2 thin">Api added successfully!</div>
+        <mat-divider class="full"></mat-divider>
+        <p>Next steps:</p>
+        <ul>
+          <li>Set the credentials.</li>
+          <li>Activate the API.</li>
+        </ul>
+        <mat-divider class="full"></mat-divider>
+        <button class="full" mat-button color="accent" routerLink="../">Visit installed APIs</button>
+      } @else {
+        <p>
+          <span>
+            {{ (item.intro && item.intro.length < 75) ? item.intro : item.intro?.slice(0, 70) + "..." }}
+          </span>
+          <span class="tags">
+          <button mat-button *ngFor="let tag of item.tags" color="accent">
+            <mat-icon>tag</mat-icon>
+            <span>{{ tag }}</span>
+          </button>
+        </span>
+        </p>
+      }
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="installedIndex() !==i">
+      <button mat-button [routerLink]="item.id" (click)="marketplaceService.item.set(item)">
+        <span>Details</span>
+      </button>
+      @if (marketplaceService.isInstalled(item.id)) {
+        <button mat-stroked-button color="accent"
+                (click)="uninstall(item.id, i)"
+                [disabled]="uninstallingIndex() === i">
+          {{ uninstallingIndex() === i ? 'Please wait...' : 'Uninstall' }}
+          <mat-icon>delete</mat-icon>
+        </button>
+      } @else {
+        <button mat-raised-button color="primary" (click)="install(item.id, i)"
+                [disabled]="installingIndex() === i">
+          {{ installingIndex() === i ? 'Please wait...' : 'Install' }}
+          <mat-icon>download</mat-icon>
+        </button>
+      }
+    </mat-card-actions>
+    <div class="installs mat-caption">{{ item.installs }} installs</div>
+  </mat-card>
+
+
+  <div *ngIf="filteredItems().length === 0" class="empty-state">
+    No items found.
+  </div>
+</div>
+
+<mat-divider class="full" style="margin: var(--space-lg) 0"></mat-divider>
+<p class="mat-caption full" style="opacity: 0.6">
+  Looking for something else? Contact support (drink&#64;wtf.pub) to suggest or add custom APIs.
+</p>

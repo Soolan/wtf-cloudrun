@@ -1,0 +1,64 @@
+<div class="flip-card" [style.height.em]="height">
+  <div [@flip]="flipState" class="flip-card-inner">
+    <div class="flip-card-front"> <!-- This is the side with buttons and controls -->
+      <div class="dropzone" [style.min-height.em]="height" libDropzone
+           (hovered)="toggleHover($event)"
+           (dropped)="onDrop($event)"
+           [class.hovering]="isHovering">
+        <p class="media-name" *ngIf="media?.type">
+          <span>{{ media.type | uppercase }}</span>
+          <mat-icon [matTooltip]="details" matTooltipPosition="below" cdkOverlayOrigin
+                    fontSet="material-symbols-outlined">
+            person_raised_hand
+          </mat-icon>
+        </p>
+        <input type="file" style="display: none" #fileInput (change)="onChangeFileInput($event)"/>
+        <button mat-button color="accent" (click)="browse()" *ngIf="flipState === 'front'">
+          <span>Browse</span>
+          <mat-icon>folder_open</mat-icon>
+        </button>
+        <button mat-stroked-button *ngIf="flipState === 'front' && canGenerate" (click)="generate()">
+          <span>Generate</span>
+          <mat-icon color="accent">auto_awesome</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="flip-card-back" [style.min-height.rem]="height">
+      <!-- This is the side with either the image & delete button or the upload progress bar -->
+      <div *ngIf="currentFile; else upload;">
+        <div *ngIf="ALL_IMAGE_TYPES.includes(media.type); else other_types">
+          <button class="delete" mat-mini-fab (click)="delete()">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button class="edit" mat-mini-fab (click)="edit()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <div [style.background-image]="'url('+(currentFile|storageUrl|async)+')'"
+               [style.min-height.em]="height"
+               [style.width.%]="100"
+               [style.border-radius.px]="10"
+          ></div>
+        </div>
+        <ng-template #other_types>
+          <div class="default">
+            <span [matTooltip]="this.currentFile.split('/').pop()">{{ fileName }}</span>
+            <button mat-icon-button (click)="delete()" color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button (click)="preview()" color="accent">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <ng-template #upload>
+        <div *ngFor="let file of files">
+          <lib-upload-task [file]="file" [path]="path" [currentFile]="currentFile"
+                           (uploaderEvent)="handleEvent($event)">
+          </lib-upload-task>
+        </div>
+        please wait...
+      </ng-template>
+    </div>
+  </div>
+</div>

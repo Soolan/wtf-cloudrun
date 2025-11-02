@@ -1,0 +1,154 @@
+<button mat-icon-button matDialogClose class="dialog-buttons close">
+  <mat-icon>close</mat-icon>
+</button>
+
+@if (data.bpmn?.url || manual()) {
+  <lib-process (path)="save($event)"
+               [fullscreen]="true"
+               [process]="data.bpmn?.url || ''"
+               [ngStyle]="{width: '100vw'}"/>
+} @else if (checking() || generating()) {
+  <div class="full">
+    @if (flowStatus() !== FlowStatus.Completed) {
+      <mat-progress-bar mode="determinate" color="primary" [value]="flowProgress() * 100" class="full"/>
+      <div class="two-thirds">
+        @for (message of flowMessages(); track $index) {
+          <div class="full" style="margin-top: var(--space-sm)">
+            <span class="mat-caption three-quarters">{{ message }}</span>
+            @if ($index < flowMessages().length - 1 || flowStatus() === FlowStatus.Completed) {
+              <mat-icon color="primary">check</mat-icon>
+            } @else if (flowStatus() === FlowStatus.Error) {
+              <mat-icon color="warn">flag</mat-icon>
+              <span class="mat-caption full">Error! Devs are notified about this issue. </span>
+            } @else {
+              <mat-spinner diameter="20" color="primary"></mat-spinner>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (assessment() && !generating()) {
+      <div class="full-start">
+        <div class="mat-headline-6 thin full" style="margin-top: var(--space-md)">
+          Would you like to proceed with BPMN generation?
+        </div>
+
+        <div class="full mat-body-1">
+          <div class="two-thirds">
+            <div class="score full">
+              <b class="full">BPMN Eligibility Assessment Score: {{ assessment()?.score }}/10</b>
+              <div class="full mat-caption assessments">
+                <p>
+                  <span>Participants</span>
+                  <mat-icon [color]="assessment()?.hasParticipants ? 'primary': 'warn'">
+                    {{ assessment()?.hasParticipants ? 'check' : 'flag' }}
+                  </mat-icon>
+                </p>
+                <p>
+                  <span>Activities</span>
+                  <mat-icon [color]="assessment()?.hasActivities ? 'primary': 'warn'">
+                    {{ assessment()?.hasActivities ? 'check' : 'flag' }}
+                  </mat-icon>
+                <p>
+                  <span>Decisions</span>
+                  <mat-icon [color]="assessment()?.hasDecisions ? 'primary': 'warn'">
+                    {{ assessment()?.hasDecisions ? 'check' : 'flag' }}
+                  </mat-icon>
+                <p>
+                  <span>Sequence</span>
+                  <mat-icon [color]="assessment()?.hasSequence ? 'primary': 'warn'">
+                    {{ assessment()?.hasSequence ? 'check' : 'flag' }}
+                  </mat-icon>
+                <p>
+                  <span>Artifacts</span>
+                  <mat-icon [color]="assessment()?.hasArtifacts ? 'primary': 'warn'">
+                    {{ assessment()?.hasArtifacts ? 'check' : 'flag' }}
+                  </mat-icon>
+              </div>
+            </div>
+
+
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header
+                  style="padding: var(--space-sm) var(--space-lg); background-color: var(--color-greye)">
+                  <mat-panel-title>
+                    <span style="font-family: Titillium Web,sans-serif; font-size: 19px;">Recommendations</span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="mat-caption recommendations">
+                  @for (r of assessment()?.recommendations; track $index) {
+                    <p class="mat-caption"> - {{ r }}</p>
+                  }
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+
+
+          </div>
+        </div>
+
+        <div class="actions full">
+          <div class="one-third">
+            <button mat-stroked-button matDialogClose>
+              <span>Cancel</span>
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-flat-button color="primary" (click)="generate()">
+              <span>Proceed</span>
+              <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="two-thirds">
+    <div class="mat-headline-6 thin full">BPMN Diagram Not Found!</div>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header
+          style="padding: var(--space-sm) var(--space-lg); background-color: var(--color-greye)">
+          <mat-panel-title>
+            <span style="font-family: Titillium Web,sans-serif; font-size: 19px;">What is BPMN diagram?</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="mat-caption" style="margin-top: var(--space-sm)">
+          <p style="padding: var(--space-xs)">
+            A BPMN diagram is a standardized flowchart that shows how a business process works from start to finish.
+            It uses common symbols to represent people, tasks, decisions, and flows. <br/> <br/>
+            Created by the Object Management Group (OMG), it helps business and technical teams communicate clearly
+            and makes processes easier to understand and automate.
+          </p>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <p class="mat-body-1">
+      This topic doesn't have a BPMN diagram. But you can add a diagram using one of these options:
+    </p>
+    <ul class="mat-caption" style="margin-left: var(--space-xl)">
+      <li>
+        <b>Analyze & generate (AI): </b> If you click on Analyze button
+        {{ playbookService.stats()?.maintainer ? playbookService.stats()?.maintainer?.name + ' (your Playbook maintainer)' : 'AI' }}
+        evaluates the contents and will try to generate a business process diagram for you.
+      </li>
+      <li>
+        <b>Create manually (Human): </b>Alternatively, you may hit the Create button to build a new BPMN diagram from
+        scratch.
+      </li>
+    </ul>
+    <div class="actions full">
+      <button mat-flat-button color="primary" (click)="manual.set(true)">
+        <span>Create</span>
+        <mat-icon>account_tree</mat-icon>
+      </button>
+      <button mat-flat-button color="accent" (click)="checkEligibility()" [disabled]="data.bpmn?.url || checking()">
+        <span>Analyze</span>
+        <mat-icon>auto_graph</mat-icon>
+      </button>
+    </div>
+  </div>
+}

@@ -1,0 +1,67 @@
+@use "../../assets/styles/flex" as flex;
+
+
+.login-options {
+  .button {
+    box-shadow: 0 0 var(--space-xs) var(--color-grey7);
+    transition: box-shadow 0.1s ease-in-out;
+    will-change: box-shadow;
+    margin-inline: auto;
+    height: 2.7rem;
+    width: 13.5rem;
+    cursor: pointer;
+    span {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .icon {
+      vertical-align: text-top;
+      margin-right: var(--space-xs);
+    }
+  }
+
+  .button:hover {
+    box-shadow: 0 0 var(--space-sm) var(--color-grey6);
+  }
+
+  .green {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .terms {
+    text-align: center;
+    display: block;
+    //margin-block-start: var(--space-lg);
+    line-height: 1.2rem;
+
+    a {
+      color: var(--color-primary);
+      font-weight: bold;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.email-option {
+  @include flex.container(100%, start, center);
+
+  .checking {
+    margin-block: var(--space-sm) var(--space-xl);
+  }
+}
+
+.heading {
+  margin-block-end: var(--space-lg);
+}
+
+.close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-xs);
+}

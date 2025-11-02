@@ -1,0 +1,43 @@
+.member {
+  align-items: center;
+  padding: var(--space-sm);
+  border-radius: var(--space-xs);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--color-greye);
+  }
+
+  &.active {
+    border: 1px solid var(--color-greyb);
+    background-color: var(--color-greye);
+  }
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--space-xs);
+  margin-bottom: 0.5rem;
+}
+
+.avatar-large {
+  width: 250px;
+  height: 250px;
+  border-radius: var(--space-sm);
+  margin: var(--space-sm);
+}
+
+
+.placeholder {
+  color: var(--color-grey8);
+  font-style: italic;
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-xs);
+}

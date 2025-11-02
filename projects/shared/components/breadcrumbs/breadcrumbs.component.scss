@@ -1,0 +1,22 @@
+@use '../../assets/styles/flex';
+
+.breadcrumbs {
+  margin-left: var(--space-md);
+  @include flex.container(100%, flex-start, center);
+  span {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.inverse-nav {
+  span, button {
+    color: var(--color-primary-light);
+    font-weight: 700;
+    //opacity: 1 !important;
+  }
+
+  mat-icon {
+    color: var(--color-primary-light) !important;
+  }
+}
