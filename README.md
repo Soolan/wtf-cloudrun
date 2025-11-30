@@ -1,9 +1,11 @@
-# Introducing Write The Future 
+# Introducing Write The Future (WTF)
 ## An AI platform where you can speak a business into existence
 
 **The problem, the solution and the platform:**
 From non-technical perspective, there is a good summary of the problem I am trying to solve, the solution and brief intro to the system here:
 https://wtf.pub/investors
+
+Write the Future as an application or system has the following features:
 
 **Features**
 From technical perspective, there are several major business logic that construct our platform:
