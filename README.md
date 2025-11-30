@@ -5,7 +5,8 @@
 From non-technical perspective, there is a good summary of the problem I am trying to solve, the solution and brief intro to the system here:
 https://wtf.pub/investors
 
-Write the Future as an application or system has the following features:
+Write the Future as an application or system has the following features COVERING talent management, workforce monetization for the specific modules like 
+company, team, playbook, kanban, BPM, BPA, marketplace, MCP etc.)
 
 **Features**
 From technical perspective, there are several major business logic that construct our platform:
