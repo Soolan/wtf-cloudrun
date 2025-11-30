@@ -2,9 +2,7 @@
 ## An AI platform where you can speak a business into existence
 
 **The problem, the solution and the platform:**
-From non-technical perspective, there is a good summary of the problem I am trying to solve, the solution and brief intro to the system here:
-https://wtf.pub/investors
-
+From non-technical perspective, there is a good summary of the problem I am trying to solve, the solution and brief intro to the system.
 Write the Future as an application or system has the following features COVERING talent management, workforce monetization for the specific modules like 
 company, team, playbook, kanban, BPM, BPA, marketplace, MCP etc.) 
 
